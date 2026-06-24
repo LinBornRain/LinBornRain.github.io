@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | 林雨生 · Yusheng Lin</title>
+  <meta name="description" content="具身智能与机器人学习研究者 | VLA · 仿真 · 3D 场景重建">
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" href="/images/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/hero.css">
+  <script defer src="/assets/js/hero.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrapper">
+      <a class="site-title" href="/">林雨生 · Yusheng Lin</a>
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger"><span class="menu-icon"></span></label>
+        <div class="trigger">
+            <a class="page-link" href="/">About</a>
+            <a class="page-link" href="/news/">News</a>
+            <a class="page-link" href="/publications/">Publications</a>
+            <a class="page-link" href="/projects/">Projects</a>
+            <a class="page-link" href="/blog/">Blog</a>
+            <a class="page-link" href="/cv/">CV</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <main><!-- MiMo-style Hero Section -->
+
+
+
+
+
+
+
+<div class="hero-section">
+  <div class="flip-container">
+    <div class="flip-inner" id="flipInner">
+
+      <!-- ===== FRONT ===== -->
+      <div class="flip-front">
+        <div class="hero-title" id="heroTitle">
+          <div class="hero-background">
+            <div class="text-pattern" id="textPattern"></div>
+          </div>
+          <h1 class="title-text">HELLO, 世界</h1>
+
+          <div class="alt-title-layer" id="altTitleLayer">
+            <div class="text-pattern-inverted" id="textPatternInverted"></div>
+            <h1 class="alt-title-text">你好，我是林雨生</h1>
+            <span class="alt-subtitle">About Me</span>
+          </div>
+
+          <div class="crack-zone" id="crackZone">
+            <span>了解更多</span>
+            <span class="arrow">↓</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== BACK ===== -->
+      <div class="flip-back">
+        <div class="back-content">
+          <div class="hero-content">
+            <div class="content-card">
+              欢迎来到我的主页。
+
+我是一名<strong>具身智能与机器人学习</strong>方向的研究者。聚焦<strong>VLA 模型</strong>、<strong>机器人仿真</strong>以及<strong>3D 场景重建</strong>。
+
+<strong>—— 林雨生</strong>
+            </div>
+          </div>
+          <div class="back-click-zone" id="backClickZone">
+            <span class="arrow">↑</span>
+            <span>返回</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var p = '林 雨 生';
+  var pe = 'LIN YUSHENG';
+
+  function gen(id, text, cls, rows, cols) {
+    var c = document.getElementById(id);
+    if (!c) return;
+    for (var i = 0; i < rows; i++) {
+      var row = document.createElement('div');
+      row.className = cls;
+      for (var j = 0; j < cols; j++) {
+        var s = document.createElement('span');
+        s.className = 'pattern-text';
+        s.textContent = text;
+        row.appendChild(s);
+      }
+      c.appendChild(row);
+    }
+  }
+
+  gen('textPattern', p, 'pattern-row', 12, 20);
+  gen('textPatternInverted', pe, 'pattern-row-inverted', 12, 20);
+
+  // Mouse tracking
+  var htEl = document.getElementById('heroTitle');
+  var al = document.getElementById('altTitleLayer');
+  if (htEl && al) {
+    htEl.addEventListener('mousemove', function(e) {
+      var r = htEl.getBoundingClientRect();
+      al.style.clipPath = 'circle(180px at ' + (e.clientX - r.left) + 'px ' + (e.clientY - r.top) + 'px)';
+    });
+    htEl.addEventListener('mouseleave', function() {
+      al.style.clipPath = 'circle(0px at -300px -300px)';
+    });
+  }
+
+  // Flip
+  var fi = document.getElementById('flipInner');
+  var cz = document.getElementById('crackZone');
+  var bcz = document.getElementById('backClickZone');
+  if (cz) cz.addEventListener('click', function() { fi.classList.add('flipped'); });
+  if (bcz) bcz.addEventListener('click', function() { fi.classList.remove('flipped'); });
+})();
+</script>
+
+    <div class="page-content">
+      <div class="wrapper">
+
+        <div class="profile-section">
+          <div class="profile-photo">
+            <img src="/images/profile.png" alt="林雨生" class="profile-avatar"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="profile-placeholder" style="display:none;"><span>林</span></div>
+          </div>
+          <div class="profile-info">
+            <h2>林雨生</h2>
+            <p class="profile-affiliation">具身智能与机器人学习研究者</p>
+            <p class="profile-bio">聚焦 VLA 基础模型、机器人仿真、3D 场景重建。基于 Isaac Sim + MuJoCo 双引擎搭建 Genie Sim 3.0。</p>
+            <div class="profile-links">
+              <a href="mailto:704858794@qq.com" class="profile-link">📧 Email</a>
+              <a href="https://github.com/wzljhboy" class="profile-link">💻 GitHub</a>
+              <a href="/cv/" class="profile-link">📄 CV</a>
+            </div>
+          </div>
+        </div>
+        <hr class="section-divider">
+        <h2>研究兴趣</h2>
+        <ul>
+          <li><strong>VLA 基础模型</strong> — Vision-Language-Action 模型的训练、评估与改进，涵盖 RT-2、OpenVLA、π₀、GR00T N1</li>
+          <li><strong>机器人仿真平台</strong> — 基于 Isaac Sim + MuJoCo 双引擎的 Genie Sim 3.0 仿真系统</li>
+          <li><strong>3D 场景重建</strong> — 3D Gaussian Splatting 管线，从真实扫描到仿真就绪的 USD 资产</li>
+          <li><strong>Sim-to-Real 迁移</strong> — 仿真策略到真实机器人（Piper、G1/G2）的部署与泛化</li>
+        </ul>
+        <h2>技术能力</h2>
+        <p><code>Python</code> <code>PyTorch</code> <code>Isaac Sim</code> <code>MuJoCo</code> <code>ROS2</code> <code>Docker</code> <code>CUDA</code> <code>LeRobot</code></p>
+
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="wrapper">
+      <div class="footer-col"><p>具身智能与机器人学习研究者 | VLA · 仿真 · 3D 场景重建</p></div>
+      <div class="footer-col"><p>Contact: <a href="mailto:704858794@qq.com">704858794@qq.com</a></p></div>
+      <div class="footer-col"><p>© 2026 林雨生</p></div>
+    </div>
+  </footer>
+</body>
+</html>

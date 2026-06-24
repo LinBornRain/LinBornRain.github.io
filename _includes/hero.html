@@ -1,0 +1,97 @@
+<!-- MiMo-style Hero Section -->
+{% assign hn = site.hero_name %}
+{% assign hp = site.hero_pattern %}
+{% assign hpe = site.hero_pattern_en %}
+{% assign ht = site.hero_title %}
+{% assign hta = site.hero_title_alt %}
+{% assign ha = page.hero_about | default: site.hero_about %}
+
+<div class="hero-section">
+  <div class="flip-container">
+    <div class="flip-inner" id="flipInner">
+
+      <!-- ===== FRONT ===== -->
+      <div class="flip-front">
+        <div class="hero-title" id="heroTitle">
+          <div class="hero-background">
+            <div class="text-pattern" id="textPattern"></div>
+          </div>
+          <h1 class="title-text">{{ ht }}</h1>
+
+          <div class="alt-title-layer" id="altTitleLayer">
+            <div class="text-pattern-inverted" id="textPatternInverted"></div>
+            <h1 class="alt-title-text">{{ hta }}</h1>
+            <span class="alt-subtitle">About Me</span>
+          </div>
+
+          <div class="crack-zone" id="crackZone">
+            <span>了解更多</span>
+            <span class="arrow">↓</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== BACK ===== -->
+      <div class="flip-back">
+        <div class="back-content">
+          <div class="hero-content">
+            <div class="content-card">
+              {{ ha | markdownify }}
+            </div>
+          </div>
+          <div class="back-click-zone" id="backClickZone">
+            <span class="arrow">↑</span>
+            <span>返回</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var p = '{{ hp }}';
+  var pe = '{{ hpe }}';
+
+  function gen(id, text, cls, rows, cols) {
+    var c = document.getElementById(id);
+    if (!c) return;
+    for (var i = 0; i < rows; i++) {
+      var row = document.createElement('div');
+      row.className = cls;
+      for (var j = 0; j < cols; j++) {
+        var s = document.createElement('span');
+        s.className = 'pattern-text';
+        s.textContent = text;
+        row.appendChild(s);
+      }
+      c.appendChild(row);
+    }
+  }
+
+  gen('textPattern', p, 'pattern-row', 12, 20);
+  gen('textPatternInverted', pe, 'pattern-row-inverted', 12, 20);
+
+  // Mouse tracking
+  var htEl = document.getElementById('heroTitle');
+  var al = document.getElementById('altTitleLayer');
+  if (htEl && al) {
+    htEl.addEventListener('mousemove', function(e) {
+      var r = htEl.getBoundingClientRect();
+      al.style.clipPath = 'circle(180px at ' + (e.clientX - r.left) + 'px ' + (e.clientY - r.top) + 'px)';
+    });
+    htEl.addEventListener('mouseleave', function() {
+      al.style.clipPath = 'circle(0px at -300px -300px)';
+    });
+  }
+
+  // Flip
+  var fi = document.getElementById('flipInner');
+  var cz = document.getElementById('crackZone');
+  var bcz = document.getElementById('backClickZone');
+  if (cz) cz.addEventListener('click', function() { fi.classList.add('flipped'); });
+  if (bcz) bcz.addEventListener('click', function() { fi.classList.remove('flipped'); });
+})();
+</script>

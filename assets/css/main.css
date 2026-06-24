@@ -1,0 +1,257 @@
+/* ============================================================
+ * al-folio inspired main styles
+ * ============================================================ */
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+               'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  color: #333;
+  background: #faf7f5;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: #0366d6; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- Header ---- */
+.site-header {
+  border-top: 3px solid #000;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: rgba(250,247,245,0.95);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0;
+}
+.site-header .wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+}
+.site-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.01em;
+}
+.site-title:hover { text-decoration: none; }
+
+.site-nav { display: flex; align-items: center; }
+.nav-trigger { display: none; }
+.site-nav label[for="nav-trigger"] { display: none; }
+.trigger { display: flex; gap: 24px; }
+.page-link { font-size: 0.85rem; color: #666; font-weight: 500; transition: color 0.15s; }
+.page-link:hover { color: #000; text-decoration: none; }
+
+/* ---- Main Content ---- */
+main { min-height: 60vh; }
+
+.page-content {
+  padding: 48px 0 64px;
+}
+
+.page-content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.page-content h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 24px 0 8px;
+}
+
+/* ---- Publications ---- */
+.publication-item {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.publication-item:last-child { border-bottom: none; }
+.pub-title { font-weight: 600; color: #000; }
+.pub-authors { font-size: 0.9rem; color: #666; margin: 4px 0; }
+.pub-venue { font-size: 0.85rem; color: #999; font-style: italic; }
+.pub-links { margin-top: 4px; }
+.pub-links a {
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 2px 10px;
+  margin-right: 6px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 3px;
+  color: #555;
+  transition: all 0.15s;
+}
+.pub-links a:hover { background: #000; color: #fff; text-decoration: none; border-color: #000; }
+
+/* ---- News ---- */
+.news-list { list-style: none; }
+.news-item {
+  display: flex;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  font-size: 0.95rem;
+}
+.news-item:last-child { border-bottom: none; }
+.news-date {
+  font-size: 0.8rem;
+  color: #999;
+  white-space: nowrap;
+  min-width: 90px;
+  padding-top: 2px;
+}
+
+/* ---- Projects ---- */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+.project-card {
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 4px;
+  padding: 20px 24px;
+  transition: box-shadow 0.2s;
+  background: #fff;
+}
+.project-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.project-card h3 { font-size: 1.05rem; margin: 0 0 6px; }
+.project-card p { font-size: 0.9rem; color: #666; margin: 0; }
+
+/* ---- Blog Posts ---- */
+.post-list { list-style: none; }
+.post-item {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.post-item:last-child { border-bottom: none; }
+.post-item h3 { margin: 0 0 4px; font-size: 1.15rem; }
+.post-item .post-meta {
+  font-size: 0.8rem;
+  color: #999;
+  margin-bottom: 6px;
+}
+.post-item .post-excerpt {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* ---- Footer ---- */
+.site-footer {
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding: 32px 0;
+  color: #999;
+  font-size: 0.85rem;
+}
+.site-footer .wrapper {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 24px;
+}
+.site-footer a { color: #666; }
+
+/* ---- Profile Section (about-hero) ---- */
+.profile-section {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+.profile-photo {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+}
+.profile-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a2e, #2d3561);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 48px;
+  font-weight: 700;
+  font-family: serif;
+  border: 3px solid rgba(0,0,0,0.08);
+}
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(0,0,0,0.08);
+}
+.profile-info h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  border: none;
+  padding: 0;
+}
+.profile-affiliation {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 8px;
+}
+.profile-bio {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 12px;
+  max-width: 600px;
+}
+.profile-links { display: flex; gap: 12px; }
+.profile-link {
+  font-size: 0.85rem;
+  padding: 4px 14px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 4px;
+  color: #555;
+  transition: all 0.15s;
+}
+.profile-link:hover {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  text-decoration: none;
+}
+.section-divider {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  margin: 32px 0 40px;
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 768px) {
+  .site-header .wrapper { padding: 0 16px; }
+  .trigger { display: none; flex-direction: column; position: absolute; top: 56px; right: 0;
+              background: #fff; border: 1px solid rgba(0,0,0,0.1); padding: 12px 24px; gap: 12px; }
+  .site-nav label[for="nav-trigger"] { display: block; cursor: pointer; }
+  .nav-trigger:checked ~ .trigger { display: flex; }
+  .project-grid { grid-template-columns: 1fr; }
+  .site-footer .wrapper { grid-template-columns: 1fr; gap: 12px; }
+  .page-content { padding: 32px 16px 48px; }
+  .profile-section { flex-direction: column; align-items: center; text-align: center; }
+  .profile-photo { width: 96px; height: 96px; }
+  .profile-placeholder { width: 96px; height: 96px; font-size: 36px; }
+  .profile-bio { max-width: 100%; }
+  .profile-links { justify-content: center; }
+  .publication-item { flex-direction: column; }
+}

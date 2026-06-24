@@ -1,0 +1,37 @@
+---
+layout: default
+hero: true
+---
+{% include hero.html %}
+
+<div class="page-content">
+  <div class="wrapper">
+
+    <!-- Profile section -->
+    <div class="profile-section">
+      <div class="profile-photo">
+        {% assign profile_img = site.profile_image | default: "/images/profile.png" %}
+        <img src="{{ profile_img }}" alt="{{ site.hero_name }}" class="profile-avatar"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="profile-placeholder" id="profileAvatar" style="display:none;">
+          <span>{{ site.hero_name | slice: 0 }}</span>
+        </div>
+      </div>
+      <div class="profile-info">
+        <h2>林雨生</h2>
+        <p class="profile-affiliation">具身智能与机器人学习研究者</p>
+        <p class="profile-bio">聚焦 VLA 基础模型、机器人仿真、3D 场景重建。基于 Isaac Sim + MuJoCo 双引擎搭建 Genie Sim 3.0 仿真平台，在 LeRobot 框架中部署 SmolVLA 进行端到端推理。</p>
+        <div class="profile-links">
+          <a href="mailto:{{ site.email }}" class="profile-link">📧 Email</a>
+          <a href="https://github.com/{{ site.github_username }}" class="profile-link">💻 GitHub</a>
+          <a href="/cv/" class="profile-link">📄 CV</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    {{ content }}
+
+  </div>
+</div>
