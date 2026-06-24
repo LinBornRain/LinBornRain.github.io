@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>具身操作仿真平台 · 强化学习训练与数据生成</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-ui: 'Source Sans 3', 'Noto Sans SC', sans-serif;
+  --font-body: 'Lora', 'Noto Serif SC', Georgia, serif;
+  --font-display: 'EB Garamond', 'Noto Serif SC', Georgia, serif;
+  --body-width: 56rem;
+  --media-width: 60rem;
+  --bg: #fff; --bg2: #f7f8fa; --card: #f0f1f4; --card-hover: #e8e9ed;
+  --text: #111318; --text2: #4b4e57; --text3: #8b8e96;
+  --accent: #1a6fb5; --accent2: #0d9488;
+  --gradient: linear-gradient(135deg, #1a6fb5 0%, #0d9488 100%);
+  --gradient-subtle: linear-gradient(135deg, rgba(26,111,181,0.06) 0%, rgba(13,148,136,0.06) 100%);
+  --border: rgba(0,0,0,0.08); --border-strong: rgba(0,0,0,0.14);
+  --navbar-bg: rgba(255,255,255,0.9); --shadow: 0 1px 3px rgba(0,0,0,0.06);
+  --radius: 12px; --radius-lg: 16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:var(--font-body);font-size:1.02rem;line-height:1.75;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.scroll-progress{position:fixed;top:0;left:0;height:3px;background:var(--gradient);z-index:1001;transition:width .1s linear}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--navbar-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.navbar.scrolled{box-shadow:var(--shadow)}
+.nav-container{max-width:1100px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:center;height:56px}
+.nav-links{display:flex;gap:.25rem;list-style:none;flex-wrap:wrap;justify-content:center}
+.nav-links a{display:inline-block;padding:.4rem .85rem;font-family:var(--font-ui);font-size:.82rem;font-weight:500;color:var(--text2);text-decoration:none;border-radius:8px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(0,0,0,0.04)}
+
+.hero{position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 1.5rem 3rem;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 35%,rgba(26,111,181,.07) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 80% 70%,rgba(13,148,136,.05) 0%,transparent 50%)}
+.hero-content{position:relative;z-index:1;max-width:720px}
+.hero-badge{display:inline-block;padding:.25rem .9rem;font-family:var(--font-ui);font-size:.75rem;font-weight:600;color:var(--accent);border:1px solid rgba(26,111,181,.25);border-radius:100px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.4rem,6vw,4.2rem);font-weight:600;line-height:1.15;margin-bottom:0}
+.hero .title-gradient{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero .hero-subtitle{display:block;font-family:var(--font-ui);font-size:clamp(0.95rem,1.6vw,1.15rem);font-weight:400;color:var(--text3);margin-top:1rem;letter-spacing:0.02em}
+.hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem 2rem;margin-top:1.8rem;font-family:var(--font-ui);font-size:.88rem}
+.meta-item{display:flex;flex-direction:column;gap:.1rem}
+.meta-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3)}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-top:2rem}
+.stat{padding:1.2rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);text-align:center}
+.stat-num{font-family:var(--font-display);font-size:2rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-family:var(--font-ui);font-size:.78rem;color:var(--text3);margin-top:.2rem}
+
+.section{padding:clamp(2rem,5vw,3.5rem) 1.5rem}
+.section-dark{background:var(--bg2)}
+.section-accent{background:var(--gradient-subtle)}
+.container{max-width:var(--body-width);margin:0 auto}
+.section-title{font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:600;line-height:1.2;margin-bottom:1rem}
+.section-subtitle{font-family:var(--font-ui);font-size:.88rem;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.section-desc{color:var(--text2);font-size:1.02rem;line-height:1.8;margin-bottom:1rem}
+
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin:1.5rem 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;transition:border-color .3s,transform .2s}
+.card:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.card-icon{font-size:1.4rem;margin-bottom:.8rem}
+.card h3{font-family:var(--font-ui);font-size:1rem;font-weight:600;margin-bottom:.4rem}
+.card p{font-size:.9rem;color:var(--text2);line-height:1.65}
+
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem;margin:1.5rem 0}
+.video-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.video-card video{width:100%;aspect-ratio:16/9;object-fit:contain;background:#000;display:block}
+.video-label{padding:.7rem 1rem;font-family:var(--font-ui);font-size:.82rem;color:var(--text2);text-align:center}
+
+/* Coverflow */
+.coverflow{position:relative;margin:2rem 0;overflow:hidden}
+.coverflow-track{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;padding:0.5rem 1rem 1rem;scrollbar-width:none}
+.coverflow-track::-webkit-scrollbar{display:none}
+.coverflow-card{flex:0 0 600px;scroll-snap-align:center;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.coverflow-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+.coverflow-card video{width:100%;aspect-ratio:16/9;object-fit:contain;background:#000;display:block}
+.coverflow-card .card-label{padding:.65rem .9rem;font-family:var(--font-ui);font-size:.8rem;color:var(--text2);text-align:center}
+.coverflow-nav{display:flex;justify-content:center;gap:.6rem;margin-top:1rem}
+.coverflow-nav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--card);cursor:pointer;font-size:1rem;color:var(--text2);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.coverflow-nav button:hover{background:var(--card-hover, #e8e9ed);color:var(--text)}
+
+.media-wide{max-width:var(--media-width);margin:1.5rem auto}
+.media-wide img{width:100%;border-radius:var(--radius);border:1px solid var(--border)}
+.media-wide video{width:100%;border-radius:var(--radius);border:1px solid var(--border-strong);background:#000;display:block}
+.media-caption{text-align:center;font-family:var(--font-ui);font-size:.82rem;color:var(--text3);margin-top:.5rem}
+
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--font-ui);font-size:.88rem}
+.data-table th{text-align:left;padding:.7rem 1rem;background:var(--card);color:var(--text3);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border-strong)}
+.data-table td{padding:.6rem 1rem;border-bottom:1px solid var(--border);color:var(--text2)}
+.data-table .val{color:var(--text);font-weight:500}
+
+.highlight-box{background:var(--card);border:1px solid var(--border-strong);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0}
+.highlight-box h3{font-family:var(--font-ui);font-size:1rem;font-weight:600;margin-bottom:.75rem;color:var(--accent)}
+.highlight-box ul{list-style:none}
+.highlight-box li{padding:.35rem 0 .35rem 1.5rem;position:relative;color:var(--text2)}
+.highlight-box li::before{content:'→';position:absolute;left:0;color:var(--accent);font-weight:700}
+
+.note{background:#f0fdfa;border-left:3px solid var(--accent2);padding:.75rem 1rem;margin:1rem 0;border-radius:0 var(--radius) var(--radius) 0;font-size:.9rem;color:#0f766e}
+
+.pipeline-steps{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin:2rem 0}
+.pipeline-step{flex:1;min-width:200px;max-width:260px;text-align:center;padding:1.5rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);position:relative}
+.pipeline-step .step-num{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--gradient);color:#fff;border-radius:50%;margin:0 auto .75rem;font-weight:700;font-size:1.1rem}
+.pipeline-step h3{font-size:.9rem;font-weight:600;margin-bottom:.3rem}
+
+.footer{padding:2.5rem 1.5rem;text-align:center;font-family:var(--font-ui);font-size:.82rem;color:var(--text3);border-top:1px solid var(--border)}
+.footer a{color:var(--accent);text-decoration:none}
+.back-to-top{position:fixed;bottom:2rem;right:2rem;z-index:999;width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;color:var(--text2);font-size:1.1rem;text-decoration:none}
+.back-to-top.visible{opacity:1;transform:translateY(0)}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease-out,transform .6s ease-out}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <ul class="nav-links">
+      <li><a href="#env">仿真环境</a></li>
+      <li><a href="#rl">RL 训练</a></li>
+      <li><a href="#data">数据生成</a></li>
+      <li><a href="#results">项目成果</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content fade-in">
+    <span class="hero-badge">Embodied AI · 2025.05 — 2026.02</span>
+    <h1><span class="title-gradient">具身操作仿真平台</span></h1>
+    <p class="hero-subtitle">强化学习训练 &nbsp;·&nbsp; 合成数据生成 &nbsp;·&nbsp; Sim-to-Real</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">技术栈</span>Isaac Sim · Isaac Lab · PPO (rsl_rl) · Ray Tune · LeRobot · HDF5 · USD</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">93%</div><div class="stat-label">抓取成功率</div></div>
+      <div class="stat"><div class="stat-num">82%</div><div class="stat-label">放置成功率</div></div>
+      <div class="stat"><div class="stat-num">100+</div><div class="stat-label">合成数据条数</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE OVERVIEW -->
+<section class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Pipeline</span>
+    <h2 class="section-title">Simulation → Policy → Data 全链路</h2>
+    <div class="pipeline-steps">
+      <div class="pipeline-step"><div class="step-num">1</div><h3>仿真搭建</h3><p style="font-size:.82rem;color:var(--text2)">Isaac Sim 数字孪生场景</p></div>
+      <div class="pipeline-step"><div class="step-num">2</div><h3>策略训练</h3><p style="font-size:.82rem;color:var(--text2)">PPO 强化学习 · 93% 抓取</p></div>
+      <div class="pipeline-step"><div class="step-num">3</div><h3>数据生成</h3><p style="font-size:.82rem;color:var(--text2)">域随机化 · LeRobot 格式</p></div>
+      <div class="pipeline-step"><div class="step-num">4</div><h3>评估验证</h3><p style="font-size:.82rem;color:var(--text2)">多视角渲染 · Sim-to-Real</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1. SIMULATION ENVIRONMENT -->
+<section id="env" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Stage 1</span>
+    <h2 class="section-title">基于 Isaac Sim 搭建具身操作仿真环境</h2>
+    <p class="section-desc">利用绝缘子、挂钩、台面、UR5e 机械臂、ROBOTIQ 2F-85 夹爪等资产，在 Isaac Sim 中搭建完整的高压线绝缘子挂接业务场景。完成数字孪生场景搭建、夹爪联调、contact sensor 集成与测试台架搭建。</p>
+
+    <div class="cards-grid">
+      <div class="card"><div class="card-icon">🔧</div><h3>UR + Robotiq 联调</h3><p>完成 UR10_2f85 配置导入 Isaac Lab，处理多 root 节点导入问题；velocity/effort/stiffness/damping 参数调优实现稳定控制。</p></div>
+      <div class="card"><div class="card-icon">📐</div><h3>绝缘子场景</h3><p>绝缘子 + 挂钩 pole + 台面完整场景，子 prim 坐标点系统用于条件判断和奖赏计算。</p></div>
+      <div class="card"><div class="card-icon">🖐️</div><h3>Contact Sensor</h3><p>Robotiq 2f-85 集成 contact_sensor，Isaac Lab 调用并纳入 reward function 的 contact 逻辑处理。</p></div>
+      <div class="card"><div class="card-icon">🕹️</div><h3>遥操作台架</h3><p>搭建键盘遥操作测试台架和轨迹重放台架，支撑快速调试和人为抓取可行性分析。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. RL TRAINING -->
+<section id="rl" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Stage 2</span>
+    <h2 class="section-title">PPO 强化学习训练框架</h2>
+    <p class="section-desc">基于 Isaac Lab 搭建 PPO 强化学习训练框架，设计状态空间、动作空间及多层级奖励函数。通过 Ray Tune 网格搜索 108 组超参，最终实现 <strong>抓取成功率 93%、放置成功率 82%</strong>。</p>
+
+    <div class="coverflow" id="cf1">
+      <div class="coverflow-track">
+        <div class="coverflow-card"><video src="assets/rl_parallel.webm" controls muted preload="none"></video><div class="card-label">多环境并行训练</div></div>
+        <div class="coverflow-card"><video src="assets/training_process.webm" controls muted preload="none"></video><div class="card-label">RL 物体接近</div></div>
+        <div class="coverflow-card"><video src="assets/rl_grasp_insulator.webm" controls muted preload="none"></video><div class="card-label">RL 绝缘子抓取</div></div>
+        <div class="coverflow-card"><video src="assets/rl_single_view.webm" controls muted preload="none"></video><div class="card-label">挂绝缘子单一视角</div></div>
+      </div>
+      <div class="coverflow-nav"><button onclick="document.querySelector('#cf1 .coverflow-track').scrollBy({left:-620,behavior:'smooth'})">←</button><button onclick="document.querySelector('#cf1 .coverflow-track').scrollBy({left:620,behavior:'smooth'})">→</button></div>
+    </div>
+
+    <div class="highlight-box">
+      <h3>奖励函数设计</h3>
+      <ul>
+        <li>Reaching：基于 tanh 平滑度的距离奖励（std 0.3 为关键调参突破）</li>
+        <li>Lifting：物体离地高度奖励 + 抓取接触奖励（contact 左右力余弦值避免顶物体）</li>
+        <li>Goal Tracking：目标位置精细跟踪奖励，粗粒度 + 细粒度双层级</li>
+        <li>Action Regularization：action_rate 惩罚 + joint_vel 惩罚 + dropping 惩罚</li>
+        <li>Orientation Reward：绝缘子对接挂钩朝向奖励</li>
+      </ul>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>训练配置</th><th>值</th></tr></thead>
+      <tbody>
+        <tr><td class="val">算法</td><td>PPO (rsl_rl)</td></tr>
+        <tr><td class="val">并行环境</td><td>Isaac Sim 2048+ 并行环境</td></tr>
+        <tr><td class="val">迭代轮数</td><td>2000 轮 / 组超参</td></tr>
+        <tr><td class="val">单组耗时</td><td>约 1 小时（单 GPU 满载）</td></tr>
+        <tr><td class="val">超参搜索</td><td>Ray Tune Grid Search · 108 组</td></tr>
+        <tr><td class="val">观测输入</td><td>质点坐标向量（非图像），4 层全连接</td></tr>
+        <tr><td class="val">最终成功率</td><td>抓取 93% · 放置 82%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note"><strong>关键突破复盘</strong>：训练初期机械臂夹爪无法稳定抓取（只能弹起物体）。根因在于 stiffness / damping 等 USD 底层运动属性未正确配置，调节这两个参数后效果显著提升。后续接入 Ray 对机械臂物理超参数进行自动化调节。</div>
+  </div>
+</section>
+
+<!-- RL TRAINING PROGRESS VIDEOS -->
+<section class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Training Progress</span>
+    <h2 class="section-title">训练过程关键节点</h2>
+    <div class="coverflow" id="cf2">
+      <div class="coverflow-track">
+        <div class="coverflow-card"><video src="assets/ur10_grasp.webm" controls muted preload="none"></video><div class="card-label">UR10_2f85 首次稳定抓取</div></div>
+        <div class="coverflow-card"><video src="assets/cube_grasp.webm" controls muted preload="none"></video><div class="card-label">抓取方块至目标点</div></div>
+        <div class="coverflow-card"><video src="assets/ur10_lift.webm" controls muted preload="none"></video><div class="card-label">UR10 Lift 能力测试</div></div>
+        <div class="coverflow-card"><video src="assets/rl_approach.webm" controls muted preload="none"></video><div class="card-label">训练过程录屏</div></div>
+      </div>
+      <div class="coverflow-nav"><button onclick="document.querySelector('#cf2 .coverflow-track').scrollBy({left:-620,behavior:'smooth'})">←</button><button onclick="document.querySelector('#cf2 .coverflow-track').scrollBy({left:620,behavior:'smooth'})">→</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. DATA GENERATION -->
+<section id="data" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Stage 3</span>
+    <h2 class="section-title">合成数据生成 · LeRobot 格式数据集</h2>
+    <p class="section-desc">基于训练收敛的策略模型及域随机化方案，批量生成 LeRobot 格式的仿真合成轨迹数据。数据集包含多视角（顶部、侧方、腕部）RGB 与深度视图、机械臂实时关节状态及动作指令。</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin:1.5rem 0;">
+      <div style="text-align:center"><img src="assets/dataset_top.png" alt="顶部视角" loading="lazy" style="width:100%;border-radius:var(--radius);border:1px solid var(--border)"><p style="font-size:.78rem;color:var(--text3);margin-top:.3rem">顶部视角</p></div>
+      <div style="text-align:center"><img src="assets/dataset_side.png" alt="侧方视角" loading="lazy" style="width:100%;border-radius:var(--radius);border:1px solid var(--border)"><p style="font-size:.78rem;color:var(--text3);margin-top:.3rem">侧方视角</p></div>
+      <div style="text-align:center"><img src="assets/dataset_wrist.png" alt="腕部视角" loading="lazy" style="width:100%;border-radius:var(--radius);border:1px solid var(--border)"><p style="font-size:.78rem;color:var(--text3);margin-top:.3rem">腕部视角</p></div>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th>字段</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td class="val">actions</td><td>机械臂关节动作指令</td></tr>
+        <tr><td class="val">obs / joint_positions</td><td>机械臂实时关节状态</td></tr>
+        <tr><td class="val">top_rgb / top_depth</td><td>顶部摄像头 RGBA + 深度</td></tr>
+        <tr><td class="val">side_rgb / side_depth</td><td>侧方摄像头 RGBA + 深度</td></tr>
+        <tr><td class="val">wrist_rgb / wrist_depth</td><td>腕部摄像头 RGBA + 深度</td></tr>
+      </tbody>
+    </table>
+
+    <div class="media-wide"><img src="assets/dataset_viz.png" alt="数据集可视化" loading="lazy"><p class="media-caption">HDF5 数据集可视化脚本输出</p></div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results" class="section section-accent">
+  <div class="container fade-in">
+    <span class="section-subtitle">Outcome</span>
+    <h2 class="section-title">项目成果与能力沉淀</h2>
+
+    <div class="highlight-box">
+      <h3>基础设施</h3>
+      <ul>
+        <li>搭建完整具身操作仿真基础设施，覆盖仿真搭建→策略训练→数据生成→评估验证的全闭环</li>
+        <li>基于 PPO 算法成功训练机器人操作策略：抓取成功率 93%，放置成功率 82%</li>
+        <li>批量合成 LeRobot 格式轨迹数据集，含多视角视觉、关节状态与动作指令</li>
+      </ul>
+    </div>
+
+    <div class="highlight-box" style="margin-top:1rem;">
+      <h3>技术能力</h3>
+      <ul>
+        <li>沉淀具身领域 Simulation → Policy → Data → Evaluation 全链路研发能力</li>
+        <li>掌握 Isaac Sim 数字孪生搭建、USD 底层调试、夹爪运动属性调优</li>
+        <li>掌握 PPO 强化学习训练全流程：Environment → Reward Design → Hyperparameter Search → Convergence Analysis</li>
+        <li>熟练运用 Ray Tune 分布式超参搜索、域随机化数据生成、HDF5/LeRobot 数据标准</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>具身操作仿真平台 · 2025.05 — 2026.02</p>
+</footer>
+
+<a href="#" class="back-to-top" id="backToTop">↑</a>
+
+<script>
+(function(){
+  var bar=document.getElementById('scrollProgress');
+  window.addEventListener('scroll',function(){var pct=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=pct>0?(window.scrollY/pct*100)+'%':'0%';});
+  var nav=document.getElementById('navbar');window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>50);});
+  var btn=document.getElementById('backToTop');window.addEventListener('scroll',function(){btn.classList.toggle('visible',window.scrollY>600);});
+
+  // Fade-in: observe ALL .fade-in elements
+  var fadeObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold: 0.08, rootMargin: '0px 0px -20px 0px'});
+  document.querySelectorAll('.fade-in').forEach(function(el){ fadeObs.observe(el); });
+
+  // Active nav
+  var secs = document.querySelectorAll('section[id]'), links = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll',function(){
+    var cur='';
+    secs.forEach(function(s){ if(window.scrollY >= s.offsetTop - 100) cur = s.getAttribute('id'); });
+    links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+  });
+
+  // Video lazy load - use let to avoid closure bug
+  document.querySelectorAll('video[preload="none"]').forEach(function(video){
+    new IntersectionObserver(function(entries, obs){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ video.preload = 'metadata'; video.load(); obs.unobserve(video); }
+      });
+    }, {rootMargin: '200px'}).observe(video);
+  });
+})();
+</script>
+</body>
+</html>

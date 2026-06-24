@@ -3,5 +3,7 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 vendor/
-Gemfile.lock
-_preview.html
+.DS_Store
+Thumbs.db
+~$*
+*.tmp

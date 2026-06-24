@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>混动电控单元标定 · Offline RL 优化</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-ui: 'Source Sans 3', 'Noto Sans SC', sans-serif;
+  --font-body: 'Noto Sans SC', Georgia, serif;
+  --font-display: 'EB Garamond', 'Noto Sans SC', Georgia, serif;
+  --body-width: 56rem; --media-width: 64rem;
+  --bg: #fff; --bg2: #f7f8fa; --card: #f0f1f4;
+  --text: #111318; --text2: #4b4e57; --text3: #8b8e96;
+  --accent: #dc2626; --accent2: #1a6fb5;
+  --gradient: linear-gradient(135deg, #dc2626 0%, #f59e0b 100%);
+  --gradient-subtle: linear-gradient(135deg, rgba(220,38,38,0.05) 0%, rgba(245,158,11,0.05) 100%);
+  --border: rgba(0,0,0,0.08); --border-strong: rgba(0,0,0,0.14);
+  --radius: 12px; --radius-lg: 16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:var(--font-body);font-size:1rem;line-height:1.75;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+.scroll-progress{position:fixed;top:0;left:0;height:3px;background:var(--gradient);z-index:1001;transition:width .1s linear}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.navbar.scrolled{box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.nav-container{max-width:1100px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:center;height:54px}
+.nav-links{display:flex;gap:.2rem;list-style:none;flex-wrap:wrap;justify-content:center}
+.nav-links a{padding:.4rem .85rem;font-family:var(--font-ui);font-size:.82rem;font-weight:500;color:var(--text2);text-decoration:none;border-radius:8px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(0,0,0,0.04)}
+
+.hero{position:relative;min-height:68vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 1.5rem 3rem;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 35%,rgba(220,38,38,.06) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 75% 60%,rgba(245,158,11,.04) 0%,transparent 50%)}
+.hero-content{position:relative;z-index:1;max-width:680px}
+.hero-badge{display:inline-block;padding:.25rem .9rem;font-family:var(--font-ui);font-size:.75rem;font-weight:600;color:var(--accent);border:1px solid rgba(220,38,38,.25);border-radius:100px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:600;line-height:1.15;margin-bottom:0}
+.hero .title-gradient{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero .hero-subtitle{display:block;font-family:var(--font-ui);font-size:clamp(.9rem,1.4vw,1.05rem);font-weight:400;color:var(--text3);margin-top:.8rem;letter-spacing:.02em}
+.hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem 2rem;margin-top:1.5rem;font-family:var(--font-ui);font-size:.85rem}
+.meta-item{display:flex;flex-direction:column;gap:.1rem}
+.meta-label{font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3)}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.85rem;margin-top:2rem}
+.stat{padding:1.2rem .8rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);text-align:center}
+.stat-num{font-family:var(--font-display);font-size:2rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-family:var(--font-ui);font-size:.75rem;color:var(--text3);margin-top:.15rem}
+
+.section{padding:clamp(2rem,5vw,3.5rem) 1.5rem}
+.section-dark{background:var(--bg2)}
+.section-accent{background:var(--gradient-subtle)}
+.container{max-width:var(--body-width);margin:0 auto}
+.section-title{font-family:var(--font-display);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:600;line-height:1.2;margin-bottom:.8rem}
+.section-subtitle{font-family:var(--font-ui);font-size:.85rem;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.section-desc{color:var(--text2);font-size:.95rem;line-height:1.8;margin-bottom:1rem}
+
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin:1.5rem 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;transition:border-color .3s,transform .2s}
+.card:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.card-icon{font-size:1.3rem;margin-bottom:.7rem}
+.card h3{font-family:var(--font-ui);font-size:.95rem;font-weight:600;margin-bottom:.3rem}
+.card p{font-size:.85rem;color:var(--text2);line-height:1.6}
+
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-family:var(--font-ui);font-size:.85rem}
+.data-table th{text-align:left;padding:.6rem .9rem;background:var(--card);color:var(--text3);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border-strong)}
+.data-table td{padding:.55rem .9rem;border-bottom:1px solid var(--border);color:var(--text2)}
+.data-table .val{color:var(--text);font-weight:500;font-variant-numeric:tabular-nums}
+.data-table .good{color:#16a34a;font-weight:600}
+
+/* Coverflow Carousel */
+.coverflow{position:relative;margin:2rem 0;overflow:hidden}
+.coverflow-track{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;padding:0.5rem 1rem 1rem;scrollbar-width:none}
+.coverflow-track::-webkit-scrollbar{display:none}
+.coverflow-card{flex:0 0 806px;scroll-snap-align:center;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:transform .3s,box-shadow .3s}
+.coverflow-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.1)}
+.coverflow-card img{width:100%;display:block}
+.coverflow-card .card-label{padding:.65rem .9rem;font-family:var(--font-ui);font-size:.8rem;color:var(--text2);text-align:center}
+.coverflow-nav{display:flex;justify-content:center;gap:.6rem;margin-top:1rem}
+.coverflow-nav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--border-strong);background:var(--card);cursor:pointer;font-size:1rem;color:var(--text2);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.coverflow-nav button:hover{background:var(--card-hover, #e8e9ed);color:var(--text)}
+
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin:1.5rem 0}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.chart-card img{width:100%;display:block}
+.chart-label{padding:.6rem .8rem;font-family:var(--font-ui);font-size:.8rem;color:var(--text2);text-align:center}
+
+.highlight-box{background:var(--card);border:1px solid var(--border-strong);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0}
+.highlight-box h3{font-family:var(--font-ui);font-size:.95rem;font-weight:600;margin-bottom:.7rem;color:var(--accent)}
+.highlight-box ul{list-style:none}
+.highlight-box li{padding:.3rem 0 .3rem 1.5rem;position:relative;color:var(--text2);font-size:.92rem}
+.highlight-box li::before{content:'→';position:absolute;left:0;color:var(--accent);font-weight:700}
+
+.note{background:#fef2f2;border-left:3px solid var(--accent);padding:.75rem 1rem;margin:1rem 0;border-radius:0 var(--radius) var(--radius) 0;font-size:.88rem;color:#991b1b}
+
+.pipeline{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin:2rem 0}
+.pipeline-step{flex:1;min-width:180px;max-width:240px;text-align:center;padding:1.5rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+.pipeline-step .step-num{width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--gradient);color:#fff;border-radius:50%;margin:0 auto .7rem;font-weight:700;font-size:1rem}
+.pipeline-step h3{font-size:.85rem;font-weight:600;margin-bottom:.2rem}
+
+.footer{padding:2rem 1.5rem;text-align:center;font-family:var(--font-ui);font-size:.8rem;color:var(--text3);border-top:1px solid var(--border)}
+.back-to-top{position:fixed;bottom:2rem;right:2rem;z-index:999;width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;color:var(--text2);font-size:1.1rem;text-decoration:none}
+.back-to-top.visible{opacity:1;transform:translateY(0)}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease-out,transform .6s ease-out}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <ul class="nav-links">
+      <li><a href="#overview">项目概述</a></li>
+      <li><a href="#env-model">环境模型</a></li>
+      <li><a href="#eval">虚拟环境评估</a></li>
+      <li><a href="#results">策略结果</a></li>
+      <li><a href="#summary">项目成果</a></li>
+      <li><a href="#references">引用</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content fade-in">
+    <span class="hero-badge">Model-based Offline RL · 2021.06 — 2022.08</span>
+    <h1><span class="title-gradient">混动电控单元标定</span></h1>
+    <p class="hero-subtitle">基于离线强化学习的智能混动模式切换策略优化</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">技术栈</span>Offline RL · 无梯度参数优化</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">0.9%</div><div class="stat-label">油耗优化</div></div>
+      <div class="stat"><div class="stat-num">WLTC</div><div class="stat-label">目标工况</div></div>
+      <div class="stat"><div class="stat-num">P1P3</div><div class="stat-label">混动架构</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Overview</span>
+    <h2 class="section-title">项目概述</h2>
+    <p class="section-desc">以 WLTC 为目标工况，以控制混动模式切换和发动机输出功率为手段，以保证电平衡下累计油耗最低为目标，验证 Model-based Offline RL 技术在汽车混动标定问题上的有效性。</p>
+
+    <div class="pipeline">
+      <div class="pipeline-step"><div class="step-num">1</div><h3>数据对接</h3><p style="font-size:.78rem;color:var(--text2)">客户业务场景沟通<br>训练数据对接</p></div>
+      <div class="pipeline-step"><div class="step-num">2</div><h3>环境建模</h3><p style="font-size:.78rem;color:var(--text2)">动力学环境模型<br>油耗反馈建模</p></div>
+      <div class="pipeline-step"><div class="step-num">3</div><h3>策略学习</h3><p style="font-size:.78rem;color:var(--text2)">Offline RL 策略训练<br>模式切换智能体</p></div>
+      <div class="pipeline-step"><div class="step-num">4</div><h3>实车验证</h3><p style="font-size:.78rem;color:var(--text2)">真实环境对比测试<br>油耗优化验证</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ENVIRONMENT MODEL -->
+<section id="env-model" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Approach</span>
+    <h2 class="section-title">环境模型与策略设计</h2>
+
+    <div class="cards-grid">
+      <div class="card"><div class="card-icon">📊</div><h3>特征工程</h3><p>对客户提供的混动车辆运行数据进行清洗、分析和特征工程处理，构建训练数据集。</p></div>
+      <div class="card"><div class="card-icon">🔧</div><h3>P1P3 串并联架构</h3><p>WLTC 工况下较优的混动架构，优化空间为模式切换策略（纯电-串联-并联）与发动机输出策略。</p></div>
+      <div class="card"><div class="card-icon">🧠</div><h3>环境动力学模型</h3><p>构建环境模型：输入当前状态及混动模式，输出下一时刻状态与油耗奖赏反馈。</p></div>
+      <div class="card"><div class="card-icon">🎯</div><h3>模式切换智能体</h3><p>设计离散动作空间智能体：输入当前状态，输出纯电/串联/并联三种离散混动模式。</p></div>
+    </div>
+
+    <div class="highlight-box">
+      <h3>优化空间定义</h3>
+      <ul>
+        <li>纯电模式 (EV) — 低速低负载，最大化电能利用率</li>
+        <li>串联模式 (Series) — 中速中负载，发动机发电驱动电机</li>
+        <li>并联模式 (Parallel) — 高速高负载，发动机直驱 + 电机辅助</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- VIRTUAL ENVIRONMENT EVALUATION -->
+<section id="eval" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Validation</span>
+    <h2 class="section-title">虚拟环境模型评估</h2>
+    <p class="section-desc">验证环境动力学模型对真实车辆行为（车速、混动模式、发动机、电机、电池等 13 个维度）的拟合精度。</p>
+
+    <div class="coverflow" id="coverflow1">
+      <div class="coverflow-track">
+        <div class="coverflow-card"><img src="assets/speed_comparison.png" loading="lazy" alt="车速对比"><div class="card-label">车速对比 · MAE: 1.46</div></div>
+        <div class="coverflow-card"><img src="assets/mode_comparison.png" loading="lazy" alt="混动模式对比"><div class="card-label">混动模式对比</div></div>
+        <div class="coverflow-card"><img src="assets/engine_rpm.png" loading="lazy" alt="发动机转速"><div class="card-label">发动机转速 · MAE: 89.96</div></div>
+        <div class="coverflow-card"><img src="assets/engine_torque.png" loading="lazy" alt="发动机扭矩"><div class="card-label">发动机扭矩 · MAE: 2.69</div></div>
+        <div class="coverflow-card"><img src="assets/driver_action.png" loading="lazy" alt="司机动作"><div class="card-label">司机动作对比 · MAE: 2.32</div></div>
+        <div class="coverflow-card"><img src="assets/fuel_comparison.png" loading="lazy" alt="油耗对比"><div class="card-label">油耗对比 · MAE: 0.29</div></div>
+        <div class="coverflow-card"><img src="assets/m1_rpm.png" loading="lazy" alt="M1电机转速"><div class="card-label">M1 电机转速 · MAE: 258.58</div></div>
+        <div class="coverflow-card"><img src="assets/m1_torque.png" loading="lazy" alt="M1电机扭矩"><div class="card-label">M1 电机扭矩 · MAE: 3.30</div></div>
+        <div class="coverflow-card"><img src="assets/m2_rpm.png" loading="lazy" alt="M2电机转速"><div class="card-label">M2 电机转速 · MAE: 45.20</div></div>
+        <div class="coverflow-card"><img src="assets/m2_torque.png" loading="lazy" alt="M2电机扭矩"><div class="card-label">M2 电机扭矩 · MAE: 3.30</div></div>
+        <div class="coverflow-card"><img src="assets/battery_comparison.png" loading="lazy" alt="电量对比"><div class="card-label">电量对比 · MAE: 0.52</div></div>
+        <div class="coverflow-card"><img src="assets/power_consumption.png" loading="lazy" alt="电耗对比"><div class="card-label">电耗对比 · MAE: 0.04</div></div>
+      </div>
+      <div class="coverflow-nav"><button onclick="document.querySelector('#coverflow1 .coverflow-track').scrollBy({left:-830,behavior:'smooth'})">←</button><button onclick="document.querySelector('#coverflow1 .coverflow-track').scrollBy({left:830,behavior:'smooth'})">→</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECOND EVALUATION ROUND -->
+<section class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Verification</span>
+    <h2 class="section-title">第二次环境模型评估</h2>
+    <p class="section-desc">修复训练数据问题后重新迭代，环境模型在各项指标的拟合精度进一步提升。</p>
+
+    <div class="coverflow" id="coverflow2">
+      <div class="coverflow-track">
+        <div class="coverflow-card"><img src="assets/speed_v2.png" loading="lazy" alt="车速v2"><div class="card-label">车速对比 · MAE: 1.76</div></div>
+        <div class="coverflow-card"><img src="assets/mode_v2.png" loading="lazy" alt="混动模式v2"><div class="card-label">混动模式对比</div></div>
+        <div class="coverflow-card"><img src="assets/fuel_v2.png" loading="lazy" alt="油耗v2"><div class="card-label">油耗对比 · MAE: 0.27</div></div>
+      </div>
+      <div class="coverflow-nav"><button onclick="document.querySelector('#coverflow2 .coverflow-track').scrollBy({left:-830,behavior:'smooth'})">←</button><button onclick="document.querySelector('#coverflow2 .coverflow-track').scrollBy({left:830,behavior:'smooth'})">→</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- STRATEGY RESULTS -->
+<section id="results" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Results</span>
+    <h2 class="section-title">混动策略评估</h2>
+    <p class="section-desc">将 Offline RL 训练得到的南栖策略在真实车辆环境中与对照策略进行对比评估，验证油耗优化效果。</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>策略</th><th>虚拟终点电量</th><th>虚拟油耗</th><th>真实终点电量</th><th>真实油耗</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="val">对照策略</td><td>59.0</td><td>4.77</td><td>59.5</td><td>4.68</td></tr>
+        <tr><td class="val">南栖策略 2-1</td><td>57.5</td><td>4.63</td><td>59.8</td><td class="good">4.66 (-0.4%)</td></tr>
+        <tr><td class="val">南栖策略 2-2</td><td>57.5</td><td>4.57</td><td>37.7</td><td class="good">4.45 (-4.9%)</td></tr>
+        <tr><td class="val">南栖策略 2-3</td><td>67.5</td><td>4.85</td><td>58.4</td><td>4.70 (+0.4%)</td></tr>
+        <tr><td class="val">南栖策略 3-1</td><td>58.3</td><td class="good">4.41 (-4.8%)</td><td>49.0</td><td class="good">4.64 (-0.9%)</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>分析</strong>：南栖策略 2-3 在平均车速更快的情况下已能取得与对照策略相近的油耗水平。南栖策略 3-1 在虚拟环境中电量误差已显著缩小，实现 <strong>4.8% 油耗优化</strong>，真实环境中油耗优化 0.9%。</div>
+
+    <h3 style="font-family:var(--font-ui);font-size:1rem;font-weight:600;margin:2rem 0 .75rem">环境误差复评</h3>
+    <div style="max-width:500px; margin:0 auto;">
+      <div class="chart-card"><img src="assets/reeval_electric.png" loading="lazy" alt="电量误差复评"><div class="chart-label">虚拟环境复评 · 电量误差</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- THIRD ROUND & VIRTUAL COMPARISON -->
+<section class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Third Round</span>
+    <h2 class="section-title">第三次策略评估与虚拟环境对比</h2>
+    <p class="section-desc">在修复环境模型电量推断问题后，进行第三轮策略训练与评估，并在虚拟环境中对比优化前后策略的油耗与电量表现。</p>
+
+    <h3 style="font-family:var(--font-ui);font-size:1rem;font-weight:600;margin:1.5rem 0 .75rem">虚拟环境复评 · 司机误差与环境误差</h3>
+    <div style="max-width:500px; margin:0 auto;">
+      <div class="chart-card"><img src="assets/reeval_env_error.png" loading="lazy" alt="环境误差"><div class="chart-label">环境模型误差分析</div></div>
+    </div>
+
+    <h3 style="font-family:var(--font-ui);font-size:1rem;font-weight:600;margin:1.5rem 0 .75rem">混动策略在虚拟环境的对比</h3>
+    <p class="section-desc">在虚拟环境中对比对照策略与 RL 优化后策略在各维度的表现差异。</p>
+    <div class="chart-grid">
+      <div class="chart-card"><img src="assets/strategy_virtual_a.png" loading="lazy" alt="策略对比A"><div class="chart-label">电量对比</div></div>
+      <div class="chart-card"><img src="assets/strategy_virtual_c.png" loading="lazy" alt="策略对比C"><div class="chart-label">优化后策略 · 油耗</div></div>
+      <div class="chart-card"><img src="assets/strategy_virtual_b.png" loading="lazy" alt="策略对比B"><div class="chart-label">对照策略 · 电量</div></div>
+      <div class="chart-card"><img src="assets/strategy_virtual_d.png" loading="lazy" alt="策略对比D"><div class="chart-label">油耗对比</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section id="summary" class="section section-accent">
+  <div class="container fade-in">
+    <span class="section-subtitle">Outcome</span>
+    <h2 class="section-title">项目成果</h2>
+
+    <div class="highlight-box">
+      <h3>核心成果</h3>
+      <ul>
+        <li>Offline RL 最优策略在真实环境中对比客户历史最佳策略，在相同条件下实现 <strong>油耗优化 0.9%</strong></li>
+        <li>验证 Model-based Offline RL 在汽车混动标定领域的技术可行性</li>
+        <li>建立从数据对接、特征工程、环境建模到策略评估的完整研发流程</li>
+      </ul>
+    </div>
+
+    <div class="highlight-box" style="margin-top:1rem;">
+      <h3>技术能力</h3>
+      <ul>
+        <li>掌握 Model-based Offline RL在工业场景的落地全流程</li>
+        <li>具备车辆动力学环境建模、离散动作空间策略设计能力</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 6. 引用 ========== -->
+<section id="references" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">References</span>
+    <h2 class="section-title">引用</h2>
+    <div class="highlight-box">
+      <ul>
+        <li><a href="https://www.bilibili.com/video/BV1v34y1s7iE/?vd_source=c1dd0cc98caf993d8d06be7d9bb9020b" target="_blank" style="color:var(--accent)">Bilibili — 20220330特邀报告【数据驱动的强化学习及其工业应用】-混动控制</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>混动电控单元标定项目 · 2021.06 — 2022.08</p>
+</footer>
+
+<a href="#" class="back-to-top" id="backToTop">↑</a>
+
+<script>
+(function(){
+  var bar=document.getElementById('scrollProgress');
+  window.addEventListener('scroll',function(){var pct=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=pct>0?(window.scrollY/pct*100)+'%':'0%';});
+  var nav=document.getElementById('navbar');window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>50);});
+  var btn=document.getElementById('backToTop');window.addEventListener('scroll',function(){btn.classList.toggle('visible',window.scrollY>600);});
+  var fadeObs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.08,rootMargin:'0px 0px -20px 0px'});
+  document.querySelectorAll('.fade-in').forEach(function(el){fadeObs.observe(el);});
+  var secs=document.querySelectorAll('section[id]'),links=document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll',function(){var cur='';secs.forEach(function(s){if(window.scrollY>=s.offsetTop-100)cur=s.getAttribute('id');});links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+cur);});});
+  document.querySelectorAll('img[loading="lazy"]').forEach(function(img){
+    new IntersectionObserver(function(e,obs){e.forEach(function(x){if(x.isIntersecting){obs.unobserve(img);}});},{rootMargin:'200px'}).observe(img);
+  });
+})();
+</script>
+</body>
+</html>

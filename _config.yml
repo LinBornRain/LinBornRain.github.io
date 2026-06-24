@@ -2,31 +2,31 @@
 # al-folio inspired Jekyll config for wzljhboy.github.io
 # ============================================================
 
-title: "林雨生 · Yusheng Lin"
+title: "林嘉豪 · Jiahao Lin"
 email: "704858794@qq.com"
 description: >-
-  具身智能与机器人学习研究者 | VLA · 仿真 · 3D 场景重建
+  具身智能与机器人学习研究者 | 仿真数据飞轮 · Real2Sim2Real · 柔性物体操作
 baseurl: ""
 url: "https://wzljhboy.github.io"
-github_username: wzljhboy
-profile_image: "/images/profile.png"   # 替换为你的头像路径
+github_username: LinBornRain
+profile_image: "/images/profile.png"
 
 # ---- MiMo Hero 配置 ----------------------------------------
-hero_name: "林雨生"
-hero_pattern: "林 雨 生"
-hero_pattern_en: "LIN YUSHENG"
+hero_name: "林嘉豪"
+hero_pattern: "林 嘉 豪"
+hero_pattern_en: "LIN JIAHAO"
 hero_title: "HELLO, 世界"
-hero_title_alt: "你好，我是林雨生"
+hero_title_alt: "你好，我是林嘉豪"
 hero_about: |
-  欢迎来到我的主页——一个我与世界对话的空间。
+  欢迎来到我的主页。
 
-  我是一名**具身智能与机器人学习**方向的研究者。我的工作聚焦于**VLA（Vision-Language-Action）模型**、**机器人仿真**以及**3D 场景重建**。
+  我是一名**具身智能与机器人学习**方向的研究者，拥有8年模仿学习、强化学习算法研发与工程经验。
 
-  我相信，智能的本质在于**预测与压缩**——从海量多模态数据中提炼出世界的内在规律，让机器不仅能理解语言，更能感知物理空间并在其中行动。
+  聚焦**具身仿真数据飞轮**、**Real2Sim2Real**、**物理建模**与**柔性物体仿真操作**，具备从仿真环境搭建、合成数据生成、算法迭代训练到真机部署落地的端到端全栈研发能力。
 
-  目前主要研究方向：VLA 基础模型（RT-2, OpenVLA, π₀ 等）的分析与改进；Isaac Sim + MuJoCo 双引擎仿真平台开发；3D Gaussian Splatting 场景重建与数据生成；机器人操作策略的 Sim-to-Real 迁移。
+  发表AAAI、《计算机学报》等CCF-A类顶会顶刊论文，累计授权多项技术发明专利。深度结合Claude Code、Hermes等AI工具提效。
 
-  **—— 林雨生**
+  **—— 林嘉豪**
 
 # ---- al-folio 风格配置 -------------------------------------
 lang: "zh"
@@ -35,40 +35,19 @@ timezone: Asia/Shanghai
 # Build settings
 markdown: kramdown
 highlighter: rouge
-permalink: /blog/:year/:title/
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
-  - jekyll-paginate
-
-paginate: 5
-paginate_path: "/blog/page:num/"
 
 # Collections
 collections:
-  news:
-    output: true
-    permalink: /news/:path/
   projects:
     output: true
     permalink: /projects/:path/
-  posts:
-    output: true
-    permalink: /blog/:year/:title/
 
 # Default front matter
 defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-  - scope:
-      path: ""
-      type: "news"
-    values:
-      layout: "default"
   - scope:
       path: ""
       type: "projects"

@@ -3,30 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects | 林雨生 · Yusheng Lin</title>
-  <meta name="description" content="具身智能与机器人学习研究者 | VLA · 仿真 · 3D 场景重建">
+  <title>Projects | 林嘉豪</title>
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-  <link rel="icon" type="image/png" href="/images/favicon-32x32.png">
-  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-  <link rel="manifest" href="/images/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/main.css">
-  
-  
 </head>
 <body>
   <header class="site-header">
     <div class="wrapper">
-      <a class="site-title" href="/">林雨生 · Yusheng Lin</a>
+      <a class="site-title" href="/">林嘉豪 · Jiahao Lin</a>
       <nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger"><span class="menu-icon"></span></label>
         <div class="trigger">
             <a class="page-link" href="/">About</a>
-            <a class="page-link" href="/news/">News</a>
             <a class="page-link" href="/publications/">Publications</a>
             <a class="page-link" href="/projects/">Projects</a>
-            <a class="page-link" href="/blog/">Blog</a>
-            <a class="page-link" href="/cv/">CV</a>
         </div>
       </nav>
     </div>
@@ -34,23 +25,65 @@
   <main>
     <div class="page-content">
       <div class="wrapper">
-<h2>研究项目</h2>
-<div class="project-grid">
-<div class="project-card"><h3>SmolVLA 仿真推理</h3><p>在 LeRobot 框架中运行 SmolVLA 模型推理，450M 参数，0.87GB 显存，支持 6D state + 3 相机 + 语言指令 → 6D action。</p></div>
-<div class="project-card"><h3>Genie Sim 3.0 仿真平台</h3><p>基于 Isaac Sim + MuJoCo 双引擎的具身智能仿真工具链，涵盖场景重建、数据采集、自动评估全流程。</p></div>
-<div class="project-card"><h3>LCC2 3DGS 场景导出</h3><p>PortalCam 采集 → 19.5M splats → USD 格式导出，直接对接 Isaac Sim 渲染管线。</p></div>
-<div class="project-card"><h3>Piper 机械臂控制</h3><p>通过 CAN 总线控制 AgileX Piper 6-DOF 机械臂，支持 MIT 阻抗控制，多传感器交叉验证。</p></div>
-<div class="project-card"><h3>VLA 研究综述</h3><p>系统性追踪 VLA 领域进展：60+ 论文 + 61 篇分析报告，覆盖 RT-2、OpenVLA、π₀、GR00T N1 等前沿模型。</p></div>
-<div class="project-card"><h3>Orbbec 相机 ROS2 集成</h3><p>Orbbec DaBai DCW 深度相机通过 ROS2 接口获取彩色/深度图像并保存。</p></div>
+
+<h1>项目经历</h1>
+
+<div class="project-item">
+  <a class="project-thumb" href="/assets/projects/real2sim/index.html">
+    <img src="/assets/thumbnails/real2sim.png" alt="Real2Sim" loading="lazy">
+  </a>
+  <div class="project-body">
+    <h3><a href="/assets/projects/real2sim/index.html">Real2Sim · 柔性布料物理仿真参数无梯度优化</a></h3>
+    <p>杰克科技 / 艾图机器人 · 2026.03 ~ 至今<br>
+    从 0 到 1 搭建柔性面料 Real2Sim 高精度物理仿真与参数优化系统，虚实对齐精度提升约 20%。<br>
+    <code>Newton</code> <code>VBD</code> <code>SAM3</code> <code>Optuna</code> <code>CMA-ES</code> <code>Ray Tune</code></p>
+  </div>
 </div>
+
+<div class="project-item">
+  <a class="project-thumb" href="/assets/projects/embodied-ops/index.html">
+    <img src="/assets/thumbnails/embodied-ops.png" alt="Embodied Ops" loading="lazy">
+  </a>
+  <div class="project-body">
+    <h3><a href="/assets/projects/embodied-ops/index.html">具身操作仿真平台 · RL 训练与数据生成</a></h3>
+    <p>国电南瑞 / 国网瑞嘉 · 2025.05 ~ 2026.02<br>
+    仿真 → 策略 → 数据全链路。绝缘子抓取 93%，放置 82%，合成数据 100+ 条。<br>
+    <code>Isaac Sim</code> <code>Isaac Lab</code> <code>PPO</code> <code>LeRobot</code> <code>Ray Tune</code></p>
+  </div>
+</div>
+
+<div class="project-item">
+  <a class="project-thumb" href="/assets/projects/abs/index.html">
+    <img src="/assets/thumbnails/abs.png" alt="ABS" loading="lazy">
+  </a>
+  <div class="project-body">
+    <h3><a href="/assets/projects/abs/index.html">智能底盘制动控制 · 强化学习 ABS</a></h3>
+    <p>南栖仙策 · 2023.06 ~ 2024.06<br>
+    从 0 到 1 研发 RL-ABS 制动系统。VV5 实车：制动距离减小 3%，车身偏转减小 83.8%。<br>
+    <code>Amesim</code> <code>Simulink</code> <code>PPO</code> <code>Offline RL</code> <code>GAIL</code> <code>GNN</code></p>
+  </div>
+</div>
+
+<div class="project-item">
+  <a class="project-thumb" href="/assets/projects/geely-hybrid/index.html">
+    <img src="/assets/thumbnails/geely-hybrid.png" alt="Hybrid" loading="lazy">
+  </a>
+  <div class="project-body">
+    <h3><a href="/assets/projects/geely-hybrid/index.html">混动电控单元标定 · Offline RL 优化</a></h3>
+    <p>南栖仙策 · 2021.06 ~ 2022.08<br>
+    WLTC 工况油耗优化 0.9%。验证 Model-based Offline RL 在混动标定的工程可行性。<br>
+    <code>Offline RL</code> <code>Model-based RL</code></p>
+  </div>
+</div>
+
       </div>
     </div>
   </main>
   <footer class="site-footer">
     <div class="wrapper">
-      <div class="footer-col"><p>具身智能与机器人学习研究者 | VLA · 仿真 · 3D 场景重建</p></div>
+      <div class="footer-col"><p>具身智能与机器人学习研究者 | 仿真数据飞轮 · Real2Sim2Real</p></div>
       <div class="footer-col"><p>Contact: <a href="mailto:704858794@qq.com">704858794@qq.com</a></p></div>
-      <div class="footer-col"><p>© 2026 林雨生</p></div>
+      <div class="footer-col"><p>© 2026 林嘉豪</p></div>
     </div>
   </footer>
 </body>

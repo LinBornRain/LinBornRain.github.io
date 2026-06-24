@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real2Sim · 真实布料物理仿真系统</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== CSS Variables ========== */
+:root {
+  --font-ui: 'Source Sans 3', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Lora', 'Noto Serif SC', Georgia, ui-serif, serif;
+  --font-display: 'EB Garamond', 'Noto Serif SC', Georgia, serif;
+  --body-copy-width: 54rem;
+  --media-copy-width: 58rem;
+  --section-space-y: clamp(3rem, 6vw, 5rem);
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f8fa;
+  --bg-card: #f0f1f4;
+  --bg-card-hover: #e8e9ed;
+  --text-primary: #111318;
+  --text-secondary: #4b4e57;
+  --text-muted: #8b8e96;
+  --accent-primary: #486600;
+  --accent-secondary: #768c40;
+  --accent-gradient: linear-gradient(135deg, #486600 0%, #5f82ad 100%);
+  --accent-gradient-subtle: linear-gradient(135deg, rgba(72,102,0,0.06) 0%, rgba(95,130,173,0.06) 100%);
+  --border-color: rgba(0,0,0,0.08);
+  --border-color-strong: rgba(0,0,0,0.14);
+  --navbar-bg: rgba(255,255,255,0.88);
+  --navbar-bg-scrolled: rgba(255,255,255,0.96);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+/* ========== Reset & Base ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ========== Scroll Progress ========== */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: var(--accent-gradient); z-index: 1001;
+  transition: width 0.1s linear;
+}
+
+/* ========== Navigation ========== */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--navbar-bg);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.navbar.scrolled { background: var(--navbar-bg-scrolled); box-shadow: var(--shadow-sm); }
+.nav-container {
+  max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
+  display: flex; align-items: center; justify-content: center; height: 58px;
+}
+.nav-links { display: flex; gap: 0.25rem; list-style: none; flex-wrap: wrap; justify-content: center; }
+.nav-links a {
+  display: inline-block; padding: 0.45rem 0.9rem;
+  font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500;
+  color: var(--text-secondary); text-decoration: none;
+  border-radius: var(--radius-sm); transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--text-primary); background: rgba(0,0,0,0.04); }
+.nav-demo-btn {
+  background: var(--accent-gradient) !important; color: #fff !important;
+  font-weight: 600 !important; padding: 0.45rem 1.1rem !important;
+}
+
+/* ========== Hero ========== */
+.hero {
+  position: relative; min-height: 92vh; display: flex; align-items: center;
+  justify-content: center; text-align: center; padding: 6rem 1.5rem 4rem;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 35%, rgba(91,141,239,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 50% at 80% 70%, rgba(232,121,90,0.08) 0%, transparent 50%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-badge {
+  display: inline-block; padding: 0.3rem 1rem;
+  font-family: var(--font-ui); font-size: 0.8rem; font-weight: 600;
+  color: var(--accent-primary); border: 1px solid rgba(91,141,239,0.3);
+  border-radius: 100px; letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: var(--font-display); font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 600; line-height: 1.1; letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+.hero .title-name {
+  background: var(--accent-gradient); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero .title-desc {
+  display: block; font-family: var(--font-body); font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+  font-weight: 400; color: var(--text-secondary); -webkit-text-fill-color: var(--text-secondary);
+  line-height: 1.5; margin-top: 0.5rem; max-width: 650px; margin-left: auto; margin-right: auto;
+}
+.hero-meta {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem 2rem;
+  margin-top: 2rem; font-family: var(--font-ui); font-size: 0.9rem;
+}
+.meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
+.meta-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+.meta-link { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+.meta-link:hover { color: var(--accent-primary); }
+
+.hero-video-wrap {
+  position: relative; z-index: 1; margin-top: 3rem;
+  max-width: 900px; margin-left: auto; margin-right: auto;
+}
+.hero-video-wrap video {
+  width: 100%; border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color-strong);
+  box-shadow: var(--shadow-md);
+}
+
+/* ========== Sections ========== */
+.section { padding: var(--section-space-y) 1.5rem; }
+.section-dark { background: var(--bg-secondary); }
+.section-accent { background: var(--accent-gradient-subtle); }
+.container { max-width: var(--body-copy-width); margin: 0 auto; }
+
+.section-title {
+  font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 600; line-height: 1.2; letter-spacing: -0.01em;
+  margin-bottom: 1.25rem;
+}
+.section-subtitle {
+  font-family: var(--font-ui); font-size: 1rem; font-weight: 500;
+  color: var(--accent-primary); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-bottom: 0.5rem;
+}
+.section-desc {
+  color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+/* ========== Quote ========== */
+.quote-block {
+  border-left: 3px solid var(--accent-primary);
+  padding: 1.5rem 2rem; margin: 2rem 0;
+  background: var(--accent-gradient-subtle);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.quote-block p {
+  font-family: var(--font-display); font-size: 1.35rem; font-style: italic;
+  color: var(--text-primary); line-height: 1.6;
+}
+.quote-block cite {
+  display: block; margin-top: 0.75rem; font-family: var(--font-ui);
+  font-size: 0.85rem; font-style: normal; color: var(--text-muted);
+}
+
+/* ========== Cards Grid ========== */
+.cards-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem; margin: 2rem 0;
+}
+.card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md); padding: 1.5rem;
+  transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+.card:hover {
+  border-color: var(--border-color-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.card-icon {
+  width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  background: var(--accent-gradient-subtle); border-radius: var(--radius-sm);
+  font-size: 1.3rem; margin-bottom: 1rem;
+}
+.card h3 {
+  font-family: var(--font-ui); font-size: 1.05rem; font-weight: 600;
+  margin-bottom: 0.5rem; color: var(--text-primary);
+}
+.card p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.65; }
+
+/* ========== Media ========== */
+.media-wide {
+  max-width: var(--media-copy-width); margin: 2rem auto;
+}
+.media-wide img {
+  width: 100%; border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+.media-wide video {
+  width: 100%; border-radius: var(--radius-md);
+  border: 1px solid var(--border-color-strong);
+  background: #000;
+  display: block;
+}
+.media-caption {
+  text-align: center; font-family: var(--font-ui); font-size: 0.85rem;
+  color: var(--text-muted); margin-top: 0.6rem;
+}
+
+/* ========== Steps / Pipeline ========== */
+.steps { margin: 2rem 0; }
+.step {
+  display: flex; gap: 1.5rem; padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.step:last-child { border-bottom: none; }
+.step-num {
+  flex-shrink: 0; width: 48px; height: 48px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-gradient-subtle);
+  border-radius: 50%; font-family: var(--font-display);
+  font-size: 1.3rem; font-weight: 700; color: var(--accent-primary);
+}
+.step-body h3 { font-family: var(--font-ui); font-size: 1.1rem; font-weight: 600; margin-bottom: 0.35rem; }
+.step-body p { color: var(--text-secondary); line-height: 1.7; }
+
+/* ========== Table ========== */
+.data-table {
+  width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+  font-family: var(--font-ui); font-size: 0.9rem;
+}
+.data-table th {
+  text-align: left; padding: 0.75rem 1rem;
+  background: var(--bg-card); color: var(--text-muted);
+  font-weight: 600; font-size: 0.8rem; text-transform: uppercase;
+  letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color-strong);
+}
+.data-table td {
+  padding: 0.7rem 1rem; border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+.data-table tr:hover td { background: rgba(0,0,0,0.02); }
+.data-table .val { color: var(--text-primary); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* ========== Stat Callouts ========== */
+.stats-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem; margin: 2rem 0;
+}
+.stat-card {
+  text-align: center; padding: 1.5rem 1rem;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+.stat-num {
+  font-family: var(--font-display); font-size: 2.4rem; font-weight: 700;
+  background: var(--accent-gradient); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1.2;
+}
+.stat-label { font-family: var(--font-ui); font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+/* ========== Highlight Box ========== */
+.highlight-box {
+  background: var(--bg-card); border: 1px solid var(--border-color-strong);
+  border-radius: var(--radius-md); padding: 2rem; margin: 2rem 0;
+}
+.highlight-box h3 {
+  font-family: var(--font-ui); font-size: 1.15rem; font-weight: 600;
+  margin-bottom: 1rem; color: var(--accent-primary);
+}
+.highlight-box ul { list-style: none; }
+.highlight-box li {
+  padding: 0.5rem 0; padding-left: 1.5rem; position: relative;
+  color: var(--text-secondary); line-height: 1.7;
+}
+.highlight-box li::before {
+  content: '→'; position: absolute; left: 0;
+  color: var(--accent-primary); font-weight: 700;
+}
+
+/* ========== Loss Formula ========== */
+.formula-box {
+  background: var(--bg-card); border: 1px solid var(--border-color-strong);
+  border-radius: var(--radius-md); padding: 1.5rem 2rem; margin: 2rem 0;
+  text-align: center;
+}
+.formula-box .formula {
+  font-family: 'Courier New', monospace; font-size: 1.05rem;
+  color: var(--text-primary); letter-spacing: 0.02em;
+}
+.formula-box .formula-desc {
+  font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;
+}
+
+/* ========== Comparison ========== */
+.compare-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;
+}
+.compare-col {
+  padding: 1.25rem; background: var(--bg-card);
+  border-radius: var(--radius-md); border: 1px solid var(--border-color);
+  text-align: center;
+}
+.compare-col.best { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.04); }
+.compare-label {
+  font-family: var(--font-ui); font-size: 0.8rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-muted); margin-bottom: 0.5rem;
+}
+.compare-col.best .compare-label { color: #22c55e; }
+.compare-col img { width: 100%; border-radius: var(--radius-sm); }
+
+/* ========== Video Grid ========== */
+.video-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem; margin: 2rem 0;
+}
+.video-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md); overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.video-card video {
+  width: 100%; aspect-ratio: 16 / 9; object-fit: contain;
+  display: block; background: #000;
+}
+.video-card .video-label {
+  padding: 0.75rem 1rem; font-family: var(--font-ui);
+  font-size: 0.85rem; color: var(--text-secondary);
+  text-align: center;
+}
+
+/* ========== Footer ========== */
+.footer {
+  padding: 3rem 1.5rem; text-align: center;
+  font-family: var(--font-ui); font-size: 0.85rem;
+  color: var(--text-muted); border-top: 1px solid var(--border-color);
+}
+.footer a { color: var(--text-secondary); text-decoration: none; }
+.footer a:hover { color: var(--accent-primary); }
+
+/* ========== Back to Top ========== */
+.back-to-top {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--bg-card); border: 1px solid var(--border-color-strong);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; opacity: 0; transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s; color: var(--text-secondary);
+  font-size: 1.2rem; text-decoration: none;
+}
+.back-to-top.visible { opacity: 1; transform: translateY(0); }
+.back-to-top:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+
+/* ========== Animations ========== */
+.fade-in {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- Scroll Progress -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <ul class="nav-links">
+      <li><a class="nav-demo-btn" href="#demo">演示</a></li>
+      <li><a href="#stage1">平台搭建</a></li>
+      <li><a href="#stage2">虚实点云</a></li>
+      <li><a href="#stage3">差异量化</a></li>
+      <li><a href="#stage4">实验效果</a></li>
+      <li><a href="#story">背景</a></li>
+      <li><a href="#stack">技术栈</a></li>
+      <li><a href="#summary">总结</a></li>
+      <li><a href="#citation">引用</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content fade-in">
+    <span class="hero-badge">Research Project · 2026</span>
+    <h1>
+      <span class="title-name">Real2Sim</span>
+      <span class="title-desc">柔性布料物理仿真参数无梯度优化全流程方案</span>
+    </h1>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">项目负责人</span>
+        <span class="meta-link">林嘉豪</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">日期</span>
+        <span class="meta-link">2026年6月</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">仿真引擎</span>
+        <span class="meta-link">Newton + VBD</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">优化框架</span>
+        <span class="meta-link">Optuna + CMA-ES + Ray Tune</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hero Demo Video -->
+<div id="demo" style="max-width:900px; margin:0 auto 2.5rem; padding:0 1.5rem;">
+  <video src="assets/hero_demo.mp4" controls muted loop playsinline preload="none"
+         style="width:100%; border-radius:var(--radius-lg); border:1px solid var(--border-color-strong); box-shadow:var(--shadow-md); background:#000; display:block;">
+  </video>
+  <p style="text-align:center; font-family:var(--font-ui); font-size:0.85rem; color:var(--text-muted); margin-top:0.6rem;">
+    真实布料 Real2Sim 物理仿真系统演示
+  </p>
+</div>
+
+<!-- ==================== STORY ==================== -->
+<section id="story" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Story</span>
+    <h2 class="section-title">仿真真实性挑战与智能破局路径</h2>
+
+    <div class="quote-block">
+      <p>"随着数字孪生技术深度普及，虚拟环境对物理世界的复刻精度要求呈指数级提升。尤其在机器人操控与柔性材料处理等复杂场景中，仿真真实性直接决定了 Sim-to-Real 迁移的最终成败。"</p>
+    </div>
+
+    <p class="section-desc">
+      当前物理仿真高度依赖专家经验手动调试弹性、阻尼等多维参数——不仅试错成本高昂、迭代周期漫长，且极易陷入局部最优解，难以系统性地弥合仿真模型与真实物理观测数据之间的显著偏差。
+    </p>
+    <p class="section-desc">
+      本项目构建全新智能参数推荐系统，将复杂的参数整定过程转化为<strong>数据驱动的黑盒优化问题</strong>。摒弃低效的人工猜测模式，通过算法智能收敛高置信度参数组合，实现仿真精度与落地效率的双重质变。
+    </p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">10</div>
+        <div class="stat-label">关键物理参数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">维度复合 Loss</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">10,000</div>
+        <div class="stat-label">次参数采样</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8.4h</div>
+        <div class="stat-label">总搜索时长</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TECH STACK ==================== -->
+<section id="stack" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Foundation</span>
+    <h2 class="section-title">项目技术栈概览</h2>
+    <p class="section-desc">深度剖析底层硬件平台选型与软件系统核心架构设计，明确全栈开发基础能力边界。</p>
+
+    <h3 style="font-family:var(--font-ui); font-size:1.15rem; font-weight:600; margin:2rem 0 1rem;">硬件平台：真实世界数据采集</h3>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🦾</div>
+        <h3>松灵 Piper 机械臂</h3>
+        <p>执行单元，高精度布料操作与轨迹记录。保证实验可重复性的坚实基础。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📷</div>
+        <h3>Orbbec 335L 深度相机</h3>
+        <p>视觉感知单元，实时捕捉布料细微形变，输出高保真 RGB + 深度图。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👔</div>
+        <h3>NICE 蓝色 POLO 面料</h3>
+        <p>真实商业级面料，独特的弹性模量与悬垂属性——仿真致力精确复现的核心目标。</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-ui); font-size:1.15rem; font-weight:600; margin:2.5rem 0 1rem;">软件技术栈：仿真与计算核心</h3>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <h3>Newton 仿真平台</h3>
+        <p>核心物理仿真引擎，内置 VBD 柔性布料求解器，模拟布料弯曲、拉伸及褶皱特性。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👁️</div>
+        <h3>SAM3 视觉感知</h3>
+        <p>语义分割精准提取布料区域，提供高质量 Mask 输入，从复杂背景提取纯净点云。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">☁️</div>
+        <h3>点云优化算法</h3>
+        <p>MAD 统计滤波 + Radius 半径滤波双重组合策略，有效滤除噪声点与离群点。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Ray Tune 并行框架</h3>
+        <p>分布式超参数搜索，单 GPU 多进程并行，搜索效率大幅提升。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>CMA-ES 优化策略</h3>
+        <p>进化策略智能探索参数空间，避免局部最优陷阱。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Optuna 框架</h3>
+        <p>贝叶斯概率模型引导 + CMA-ES 进化策略探索，高效收敛。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PIPELINE ==================== -->
+<section id="pipeline" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Pipeline</span>
+    <h2 class="section-title">技术链路全流程详解</h2>
+    <p class="section-desc">打通从真实物理环境数据采集到数字仿真模型迭代的闭环链路，实现虚实世界的实时协同映射。</p>
+
+    <div class="steps">
+      <div class="step" id="stage1">
+        <div class="step-num">Ⅰ</div>
+        <div class="step-body">
+          <h3>阶段一：Real2Sim 实验平台搭建</h3>
+          <p>① 运动轨迹记录与重放——毫秒级精确复现机械臂动作流<br>
+          ② 相机手眼标定 (Eye-to-Hand)——像素坐标→世界坐标精准映射<br>
+          ③ 多源异构数据时间戳硬同步——硬件触发对齐机械臂+视觉数据<br>
+          ④ 仿真全要素数字孪生构建——1:1复刻运动学、动力学与光照参数</p>
+        </div>
+      </div>
+
+      <!-- Pipeline Stage 1 Videos -->
+      <div class="video-grid" style="margin: 1rem 0 2rem 0;">
+        <div class="video-card">
+          <video src="assets/demo1.mp4" controls muted loop playsinline preload="none">
+          </video>
+          <div class="video-label">机械臂轨迹记录与重放</div>
+        </div>
+      </div>
+
+      <div class="step" id="stage2">
+        <div class="step-num">Ⅱ</div>
+        <div class="step-body">
+          <h3>阶段二：真实布料点云的仿真映射</h3>
+          <p>① 视觉融合与精细化点云提取——RGB+深度融合，SAM3精准分割布料区域<br>
+          ② 跨空间坐标系精准校准与映射——基于手眼标定结果对齐至仿真坐标系<br>
+          ③ 多策略组合式点云离群噪声净化——MAD统计滤波 + Radius半径滤波<br>
+          → 最终输出：高保真「真实模板」，作为黄金参照标准</p>
+        </div>
+      </div>
+
+      <!-- Pipeline Stage 2 Video -->
+      <div style="max-width: 72rem; margin: 1rem auto 2rem auto; padding: 0 1rem;">
+        <video src="assets/trajectory_vis.mp4" controls muted loop playsinline
+               preload="none" style="width:100%; border-radius:var(--radius-md); border:1px solid var(--border-color-strong); background:#000; display:block;">
+        </video>
+        <p class="media-caption">SAM3 视觉融合 + 点云提取 → 仿真坐标系映射</p>
+      </div>
+
+      <div style="max-width: 72rem; margin: 1rem auto 2rem auto; padding: 0 1rem;">
+        <video src="assets/demo_pipeline.mp4" controls muted loop playsinline
+               preload="none" style="width:100%; border-radius:var(--radius-md); border:1px solid var(--border-color-strong); background:#000; display:block;">
+        </video>
+        <p class="media-caption">仿真全要素数字孪生构建</p>
+      </div>
+
+      <div class="step" id="stage3">
+        <div class="step-num">Ⅲ</div>
+        <div class="step-body">
+          <h3>阶段三：仿真与真实差异量化</h3>
+          <p>创新设计包含5个关键维度的复合损失函数，从空间几何、边界轮廓等多角度衡量仿真与真实布料的物理一致性差异。量化评估→闭环反馈→参数优化。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loss Detail (inline, same section) -->
+    <div style="margin-top:3rem; padding:2.5rem 2rem; background:var(--accent-gradient-subtle); border-radius:var(--radius-lg); border:1px solid var(--border-color);">
+      <span class="section-subtitle">Core Innovation</span>
+      <h2 class="section-title" style="margin-bottom:1rem;">五维复合损失函数设计</h2>
+      <p class="section-desc" style="margin-bottom:2rem;">
+        量化评估是智能优化的基石。从空间几何贴合度、边界匹配度和轮廓重叠率等多个角度综合衡量仿真与真实的差异。
+      </p>
+
+      <div class="formula-box" style="margin:1.5rem 0;">
+        <div class="formula">Total Loss = (Geometry + S2R + Hausdorff + Boundary + Silhouette) / 5</div>
+        <div class="formula-desc">五项等权平均，确保各维度均匀优化</div>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>维度</th><th>含义</th><th>衡量标准</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="val">Geometry</td><td>真实扫描点到仿真网格顶点的平均3D距离</td><td>结构贴合度</td></tr>
+          <tr><td class="val">S2R</td><td>仿真顶点到真实扫描点的平均距离</td><td>双向几何约束闭环</td></tr>
+          <tr><td class="val">Hausdorff</td><td>仿真与真实点云匹配中的最大3D偏差</td><td>避免局部严重穿模</td></tr>
+          <tr><td class="val">Boundary</td><td>布料外轮廓2D投影像素级偏差</td><td>边缘锐利度与自然悬垂</td></tr>
+          <tr><td class="val">Silhouette</td><td>仿真与真实Mask交并比 (IoU)</td><td>身形包裹感与姿态覆盖</td></tr>
+        </tbody>
+      </table>
+
+      <div class="media-wide" style="max-width:38rem; margin-top:1.5rem;">
+        <img src="assets/loss_diagram.png" alt="Loss函数设计" loading="lazy">
+        <p class="media-caption">五维复合损失函数示意图</p>
+      </div>
+    </div>
+
+    <div class="step" id="stage4" style="margin-top:3rem;">
+      <div class="step-num">Ⅳ</div>
+      <div class="step-body">
+        <h3>阶段四：搜索执行与效果验证</h3>
+        <p>基于 Optuna + CMA-ES 进化策略，在10维参数空间中执行 <strong>10,000 次采样</strong>，总计算资源投入约 <strong>8.4 小时</strong>。通过 Ray Tune 并行框架在 RTX 4060 Ti 上实现8进程并行加速，收敛后与默认参数横向对比验证优化效果。</p>
+      </div>
+    </div>
+
+    <!-- Parameter Search Space -->
+    <div style="margin-top:2rem; padding:2rem 2rem; background:var(--bg-card); border-radius:var(--radius-lg); border:1px solid var(--border-color);">
+      <span class="section-subtitle">Search Space</span>
+      <h2 class="section-title" style="margin-bottom:1rem;">10维参数搜索空间</h2>
+      <p class="section-desc" style="margin-bottom:1.5rem;">定义包含10个关键布料物理参数的搜索空间，直接影响VBD求解器行为，通过精细化范围设定确保仿真结果的物理合理性与求解效率。</p>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>参数</th><th>物理含义</th><th>搜索区间</th><th>采样分布</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="val">tri_ke</td><td>三角形拉伸弹性系数</td><td>[1e³, 1e⁵]</td><td>log-uniform</td></tr>
+          <tr><td class="val">tri_ka</td><td>三角形面积保持弹性系数</td><td>[1e³, 1e⁵]</td><td>log-uniform</td></tr>
+          <tr><td class="val">tri_kd</td><td>三角形结构阻尼系数</td><td>[1e⁻⁷, 1e⁻⁵]</td><td>log-uniform</td></tr>
+          <tr><td class="val">edge_ke</td><td>边约束拉伸弹性强度</td><td>[1e⁻¹, 1e²]</td><td>log-uniform</td></tr>
+          <tr><td class="val">edge_kd</td><td>边约束能量耗散阻尼</td><td>[1e⁻⁴, 1e⁰]</td><td>log-uniform</td></tr>
+          <tr><td class="val">cloth_density</td><td>单位面积质量密度</td><td>[0.005, 0.05]</td><td>uniform</td></tr>
+          <tr><td class="val">particle_radius</td><td>MPS粒子影响半径</td><td>[0.1, 0.5]</td><td>uniform</td></tr>
+          <tr><td class="val">body_contact_margin</td><td>刚体碰撞安全边距</td><td>[0.1, 0.5]</td><td>uniform</td></tr>
+          <tr><td class="val">soft_contact_ke</td><td>软体接触冲击弹性</td><td>[1e³, 1e⁵]</td><td>log-uniform</td></tr>
+          <tr><td class="val">soft_contact_kd</td><td>软体接触摩擦阻尼</td><td>[1e⁻⁴, 1e⁰]</td><td>log-uniform</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Parallel Efficiency -->
+    <h3 style="font-family:var(--font-ui); font-size:1.05rem; font-weight:600; margin:2rem 0 0.75rem; color:var(--accent-primary);">并行效率分析</h3>
+    <p class="section-desc">
+      基于 Ray Tune 框架进行多进程并行压力测试，数据表明当并行进程数达到 <strong>8</strong> 时单卡资源接近饱和，继续增加边际收益递减。
+    </p>
+    <div class="highlight-box" style="margin:1rem 0;">
+      <ul>
+        <li>低并行度下 GPU 利用率不足</li>
+        <li>高并行度下显存和计算单元争抢产生额外调度开销</li>
+        <li><strong>8 个并行进程</strong>为 RTX 4060 Ti 单卡工作站综合性价比最高配置</li>
+      </ul>
+    </div>
+    <div class="media-wide" style="margin:1rem auto 1.5rem;">
+      <img src="assets/parallel_chart.png" alt="并行效率分析" loading="lazy">
+      <p class="media-caption">并行进程数 vs 总耗时——边际效应递减拐点在8进程处</p>
+    </div>
+
+    <!-- Convergence -->
+    <h3 style="font-family:var(--font-ui); font-size:1.05rem; font-weight:600; margin:2rem 0 0.75rem; color:var(--accent-primary);">搜索收敛性复盘</h3>
+    <p class="section-desc">
+      采用 Optuna 贝叶斯概率模型引导 + CMA-ES 进化策略探索，损失函数值呈断崖式下降并在后期趋于平稳收敛，证实算法在复杂非线性空间中具备极佳寻优能力。
+    </p>
+    <div class="media-wide" style="margin:1rem auto 1.5rem;">
+      <img src="assets/convergence.jpg" alt="收敛曲线" loading="lazy">
+      <p class="media-caption">CMA-ES收敛曲线——损失值随迭代代数持续下降至平稳</p>
+    </div>
+
+    <div class="media-wide" style="margin-top:1.5rem;">
+      <video src="assets/demo2.mp4" controls muted loop playsinline preload="none"
+             style="width:100%; border-radius:var(--radius-lg); border:1px solid var(--border-color-strong); background:#000; display:block;">
+      </video>
+      <p class="media-caption">最优参数 vs 默认参数仿真效果对比视频 &nbsp;·&nbsp; 左：搜索最优参数 &nbsp;|&nbsp; 右：初始默认参数</p>
+    </div>
+
+    <div class="media-wide" style="margin-top:2rem;">
+      <img src="assets/loss_comparison.png" alt="Loss对比" loading="lazy">
+      <p class="media-caption">搜索收敛最优参数与默认参数的 Loss 定量对比</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SUMMARY ==================== -->
+<section id="summary" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Outlook</span>
+    <h2 class="section-title">阶段成果总结与未来演进蓝图</h2>
+
+    <h3 style="font-family:var(--font-ui); font-size:1.1rem; font-weight:600; margin:1.5rem 0 1rem; color:var(--accent-primary);">已完成成果</h3>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <h3>Real2Sim 时空对齐平台</h3>
+        <p>搭建高精度实验平台，成功打通真实世界与虚拟仿真环境的全链路时空数据对齐通道。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <h3>多维复合差异量化评估体系</h3>
+        <p>创新设计多维度复合损失函数，实现对仿真结果与真实场景差异的全面精细化量化与闭环反馈。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚀</div>
+        <h3>CMA-ES 算法效能实证</h3>
+        <p>系统性验证多种算法，CMA-ES 在物理参数高维空间搜索中展现出卓越的收敛速度与稳定性。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>大规模参数并行加速计算引擎</h3>
+        <p>构建高效并行计算架构，充分释放算力潜能，将复杂参数搜索迭代周期显著缩短。</p>
+      </div>
+  </div>
+</section>
+
+<!-- ==================== CITATION ==================== -->
+<section id="citation" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Reference</span>
+    <h2 class="section-title">引用</h2>
+    <p class="section-desc">
+      <a href="https://internrobotics.github.io/sim1.github.io/" target="_blank" style="color:var(--accent-primary); text-decoration:underline;">SIM1: Physics-Aligned Simulator as Zero-Shot Data Scaler in Deformable Worlds</a>，由上海人工智能实验室 InternRobotics 团队发布于 2026 年 4 月。
+    </p>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <p>Real2Sim · 真实布料物理仿真参数无梯度优化系统</p>
+  <p style="margin-top:0.5rem;">项目负责人：林嘉豪 &nbsp;|&nbsp; 2026年6月</p>
+</footer>
+
+<a href="#" class="back-to-top" id="backToTop" aria-label="回到顶部">↑</a>
+
+<script>
+// Scroll Progress
+(function(){
+  var bar = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', function(){
+    var pct = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = pct > 0 ? (window.scrollY / pct * 100) + '%' : '0%';
+  });
+})();
+
+// Navbar scroll
+(function(){
+  var nav = document.getElementById('navbar');
+  window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 50); });
+})();
+
+// Back to top
+(function(){
+  var btn = document.getElementById('backToTop');
+  window.addEventListener('scroll', function(){ btn.classList.toggle('visible', window.scrollY > 600); });
+})();
+
+// Fade-in
+(function(){
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-in').forEach(function(el){ obs.observe(el); });
+})();
+
+// Active nav
+(function(){
+  var sections = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.nav-links a:not(.nav-demo-btn)');
+  window.addEventListener('scroll', function(){
+    var cur = '';
+    sections.forEach(function(s){ if(window.scrollY >= s.offsetTop - 120) cur = s.getAttribute('id'); });
+    links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+  });
+})();
+
+// Smart video lazy-load: load video source only when near viewport
+(function(){
+  var videos = document.querySelectorAll('video[preload="none"]');
+  var vidObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var v = e.target;
+      if(v.dataset && v.dataset.src){ v.src = v.dataset.src; delete v.dataset.src; }
+      // Trigger metadata load so poster/controls appear
+      if(v.preload === 'none'){ v.preload = 'metadata'; v.load(); }
+      vidObs.unobserve(v);
+    });
+  }, { rootMargin: '200px' });
+  videos.forEach(function(v){ vidObs.observe(v); });
+})();
+</script>
+
+</body>
+</html>

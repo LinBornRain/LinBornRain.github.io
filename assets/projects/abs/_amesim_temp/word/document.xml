@@ -1,0 +1,1445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sl="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:cdr="http://schemas.openxmlformats.org/drawingml/2006/chartDrawing" xmlns:c14="http://schemas.microsoft.com/office/drawing/2007/8/2/chart" xmlns:dgm="http://schemas.openxmlformats.org/drawingml/2006/diagram" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:dsp="http://schemas.microsoft.com/office/drawing/2008/diagram" xmlns:xvml="urn:schemas-microsoft-com:office:excel" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:pvml="urn:schemas-microsoft-com:office:powerpoint" xmlns:cppr="http://schemas.microsoft.com/office/2006/coverPageProps" xmlns:odx="http://opendope.org/xpaths" xmlns:odc="http://opendope.org/conditions" xmlns:odq="http://opendope.org/questions" xmlns:oda="http://opendope.org/answers" xmlns:odi="http://opendope.org/components" xmlns:odgm="http://opendope.org/SmartArt/DataHierarchy" xmlns:b="http://schemas.openxmlformats.org/officeDocument/2006/bibliography" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:wetp="http://schemas.microsoft.com/office/webextensions/taskpanes/2010/11" xmlns:we="http://schemas.microsoft.com/office/webextensions/webextension/2010/11" xmlns:comp="http://schemas.openxmlformats.org/drawingml/2006/compatibility" xmlns:lc="http://schemas.openxmlformats.org/drawingml/2006/lockedCanvas">
+    <w:body><!-- Created by docx4j 6.1.2 (Apache licensed) using REFERENCE JAXB in Oracle Java 1.8.0_131 on Linux -->
+        <w:p>
+            <w:pPr>
+                <w:pStyle w:val="Heading1"/>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                </w:rPr>
+                <w:t>amesim演示，智能底盘原理介绍</w:t>
+            </w:r>
+        </w:p>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:bookmarkStart w:name="u76a1327f" w:id="0"/>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>ESP功能展示</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="0"/>
+        <w:bookmarkStart w:name="uc05ef5c7" w:id="1"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>ESP在</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>转向过度或转向不足</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>的情况下会通过</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>主动增加</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>轮胎的制动压力</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>，来弥补</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>转向过度或转向不足</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>，使车辆行驶稳定。</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="1"/>
+        <w:bookmarkStart w:name="vabgW" w:id="2"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>
+    此处为语雀视频卡片，点击链接查看：</w:t>
+            </w:r>
+            <w:hyperlink r:id="rId4">
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                        <w:b w:val="false"/>
+                        <w:i w:val="false"/>
+                        <w:color w:val="0000ff"/>
+                        <w:sz w:val="22"/>
+                        <w:u w:val="single"/>
+                    </w:rPr>
+                    <w:t>Electronic Stability Control Technology(ESP, DSC, ESC, A-TRC)(1).mp4</w:t>
+                </w:r>
+            </w:hyperlink>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t xml:space="preserve">
+   </w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="2"/>
+        <w:bookmarkStart w:name="u7e37e928" w:id="3"/>
+        
+        <w:bookmarkEnd w:id="3"/>
+        <w:bookmarkStart w:name="ua63c161f" w:id="4"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="0"/>
+                    <w:numId w:val="1"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="360"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>AmeSim ESP功能复现</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="4"/>
+        <w:bookmarkStart w:name="u3d5c5e04" w:id="5"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>但是如果外界环境复杂多变，主动</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>增加</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>制动压力ESP是否一定能够弥补</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>转向过度或转向不足</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>？实际上，在面临湿滑路面、冰雪路面等环境时，ESP主动</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>增加</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>制动压力的效果</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>非常有限</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>。</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="5"/>
+        <w:bookmarkStart w:name="uf4e92b90" w:id="6"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="1"/>
+                    <w:numId w:val="2"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="720"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>无ESP：</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="6"/>
+        <w:bookmarkStart w:name="N8WiV" w:id="7"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>
+    此处为语雀视频卡片，点击链接查看：</w:t>
+            </w:r>
+            <w:hyperlink r:id="rId5">
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                        <w:b w:val="false"/>
+                        <w:i w:val="false"/>
+                        <w:color w:val="0000ff"/>
+                        <w:sz w:val="22"/>
+                        <w:u w:val="single"/>
+                    </w:rPr>
+                    <w:t>ESPs_off.avi</w:t>
+                </w:r>
+            </w:hyperlink>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t xml:space="preserve">
+   </w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="7"/>
+        <w:bookmarkStart w:name="ud307a99b" w:id="8"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="1"/>
+                    <w:numId w:val="3"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="720"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>有ESP：</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="8"/>
+        <w:bookmarkStart w:name="F2XSr" w:id="9"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>
+    此处为语雀视频卡片，点击链接查看：</w:t>
+            </w:r>
+            <w:hyperlink r:id="rId6">
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                        <w:b w:val="false"/>
+                        <w:i w:val="false"/>
+                        <w:color w:val="0000ff"/>
+                        <w:sz w:val="22"/>
+                        <w:u w:val="single"/>
+                    </w:rPr>
+                    <w:t>ESPs_on.avi</w:t>
+                </w:r>
+            </w:hyperlink>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t xml:space="preserve">
+   </w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="9"/>
+        <w:bookmarkStart w:name="ub118005b" w:id="10"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="2"/>
+                    <w:numId w:val="4"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="1080"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>ESP activation，ABS activation</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="10"/>
+        <w:bookmarkStart w:name="ud3063963" w:id="11"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="center"/>
+            </w:pPr>
+            <w:bookmarkStart w:name="uic0x" w:id="12"/>
+            <w:r>
+                <w:rPr><w:rFonts w:eastAsia="宋体" w:ascii="宋体"/></w:rPr><w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                        <wp:extent cx="5842000" cy="3288776"/>
+                        <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                        <wp:docPr id="0" name="" descr=""/>
+                        <wp:cNvGraphicFramePr>
+                            <a:graphicFrameLocks noChangeAspect="true"/>
+                        </wp:cNvGraphicFramePr>
+                        <a:graphic>
+                            <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<pic:pic>
+    <pic:nvPicPr>
+        <pic:cNvPr id="1" name=""/>
+        <pic:cNvPicPr/>
+    </pic:nvPicPr>
+    <pic:blipFill>
+        <a:blip r:embed="rId7"/>
+        <a:stretch>
+            <a:fillRect/>
+        </a:stretch>
+    </pic:blipFill>
+    <pic:spPr>
+        <a:xfrm>
+            <a:off x="0" y="0"/>
+            <a:ext cx="8957734" cy="5042791"/>
+        </a:xfrm>
+        <a:prstGeom prst="rect">
+            <a:avLst/>
+        </a:prstGeom>
+    </pic:spPr>
+</pic:pic>
+                            </a:graphicData>
+                        </a:graphic>
+                    </wp:inline>
+                </w:drawing>
+            </w:r>
+            <w:bookmarkEnd w:id="12"/>
+        </w:p>
+        <w:bookmarkEnd w:id="11"/>
+        <w:bookmarkStart w:name="u48378e0a" w:id="13"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="2"/>
+                    <w:numId w:val="5"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="1080"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>四轮制动压力控制策略</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="13"/>
+        <w:bookmarkStart w:name="u4423018f" w:id="14"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="center"/>
+            </w:pPr>
+            <w:bookmarkStart w:name="ua8ee91c5" w:id="15"/>
+            <w:r>
+                <w:rPr><w:rFonts w:eastAsia="宋体" w:ascii="宋体"/></w:rPr><w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                        <wp:extent cx="5435600" cy="3059905"/>
+                        <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                        <wp:docPr id="0" name="" descr=""/>
+                        <wp:cNvGraphicFramePr>
+                            <a:graphicFrameLocks noChangeAspect="true"/>
+                        </wp:cNvGraphicFramePr>
+                        <a:graphic>
+                            <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<pic:pic>
+    <pic:nvPicPr>
+        <pic:cNvPr id="1" name=""/>
+        <pic:cNvPicPr/>
+    </pic:nvPicPr>
+    <pic:blipFill>
+        <a:blip r:embed="rId8"/>
+        <a:stretch>
+            <a:fillRect/>
+        </a:stretch>
+    </pic:blipFill>
+    <pic:spPr>
+        <a:xfrm>
+            <a:off x="0" y="0"/>
+            <a:ext cx="5435600" cy="3059905"/>
+        </a:xfrm>
+        <a:prstGeom prst="rect">
+            <a:avLst/>
+        </a:prstGeom>
+    </pic:spPr>
+</pic:pic>
+                            </a:graphicData>
+                        </a:graphic>
+                    </wp:inline>
+                </w:drawing>
+            </w:r>
+            <w:bookmarkEnd w:id="15"/>
+        </w:p>
+        <w:bookmarkEnd w:id="14"/>
+        <w:bookmarkStart w:name="u37f7cd21" w:id="16"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="2"/>
+                    <w:numId w:val="6"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="1080"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>四轮制动压力</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="16"/>
+        <w:bookmarkStart w:name="uc4b25cfa" w:id="17"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="center"/>
+            </w:pPr>
+            <w:bookmarkStart w:name="udfc3ab9b" w:id="18"/>
+            <w:r>
+                <w:rPr><w:rFonts w:eastAsia="宋体" w:ascii="宋体"/></w:rPr><w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                        <wp:extent cx="5841999" cy="3288877"/>
+                        <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                        <wp:docPr id="0" name="" descr=""/>
+                        <wp:cNvGraphicFramePr>
+                            <a:graphicFrameLocks noChangeAspect="true"/>
+                        </wp:cNvGraphicFramePr>
+                        <a:graphic>
+                            <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<pic:pic>
+    <pic:nvPicPr>
+        <pic:cNvPr id="1" name=""/>
+        <pic:cNvPicPr/>
+    </pic:nvPicPr>
+    <pic:blipFill>
+        <a:blip r:embed="rId9"/>
+        <a:stretch>
+            <a:fillRect/>
+        </a:stretch>
+    </pic:blipFill>
+    <pic:spPr>
+        <a:xfrm>
+            <a:off x="0" y="0"/>
+            <a:ext cx="6519334" cy="3670197"/>
+        </a:xfrm>
+        <a:prstGeom prst="rect">
+            <a:avLst/>
+        </a:prstGeom>
+    </pic:spPr>
+</pic:pic>
+                            </a:graphicData>
+                        </a:graphic>
+                    </wp:inline>
+                </w:drawing>
+            </w:r>
+            <w:bookmarkEnd w:id="18"/>
+        </w:p>
+        <w:bookmarkEnd w:id="17"/>
+        <w:bookmarkStart w:name="u218586ff" w:id="19"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="2"/>
+                    <w:numId w:val="7"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="1080"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>偏转角</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="19"/>
+        <w:bookmarkStart w:name="u9bca8a5c" w:id="20"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="center"/>
+            </w:pPr>
+            <w:bookmarkStart w:name="ua9a3c5ee" w:id="21"/>
+            <w:r>
+                <w:rPr><w:rFonts w:eastAsia="宋体" w:ascii="宋体"/></w:rPr><w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                        <wp:extent cx="5841999" cy="3288877"/>
+                        <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                        <wp:docPr id="0" name="" descr=""/>
+                        <wp:cNvGraphicFramePr>
+                            <a:graphicFrameLocks noChangeAspect="true"/>
+                        </wp:cNvGraphicFramePr>
+                        <a:graphic>
+                            <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<pic:pic>
+    <pic:nvPicPr>
+        <pic:cNvPr id="1" name=""/>
+        <pic:cNvPicPr/>
+    </pic:nvPicPr>
+    <pic:blipFill>
+        <a:blip r:embed="rId10"/>
+        <a:stretch>
+            <a:fillRect/>
+        </a:stretch>
+    </pic:blipFill>
+    <pic:spPr>
+        <a:xfrm>
+            <a:off x="0" y="0"/>
+            <a:ext cx="6519334" cy="3670197"/>
+        </a:xfrm>
+        <a:prstGeom prst="rect">
+            <a:avLst/>
+        </a:prstGeom>
+    </pic:spPr>
+</pic:pic>
+                            </a:graphicData>
+                        </a:graphic>
+                    </wp:inline>
+                </w:drawing>
+            </w:r>
+            <w:bookmarkEnd w:id="21"/>
+        </w:p>
+        <w:bookmarkEnd w:id="20"/>
+        <w:bookmarkStart w:name="u9a9ef22b" w:id="22"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>对于湿滑、冰雪等</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>附着系数低</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>的路面环境，此时对轮端增大的压力已经</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>超过</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>了路面能提供的</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>最大静摩擦力</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>，车轮开始打滑，此时ABS防抱死系统以更高优先级介入ESP的增压过程，ABS降低制动压力从而避免车轮过度打滑甚至抱死。因此，受限于极端路面环境的低附着系数，ESP对车轮主动增加制动力在极端路面条件下能防止侧滑运动的效果非常有限。</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="22"/>
+        <w:bookmarkStart w:name="u82b59f31" w:id="23"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="0"/>
+                    <w:numId w:val="8"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="360"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>ReinMotor智能底盘解决方案</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="23"/>
+        <w:bookmarkStart w:name="u4c04abea" w:id="24"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>ReinMotor通过构建虚拟地盘——车辆动力学环境模型模拟在不同附着路面的变化，基于数字孪生和强化学习技术提供更优的分布式四轮制动控制方案：</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="24"/>
+        <w:bookmarkStart w:name="GUn49" w:id="25"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>
+    此处为语雀视频卡片，点击链接查看：</w:t>
+            </w:r>
+            <w:hyperlink r:id="rId11">
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                        <w:b w:val="false"/>
+                        <w:i w:val="false"/>
+                        <w:color w:val="0000ff"/>
+                        <w:sz w:val="22"/>
+                        <w:u w:val="single"/>
+                    </w:rPr>
+                    <w:t>ESPai.mp4</w:t>
+                </w:r>
+            </w:hyperlink>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t xml:space="preserve">
+   </w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="25"/>
+        <w:bookmarkStart w:name="ua0e49e56" w:id="26"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="2"/>
+                    <w:numId w:val="9"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="1080"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>虚拟底盘</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="26"/>
+        <w:bookmarkStart w:name="u08df1fa7" w:id="27"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>基于底盘业务理解，构建虚拟</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>底盘——车辆动力学模型</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>，环境模型对于不同附着系数的路面具有</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>很好的泛化能力</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>。</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="27"/>
+        <w:bookmarkStart w:name="ue940290f" w:id="28"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:bookmarkStart w:name="u91130b3c" w:id="29"/>
+            <w:r>
+                <w:rPr><w:rFonts w:eastAsia="宋体" w:ascii="宋体"/></w:rPr><w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                        <wp:extent cx="5841999" cy="2436048"/>
+                        <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                        <wp:docPr id="0" name="" descr=""/>
+                        <wp:cNvGraphicFramePr>
+                            <a:graphicFrameLocks noChangeAspect="true"/>
+                        </wp:cNvGraphicFramePr>
+                        <a:graphic>
+                            <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<pic:pic>
+    <pic:nvPicPr>
+        <pic:cNvPr id="1" name=""/>
+        <pic:cNvPicPr/>
+    </pic:nvPicPr>
+    <pic:blipFill>
+        <a:blip r:embed="rId12"/>
+        <a:stretch>
+            <a:fillRect/>
+        </a:stretch>
+    </pic:blipFill>
+    <pic:spPr>
+        <a:xfrm>
+            <a:off x="0" y="0"/>
+            <a:ext cx="14884400" cy="6206628"/>
+        </a:xfrm>
+        <a:prstGeom prst="rect">
+            <a:avLst/>
+        </a:prstGeom>
+    </pic:spPr>
+</pic:pic>
+                            </a:graphicData>
+                        </a:graphic>
+                    </wp:inline>
+                </w:drawing>
+            </w:r>
+            <w:bookmarkEnd w:id="29"/>
+        </w:p>
+        <w:bookmarkEnd w:id="28"/>
+        <w:bookmarkStart w:name="u32444d52" w:id="30"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="2"/>
+                    <w:numId w:val="10"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="1080"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>四轮制动压力控制策略</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="30"/>
+        <w:bookmarkStart w:name="ud79c1edf" w:id="31"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>基于虚拟底盘环境，强化学习通过在不同路面附着系数下的训练，更优的策略是</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>主动降低</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>在正常路面端的制动压力，同时在不断</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>调节</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>低附着路面端的轮胎制动压力，以避免轮胎抱死。</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="31"/>
+        <w:bookmarkStart w:name="u80ad84d4" w:id="32"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>与ESP决策不同在于，ReinMotor智能底盘在右侧正常路面端的策略是</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>泄压</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>而不是保压，在左侧低附着路面端的制动压力调节动作更频繁。</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="32"/>
+        <w:bookmarkStart w:name="ubc74c3a8" w:id="33"/>
+        
+        <w:bookmarkEnd w:id="33"/>
+        <w:bookmarkStart w:name="ubbcf7009" w:id="34"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:bookmarkStart w:name="t6zdE" w:id="35"/>
+            <w:r>
+                <w:rPr><w:rFonts w:eastAsia="宋体" w:ascii="宋体"/></w:rPr><w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                        <wp:extent cx="5435600" cy="3059905"/>
+                        <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                        <wp:docPr id="0" name="" descr=""/>
+                        <wp:cNvGraphicFramePr>
+                            <a:graphicFrameLocks noChangeAspect="true"/>
+                        </wp:cNvGraphicFramePr>
+                        <a:graphic>
+                            <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<pic:pic>
+    <pic:nvPicPr>
+        <pic:cNvPr id="1" name=""/>
+        <pic:cNvPicPr/>
+    </pic:nvPicPr>
+    <pic:blipFill>
+        <a:blip r:embed="rId13"/>
+        <a:stretch>
+            <a:fillRect/>
+        </a:stretch>
+    </pic:blipFill>
+    <pic:spPr>
+        <a:xfrm>
+            <a:off x="0" y="0"/>
+            <a:ext cx="5435600" cy="3059905"/>
+        </a:xfrm>
+        <a:prstGeom prst="rect">
+            <a:avLst/>
+        </a:prstGeom>
+    </pic:spPr>
+</pic:pic>
+                            </a:graphicData>
+                        </a:graphic>
+                    </wp:inline>
+                </w:drawing>
+            </w:r>
+            <w:bookmarkEnd w:id="35"/>
+        </w:p>
+        <w:bookmarkEnd w:id="34"/>
+        <w:bookmarkStart w:name="u1f253887" w:id="36"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="2"/>
+                    <w:numId w:val="11"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="1080"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>四轮制动压力</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="36"/>
+        <w:bookmarkStart w:name="uecf030d0" w:id="37"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>对比ESP的制动压力曲线，当车辆驶入对开路面的路面环境时，ReinMotor智能底盘在右侧正常路面端的制动压力明显更低，在左侧低附着路面端的轮胎压力调节更频繁。</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="37"/>
+        <w:bookmarkStart w:name="u6ef3b681" w:id="38"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>当车辆离开对开路面的路面环境后，相比ESP，ReinMotor对四轮采取施加</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="df2a3f"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>更大的制动压力</w:t>
+            </w:r>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>。</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="38"/>
+        <w:bookmarkStart w:name="udde7919a" w:id="39"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:bookmarkStart w:name="udc2a4e03" w:id="40"/>
+            <w:r>
+                <w:rPr><w:rFonts w:eastAsia="宋体" w:ascii="宋体"/></w:rPr><w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                        <wp:extent cx="5841999" cy="3288877"/>
+                        <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                        <wp:docPr id="0" name="" descr=""/>
+                        <wp:cNvGraphicFramePr>
+                            <a:graphicFrameLocks noChangeAspect="true"/>
+                        </wp:cNvGraphicFramePr>
+                        <a:graphic>
+                            <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<pic:pic>
+    <pic:nvPicPr>
+        <pic:cNvPr id="1" name=""/>
+        <pic:cNvPicPr/>
+    </pic:nvPicPr>
+    <pic:blipFill>
+        <a:blip r:embed="rId14"/>
+        <a:stretch>
+            <a:fillRect/>
+        </a:stretch>
+    </pic:blipFill>
+    <pic:spPr>
+        <a:xfrm>
+            <a:off x="0" y="0"/>
+            <a:ext cx="6519334" cy="3670197"/>
+        </a:xfrm>
+        <a:prstGeom prst="rect">
+            <a:avLst/>
+        </a:prstGeom>
+    </pic:spPr>
+</pic:pic>
+                            </a:graphicData>
+                        </a:graphic>
+                    </wp:inline>
+                </w:drawing>
+            </w:r>
+            <w:bookmarkEnd w:id="40"/>
+        </w:p>
+        <w:bookmarkEnd w:id="39"/>
+        <w:bookmarkStart w:name="ue196135f" w:id="41"/>
+        <w:p>
+            <w:pPr>
+                <w:numPr>
+                    <w:ilvl w:val="2"/>
+                    <w:numId w:val="12"/>
+                </w:numPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="1080"/><w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>偏转角</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="41"/>
+        <w:bookmarkStart w:name="u0042f6cc" w:id="42"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="both"/>
+            </w:pPr>
+            <w:bookmarkStart w:name="u0288627c" w:id="43"/>
+            <w:r>
+                <w:rPr><w:rFonts w:eastAsia="宋体" w:ascii="宋体"/></w:rPr><w:drawing>
+                    <wp:inline distT="0" distB="0" distL="0" distR="0">
+                        <wp:extent cx="5841999" cy="3288877"/>
+                        <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                        <wp:docPr id="0" name="" descr=""/>
+                        <wp:cNvGraphicFramePr>
+                            <a:graphicFrameLocks noChangeAspect="true"/>
+                        </wp:cNvGraphicFramePr>
+                        <a:graphic>
+                            <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+<pic:pic>
+    <pic:nvPicPr>
+        <pic:cNvPr id="1" name=""/>
+        <pic:cNvPicPr/>
+    </pic:nvPicPr>
+    <pic:blipFill>
+        <a:blip r:embed="rId15"/>
+        <a:stretch>
+            <a:fillRect/>
+        </a:stretch>
+    </pic:blipFill>
+    <pic:spPr>
+        <a:xfrm>
+            <a:off x="0" y="0"/>
+            <a:ext cx="6519334" cy="3670197"/>
+        </a:xfrm>
+        <a:prstGeom prst="rect">
+            <a:avLst/>
+        </a:prstGeom>
+    </pic:spPr>
+</pic:pic>
+                            </a:graphicData>
+                        </a:graphic>
+                    </wp:inline>
+                </w:drawing>
+            </w:r>
+            <w:bookmarkEnd w:id="43"/>
+        </w:p>
+        <w:bookmarkEnd w:id="42"/>
+        <w:bookmarkStart w:name="u68a3db85" w:id="44"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>MAE误差统计：</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="44"/>
+        <w:bookmarkStart w:name="u8775f277" w:id="45"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>ESP: 1.862</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="45"/>
+        <w:bookmarkStart w:name="u51b32580" w:id="46"/>
+        <w:p>
+            <w:pPr>
+                <w:spacing w:after="50" w:line="360" w:lineRule="auto" w:beforeLines="100"/>
+                <w:ind w:left="0"/>
+                <w:jc w:val="left"/>
+            </w:pPr>
+            <w:r>
+                <w:rPr>
+                    <w:rFonts w:ascii="宋体" w:hAnsi="Times New Roman" w:eastAsia="宋体"/>
+                    <w:b w:val="false"/>
+                    <w:i w:val="false"/>
+                    <w:color w:val="000000"/>
+                    <w:sz w:val="22"/>
+                </w:rPr>
+                <w:t>AI: 0.3017</w:t>
+            </w:r>
+        </w:p>
+        <w:bookmarkEnd w:id="46"/>
+        <w:bookmarkStart w:name="u33f758e3" w:id="47"/>
+        
+        <w:bookmarkEnd w:id="47"/>
+        <w:bookmarkStart w:name="u3df260b7" w:id="48"/>
+        
+        <w:bookmarkEnd w:id="48"/>
+        <w:bookmarkStart w:name="u9e2effd8" w:id="49"/>
+        
+        <w:bookmarkEnd w:id="49"/>
+        <w:bookmarkStart w:name="u8b4c4812" w:id="50"/>
+        
+        <w:bookmarkEnd w:id="50"/>
+        <w:bookmarkStart w:name="ud8d0638e" w:id="51"/>
+        
+        <w:bookmarkEnd w:id="51"/>
+        <w:sectPr>
+            <w:pgSz w:w="11907" w:h="16839" w:code="9"/>
+            <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440"/>
+        </w:sectPr>
+    </w:body>
+</w:document>

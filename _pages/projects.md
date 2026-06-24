@@ -1,41 +1,104 @@
 ---
 layout: default
-title: "Projects"
+title: "Projects | 林嘉豪"
 permalink: /projects/
 ---
 
-## 研究项目
+# 项目经历
 
-<div class="project-grid">
+## 柔性物体（面料）操作场景的仿真引擎及系统搭建
 
-<div class="project-card">
-  <h3>SmolVLA 仿真推理</h3>
-  <p>在 LeRobot 框架中运行 SmolVLA 模型推理，450M 参数，0.87GB 显存，支持 6D state + 3 相机 + 语言指令 → 6D action 输出。</p>
-</div>
+**杰克科技 / 艾图机器人** · 2026.03 ~ 至今
 
-<div class="project-card">
-  <h3>Genie Sim 3.0 仿真平台</h3>
-  <p>基于 Isaac Sim + MuJoCo 双引擎的具身智能仿真工具链，涵盖场景重建、数据采集、自动评估全流程。</p>
-</div>
+主导建设柔性物体操作数据飞轮基础设施，实现"真实采集 → 仿真重建 → 合成数据生成 → VLA评估与训练"闭环。
 
-<div class="project-card">
-  <h3>LCC2 3DGS 场景导出</h3>
-  <p>PortalCam 采集 → 19.5M splats → USD 格式导出，直接对接 Isaac Sim 渲染管线。</p>
-</div>
+- Isaac Sim + Newton 仿真引擎联调，攻克布料动态仿真与机械臂刚体物理耦合难点
+- 3DGS 点云重建管线，支持 Isaac Sim 导入渲染
+- 融合 Genie Sim 框架，LLM+MCP 驱动资产构建与场景生成
+- ROS + Piper 真机数据采集，域随机化 + SoftMimicGen 合成数据生成
+- VLA 推理管线打通，Docker 工程化封装，支持分布式训练与规模化并行评估
 
-<div class="project-card">
-  <h3>Piper 机械臂控制</h3>
-  <p>通过 CAN 总线控制 AgileX Piper 6-DOF 机械臂，支持 MIT 阻抗控制，多传感器交叉验证。</p>
-</div>
+**技术栈**: `Newton` `Isaac Sim` `3DGS` `ROS2` `SoftMimicGen` `Docker`
 
-<div class="project-card">
-  <h3>VLA 研究综述</h3>
-  <p>系统性追踪 VLA 领域进展：60+ 论文 + 61 篇分析报告，覆盖 RT-2、OpenVLA、π₀、GR00T N1 等。</p>
-</div>
+→ [详细文章](/projects/embodied-ops/)
 
-<div class="project-card">
-  <h3>Orbbec 相机 ROS2 集成</h3>
-  <p>Orbbec DaBai DCW 深度相机通过 ROS2 接口获取彩色/深度图像并保存，支持 UVC 和 SDK 双路径。</p>
-</div>
+---
 
-</div>
+## 真实柔性物体 Real2Sim 物理仿真系统
+
+**杰克科技 / 艾图机器人** · 2026.03 ~ 至今
+
+从 0 到 1 搭建柔性面料 Real2Sim 高精度物理仿真与物理参数优化系统。
+
+- 搭建完整软硬件仿真实验台架：Piper 臂 + Orbbec 深度相机 + Newton VBD 求解器
+- 真机基本功：手眼标定、ROS 轨迹记录回放、相机时间戳对齐
+- 高精度点云处理链路：SAM3 自动分割 + 点云重建 + 离群点滤波
+- 设计 5 维复合 Loss 函数量化布料 3D 形态、2D 边界与轮廓的虚实偏差
+- Ray.Tune 并行搜参 + Optuna 贝叶斯框架调优 10+ 维核心物理参数
+- 较默认参数仿真虚实对齐精度提升 **~20%**
+
+**技术栈**: `Newton` `VBD` `ROS2` `SAM3` `Ray.Tune` `Optuna` `CMA-ES`
+
+→ [详细文章](/projects/real2sim/)
+
+---
+
+## 机器人仿真平台基建及具身操作策略强化学习训练
+
+**国电南瑞 / 国网瑞嘉** · 2025.05 ~ 2026.02
+
+搭建完整的具身操作仿真基础设施，实现数字孪生 → 策略训练 → 数据生成 → 评估验证的研发闭环。
+
+- Isaac Sim 搭建绝缘子抓放完整业务场景（UR5e + 2F-85 夹爪）
+- Isaac Lab + PPO 强化学习训练框架，抓取成功率 **93%**，放置成功率 **82%**
+- 域随机化方案生成 LeRobot 格式合成数据集（100+ 条轨迹）
+- 自学手搓柔性触觉传感器原型，探索视觉-触觉融合感知
+
+**技术栈**: `Isaac Sim` `Isaac Lab` `PPO` `LeRobot` `Ray Tune`
+
+→ [详细文章](/projects/embodied-ops/)
+
+---
+
+## 基于强化学习的汽车智能底盘制动控制系统 (ABS)
+
+**南栖仙策** · 2023.06 ~ 2024.06
+
+从 0 到 1 完成基于强化学习的 ABS 控制系统研发，构建数字孪生 → 策略训练 → 实车验证闭环。
+
+- Simulink + Amesim 搭建车辆动力学与液压制动数字孪生环境
+- 设计四轮独立增压/保压/减压的动作空间和强化学习奖励函数
+- 基于 GNN 构建"下一帧状态预测器"用于数据驱动仿真训练
+- 实车部署 VV5：城市中速制动距离减小 3%，车身偏转减小 **83.8%**
+
+**技术栈**: `Amesim` `Simulink` `PPO` `Offline RL` `GAIL` `GNN`
+
+→ [详细文章](/projects/abs/)
+
+---
+
+## 混动电控单元标定 · Offline RL 优化
+
+**南栖仙策** · 2021.06 ~ 2022.08
+
+以 WLTC 为目标工况，验证 Model-based Offline RL 在汽车混动标定问题上的有效性。
+
+- 构建 P1P3 串并联混动架构的环境动力学模型
+- 设计模式切换智能体，以电平衡下累计油耗最低为目标
+- 虚拟环境 + 实车验证：WLTC 工况油耗优化 **0.9%**
+
+**技术栈**: `Offline RL` `Model-based RL` `无梯度参数优化`
+
+→ [详细文章](/projects/geely-hybrid/)
+
+---
+
+## 模仿学习研究：应对专家样本不完美的模仿学习方法
+
+**网易伏羲 AI 实验室** · 2018.08 ~ 2019.03
+
+研究专家演示数据包含失败轨迹场景下的模仿学习问题，提出利用失败样本提升策略学习效果的增量式模仿学习方法。发表 **AAAI 2020** 论文。
+
+**技术栈**: `GAIL` `Imitation Learning` `MuJoCo`
+
+→ [论文](/publications/)
