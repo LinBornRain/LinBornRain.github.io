@@ -3,17 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About | 林嘉豪 · Jiahao Lin</title>
-  <meta name="description" content="具身智能与机器人学习研究者 | VLA · 仿真 · 3D 场景重建">
+  <title>林嘉豪 · Jiahao Lin</title>
+  <meta name="description" content="具身智能与机器人学习研究者 | 仿真数据飞轮 · Real2Sim2Real">
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="icon" type="image/png" href="/images/favicon-32x32.png">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
   <link rel="manifest" href="/images/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="stylesheet" href="/assets/css/hero.css">
-  <script defer src="/assets/js/hero.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 </head>
 <body>
+
+  <!-- Brush Mask SVG (hidden) -->
+  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
+    <defs>
+      <filter id="brushBlur"><feGaussianBlur stdDeviation="6"/></filter>
+      <mask id="heroBrushMask">
+        <rect width="100%" height="100%" fill="white"/>
+        <g filter="url(#brushBlur)"></g>
+      </mask>
+    </defs>
+  </svg>
+
   <header class="site-header">
     <div class="wrapper">
       <a class="site-title" href="/">林嘉豪 · Jiahao Lin</a>
@@ -28,110 +40,22 @@
       </nav>
     </div>
   </header>
-  <main><!-- MiMo-style Hero Section -->
 
-
-
-
-
-
-
-<div class="hero-section">
-  <div class="flip-container">
-    <div class="flip-inner" id="flipInner">
-
-      <!-- ===== FRONT ===== -->
-      <div class="flip-front">
-        <div class="hero-title" id="heroTitle">
-          <div class="hero-background">
-            <div class="text-pattern" id="textPattern"></div>
-          </div>
-          <h1 class="title-text">HELLO WORLD</h1>
-
-          <div class="alt-title-layer" id="altTitleLayer">
-            <div class="text-pattern-inverted" id="textPatternInverted"></div>
-            <h1 class="alt-title-text">你好，我是林嘉豪</h1>
-            <span class="alt-subtitle">About Me</span>
-          </div>
-
-          <div class="crack-zone" id="crackZone">
-            <span>了解更多</span>
-            <span class="arrow">↓</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== BACK ===== -->
-      <div class="flip-back">
-        <div class="back-content">
-          <div class="hero-content">
-            <div class="content-card">
-              <ul class="card-points">
-                <li>在模仿学习、强化学习领域有 <strong>8 年</strong>算法研发与工程经验，深耕机器人大脑等领域</li>
-                <li>具备仿真环境搭建、合成数据生成、算法迭代训练、真机部署落地<strong>端到端全栈</strong>研发能力</li>
-                <li>发表 AAAI、《计算机学报》等 <strong>CCF-A</strong> 类顶会顶刊论文，累计授权多项技术发明专利</li>
-                <li>日常研发深度结合 Claude Code、Hermes 等 AI 工具提效</li>
-                <li>长期聚焦于构建面向<strong>具身智能时代</strong>的基础设施建设及前沿算法落地工业场景</li>
-              </ul>
-            </div>
-          </div>
-          <div class="back-click-zone" id="backClickZone">
-            <span class="arrow">↑</span>
-            <span>返回</span>
-          </div>
-        </div>
-      </div>
-
+  <section class="hero" id="hero">
+    <!-- Brush reveal background -->
+    <div class="hero-reveal-bg"></div>
+    <!-- Brush mask overlay -->
+    <div class="hero-reveal-mask"></div>
+    <div class="hero-earth" id="heroEarth" aria-hidden="true"></div>
+    <div class="hero-content" data-cursor="hero">
+      <h1 class="hero-title">
+        <span>林</span><span>嘉</span><span>豪</span>
+      </h1>
+      <p class="hero-subtitle">具身智能与机器人学习研究者</p>
     </div>
-  </div>
-</div>
+  </section>
 
-<script>
-(function() {
-  var p = '林 嘉 豪';
-  var pe = 'LIN JIAHAO';
-
-  function gen(id, text, cls, rows, cols) {
-    var c = document.getElementById(id);
-    if (!c) return;
-    for (var i = 0; i < rows; i++) {
-      var row = document.createElement('div');
-      row.className = cls;
-      for (var j = 0; j < cols; j++) {
-        var s = document.createElement('span');
-        s.className = 'pattern-text';
-        s.textContent = text;
-        row.appendChild(s);
-      }
-      c.appendChild(row);
-    }
-  }
-
-  gen('textPattern', p, 'pattern-row', 12, 20);
-  gen('textPatternInverted', pe, 'pattern-row-inverted', 12, 20);
-
-  // Mouse tracking
-  var htEl = document.getElementById('heroTitle');
-  var al = document.getElementById('altTitleLayer');
-  if (htEl && al) {
-    htEl.addEventListener('mousemove', function(e) {
-      var r = htEl.getBoundingClientRect();
-      al.style.clipPath = 'circle(180px at ' + (e.clientX - r.left) + 'px ' + (e.clientY - r.top) + 'px)';
-    });
-    htEl.addEventListener('mouseleave', function() {
-      al.style.clipPath = 'circle(0px at -300px -300px)';
-    });
-  }
-
-  // Flip
-  var fi = document.getElementById('flipInner');
-  var cz = document.getElementById('crackZone');
-  var bcz = document.getElementById('backClickZone');
-  if (cz) cz.addEventListener('click', function() { fi.classList.add('flipped'); });
-  if (bcz) bcz.addEventListener('click', function() { fi.classList.remove('flipped'); });
-})();
-</script>
-
+  <main>
     <div class="page-content">
       <div class="wrapper">
 
@@ -146,45 +70,140 @@
             <p class="profile-affiliation">具身智能与机器人学习研究者</p>
             <p class="profile-bio">聚焦具身仿真数据飞轮、Real2Sim2Real、柔性物体仿真操作。从0到1搭建多个工业级仿真系统。</p>
             <div class="profile-links">
-              <a href="mailto:704858794@qq.com" class="profile-link">📧 Email</a>
-              <a href="https://github.com/LinBornRain" class="profile-link">💻 GitHub</a>
+              <a href="mailto:704858794@qq.com" class="profile-link">Email</a>
+              <a href="https://github.com/LinBornRain" class="profile-link">GitHub</a>
             </div>
           </div>
         </div>
+
         <hr class="section-divider">
-<h2>研究兴趣</h2>
+
+        <h2>个人简介</h2>
+        <ul class="bio-list">
+          <li data-num="1">在模仿学习、强化学习领域有 <strong>8 年</strong>算法研发与工程经验，深耕机器人大脑等领域</li>
+          <li data-num="2">具备仿真环境搭建、合成数据生成、算法迭代训练、真机部署落地<strong>端到端全栈</strong>研发能力</li>
+          <li data-num="3">发表 AAAI、《计算机学报》等 <strong>CCF-A</strong> 类顶会顶刊论文，累计授权多项技术发明专利</li>
+          <li data-num="4">日常研发深度结合 Claude Code、Hermes 等 AI 工具提效</li>
+          <li data-num="5">长期聚焦于构建面向<strong>具身智能时代</strong>的基础设施建设及前沿算法落地工业场景</li>
+        </ul>
+
+        <h2>研究兴趣</h2>
         <ul class="interest-list">
           <li><strong>具身仿真数据飞轮</strong> 真实采集 → 仿真重建 → 合成数据生成 → VLA 评估与训练闭环</li>
           <li><strong>Real2Sim2Real</strong> 高精度物理仿真参数优化，虚实对齐，Sim-to-Real 迁移部署</li>
           <li><strong>柔性物体仿真及操作</strong> 基于 Newton 引擎的布料仿真，机械臂柔性操作策略</li>
           <li><strong>强化学习 & 模仿学习</strong> PPO、Offline RL、GAIL 等算法在工业场景的工程化落地</li>
         </ul>
+
         <h2>教育背景</h2>
-        <p>🎓 <strong>苏州大学</strong> · 计算机科学与技术学院 · 管理科学与工程 硕士 · 2016–2019</p>
-        <p>🎓 <strong>华中师范大学</strong> · 信息管理学院 · 信息管理与信息系统 学士 · 2012–2016</p>
+        <ul class="interest-list">
+          <li><strong>苏州大学</strong> 计算机科学与技术学院 · 管理科学与工程 硕士 · 2016–2019</li>
+          <li><strong>华中师范大学</strong> 信息管理学院 · 信息管理与信息系统 学士 · 2012–2016</li>
+        </ul>
 
         <h2>技术能力</h2>
         <div class="skill-tags">
-<span class="skill-tag">Python</span>
-<span class="skill-tag">PyTorch</span>
-<span class="skill-tag">Isaac Sim</span>
-<span class="skill-tag">Newton</span>
-<span class="skill-tag">ROS2</span>
-<span class="skill-tag">Docker</span>
-<span class="skill-tag">Ray</span>
-<span class="skill-tag">3DGS</span>
-<span class="skill-tag">LeRobot</span>
-</div>
+          <span class="skill-tag">Python</span><span class="skill-tag">PyTorch</span>
+          <span class="skill-tag">Isaac Sim</span><span class="skill-tag">Newton</span>
+          <span class="skill-tag">ROS2</span><span class="skill-tag">Docker</span>
+          <span class="skill-tag">Ray</span><span class="skill-tag">3DGS</span>
+          <span class="skill-tag">LeRobot</span>
+        </div>
 
       </div>
     </div>
   </main>
+
   <footer class="site-footer">
     <div class="wrapper">
-      <div class="footer-col"><p>具身智能与机器人学习研究者 | VLA · 仿真 · 3D 场景重建</p></div>
+      <div class="footer-col"><p>具身智能与机器人学习研究者 | 仿真数据飞轮 · Real2Sim2Real</p></div>
       <div class="footer-col"><p>Contact: <a href="mailto:704858794@qq.com">704858794@qq.com</a></p></div>
       <div class="footer-col"><p>© 2026 林嘉豪</p></div>
     </div>
   </footer>
+
+  <script>
+  (function() {
+    // Custom cursor (always active)
+    var ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    var dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    document.body.appendChild(ring);
+    document.body.appendChild(dot);
+
+    var mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', function(e) {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
+    });
+    (function animate() {
+      rx += (mx - rx) * 0.15;
+      ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animate);
+    })();
+
+    var hero = document.getElementById('hero');
+    if (!hero) return;
+
+    // Lottie Earth animation
+    if (typeof lottie !== 'undefined') {
+      lottie.loadAnimation({
+        container: document.getElementById('heroEarth'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: '/assets/earth/data.json'
+      });
+    }
+
+    hero.addEventListener('mouseenter', function() {
+      ring.classList.add('cursor-hero');
+      dot.classList.add('cursor-hero');
+    });
+    hero.addEventListener('mouseleave', function() {
+      ring.classList.remove('cursor-hero');
+      dot.classList.remove('cursor-hero');
+    });
+
+    // Brush stamp trail
+    var maskGroup = document.querySelector('#heroBrushMask g');
+    if (maskGroup) {
+      var stamps = [];
+      for (var i = 0; i < 12; i++) {
+        var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', 0);
+        c.setAttribute('cy', 0);
+        c.setAttribute('r', 0);
+        c.setAttribute('fill', 'black');
+        c.setAttribute('class', 'brush-stamp');
+        maskGroup.appendChild(c);
+        stamps.push(c);
+      }
+      var si = 0;
+      hero.addEventListener('mousemove', function(e) {
+        var r = hero.getBoundingClientRect();
+        var s = stamps[si % 12];
+        s.setAttribute('cx', e.clientX - r.left);
+        s.setAttribute('cy', e.clientY - r.top);
+        s.setAttribute('r', 50 + Math.random() * 80);
+        s.style.opacity = '1';
+        si++;
+        (function(stamp) {
+          setTimeout(function() {
+            stamp.style.opacity = '0';
+            stamp.setAttribute('r', 0);
+          }, 600 + Math.random() * 300);
+        })(s);
+      });
+      hero.addEventListener('mouseleave', function() {
+        stamps.forEach(function(s) { s.setAttribute('r', 0); });
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
