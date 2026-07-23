@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>柔性物体操作仿真引擎及系统搭建 | 林嘉豪</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-ui: 'Source Sans 3', 'Noto Sans SC', -apple-system, sans-serif;
+  --font-body: 'Lora', 'Noto Serif SC', Georgia, serif;
+  --font-display: 'EB Garamond', 'Noto Serif SC', Georgia, serif;
+  --body-width: 54rem;
+  --section-space: clamp(2rem, 4vw, 3rem);
+  --bg: #fff; --bg2: #f7f8fa; --card: #f0f1f4;
+  --text: #111318; --text2: #4b4e57; --text3: #8b8e96;
+  --accent: #2d3a8c; --accent2: #5b6fc2;
+  --gradient: linear-gradient(135deg, #1e2756 0%, #2d3a8c 50%, #5b6fc2 100%);
+  --gradient-subtle: linear-gradient(135deg, rgba(45,58,140,0.05) 0%, rgba(91,111,194,0.05) 100%);
+  --border: rgba(0,0,0,0.08); --border-strong: rgba(0,0,0,0.14);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05); --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+  --radius-sm: 8px; --radius: 12px; --radius-lg: 16px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+
+/* Scroll Progress */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;background:var(--gradient);z-index:1001;transition:width .1s linear}
+
+/* Navbar */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:all .3s}
+.navbar.scrolled{background:rgba(255,255,255,.96);box-shadow:var(--shadow-sm)}
+.nav-container{max-width:1100px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:center;height:58px}
+.nav-links{display:flex;gap:.25rem;list-style:none;flex-wrap:wrap;justify-content:center}
+.nav-links a{display:inline-block;padding:.45rem .9rem;font-family:var(--font-ui);font-size:.84rem;font-weight:500;color:var(--text2);text-decoration:none;border-radius:var(--radius-sm);transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(0,0,0,.04)}
+.nav-demo-btn{background:var(--gradient)!important;color:#fff!important;font-weight:600!important;padding:.45rem 1.1rem!important}
+
+/* Hero */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:6rem 1.5rem 4rem;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 35%,rgba(91,111,194,.1) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 80% 70%,rgba(45,58,140,.06) 0%,transparent 50%)}
+.hero-content{position:relative;z-index:1;max-width:800px}
+.hero-badge{display:inline-block;padding:.3rem 1rem;font-family:var(--font-ui);font-size:.78rem;font-weight:600;color:var(--accent);border:1px solid rgba(91,111,194,.25);border-radius:100px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero h1{font-family:var(--font-display);font-size:clamp(3rem,7vw,4.5rem);font-weight:600;line-height:1.1;letter-spacing:-.02em;margin-bottom:.75rem}
+.hero .title-name{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero .title-desc{display:block;font-family:var(--font-body);font-size:clamp(1.1rem,2.2vw,1.4rem);font-weight:400;color:var(--text2);line-height:1.5;margin-top:.5rem;max-width:650px;margin-inline:auto}
+.hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem 2rem;margin-top:2rem;font-family:var(--font-ui);font-size:.88rem}
+.meta-item{display:flex;flex-direction:column;gap:.1rem}
+.meta-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3)}
+.meta-link{color:var(--text2)}
+
+/* Sections */
+.section{padding:var(--section-space) 1.5rem}
+.section-dark{background:var(--bg2)}
+.section-accent{background:var(--gradient-subtle)}
+.container{max-width:var(--body-width);margin:0 auto}
+.section-subtitle{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:600;line-height:1.2;margin-bottom:.75rem}
+.section-desc{color:var(--text2);font-size:1.05rem;line-height:1.85;margin-bottom:.75rem}
+.section-desc strong{color:var(--text);font-weight:600}
+
+/* Quote */
+.quote-block{border-left:3px solid var(--accent);padding:1.25rem 1.75rem;margin:1.25rem 0;background:var(--gradient-subtle);border-radius:0 var(--radius) var(--radius) 0}
+.quote-block p{font-family:var(--font-display);font-size:1.3rem;font-style:italic;color:var(--text);line-height:1.6}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:1.5rem 0}
+.stat-card{padding:1.5rem 1rem;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:all .25s}
+.stat-card:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.stat-num{font-family:var(--font-display);font-size:2.4rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+.stat-num.qual{font-size:1.4rem}
+.stat-label{font-family:var(--font-ui);font-size:.82rem;color:var(--text3);margin-top:.3rem}
+
+/* Cards */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin:1.5rem 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all .25s}
+.card:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.card-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--gradient-subtle);border-radius:var(--radius-sm);font-size:1.3rem;margin-bottom:1rem}
+.card h3{font-family:var(--font-ui);font-size:1.02rem;font-weight:600;margin-bottom:.5rem;color:var(--text)}
+.card p{font-size:.93rem;color:var(--text2);line-height:1.65}
+
+/* Architecture Diagram */
+.arch-diagram{background:var(--card);border:1px solid var(--border-strong);border-radius:var(--radius-lg);padding:2rem 1.5rem;margin:1.5rem 0;overflow-x:auto}
+.arch-row{display:flex;align-items:stretch;justify-content:center;gap:.75rem;flex-wrap:wrap}
+.arch-node{flex:1;min-width:140px;max-width:200px;padding:1.2rem 1rem;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);text-align:center;transition:all .25s;position:relative}
+.arch-node:hover{border-color:var(--accent2);box-shadow:var(--shadow-sm);transform:translateY(-2px)}
+.arch-node .arch-num{display:inline-block;width:26px;height:26px;line-height:26px;background:var(--gradient);color:#fff;border-radius:50%;font-family:var(--font-display);font-size:.85rem;font-weight:700;margin-bottom:.5rem}
+.arch-node h4{font-family:var(--font-ui);font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
+.arch-node .arch-detail{font-family:var(--font-ui);font-size:.76rem;color:var(--text3);line-height:1.6}
+.arch-arrow{display:flex;align-items:center;justify-content:center;color:var(--accent2);font-size:1.4rem;flex-shrink:0;min-width:30px}
+.arch-loop{margin-top:1.5rem;text-align:center;padding-top:1rem;border-top:1px dashed var(--border-strong)}
+.arch-loop .arch-arrow-loop{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-ui);font-size:.82rem;color:var(--accent2);font-weight:500}
+
+/* Comparison Table */
+.compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin:2rem 0}
+.compare-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all .25s}
+.compare-card.ours{border-color:var(--accent2);border-width:2px;background:var(--gradient-subtle)}
+.compare-card h4{font-family:var(--font-ui);font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
+.compare-card .check{color:var(--accent);font-weight:700}
+.compare-card .cross{color:var(--text3)}
+.compare-card ul{list-style:none;margin-top:.5rem}
+.compare-card li{font-size:.88rem;color:var(--text2);padding:.25rem 0;line-height:1.6}
+.compare-card li::before{content:'·';display:inline-block;margin-right:.5rem;color:var(--accent2)}
+
+/* Work Items */
+.work-item{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.work-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.work-item h3{font-family:var(--font-ui);font-size:1.2rem;font-weight:600;margin-bottom:1rem;color:var(--text);display:flex;align-items:center;gap:.6rem}
+.work-item h3 .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--gradient);color:#fff;border-radius:50%;font-family:var(--font-display);font-size:1rem;font-weight:700;flex-shrink:0}
+
+/* Video */
+.media-wide{margin:1.5rem 0}
+.media-wide video{width:100%;display:block;border-radius:var(--radius-lg);border:1px solid var(--border-strong);box-shadow:var(--shadow-md);background:#000}
+.media-label{text-align:center;font-family:var(--font-ui);font-size:.82rem;color:var(--text3);margin-top:.6rem}
+
+/* Highlight */
+.highlight-box{background:var(--card);border:1px solid var(--border-strong);border-radius:var(--radius);padding:1.5rem 2.2rem;margin:1.25rem 0}
+.highlight-box h3{font-family:var(--font-display);font-size:1.35rem;font-weight:600;margin-bottom:1.2rem}
+.highlight-box ul{list-style:none}
+.highlight-box li{font-family:var(--font-body);font-size:1rem;color:var(--text2);padding:.4rem 0;line-height:1.75}
+.highlight-box li::before{content:'✓';display:inline-block;margin-right:.7rem;color:var(--accent);font-weight:700}
+
+/* Step List */
+.step-list{margin:1rem 0}
+.step-list .section-desc{margin-bottom:.6rem;padding-left:.25rem}
+
+/* Tags */
+.tech-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.tech-tag{padding:.35rem 1.1rem;font-family:var(--font-ui);font-size:.8rem;font-weight:500;background:var(--card);color:var(--text2);border-radius:100px;transition:all .2s}
+.tech-tag:hover{background:var(--accent);color:#fff}
+
+/* Refs */
+.ref-list{list-style:none;padding:0}
+.ref-list li{font-size:.93rem;color:var(--text2);padding:.4rem 0;line-height:1.65;padding-left:1.75rem;text-indent:-1.75rem}
+.ref-list li a{color:var(--accent);text-decoration:none}
+.ref-list li a:hover{text-decoration:underline}
+
+/* Footer */
+.site-footer{border-top:1px solid var(--border);padding:2.5rem 1.5rem;text-align:center;color:var(--text3);font-family:var(--font-ui);font-size:.85rem}
+.site-footer a{color:var(--accent);text-decoration:none}
+.site-footer a:hover{text-decoration:underline}
+
+/* Animations */
+.fade-in{opacity:0;transform:translateY(24px);animation:fadeIn .8s ease forwards}
+@keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:768px){
+  .hero{min-height:60vh;padding:5rem 1.25rem 2rem}
+  .hero h1{font-size:2rem}
+  .cards-grid,.stats-row,.compare-grid{grid-template-columns:1fr}
+  .work-item h3{font-size:1.05rem}
+  .arch-node{min-width:120px;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <ul class="nav-links">
+      <li><a class="nav-demo-btn" href="#demo">演示</a></li>
+      <li><a href="#overview">概述</a></li>
+      <li><a href="#pipeline">全链路</a></li>
+      <li><a href="#architecture">架构</a></li>
+      <li><a href="#details">主要工作</a></li>
+      <li><a href="#achievement">成果</a></li>
+      <li><a href="#lessons">经验</a></li>
+      <li><a href="#stack">技术栈</a></li>
+      <li><a href="#references">引用</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content fade-in">
+    <span class="hero-badge">Simulation Infrastructure · 2026</span>
+    <h1>
+      <span class="title-name">高保真仿真引擎</span>
+      <span class="title-desc">柔性物体（面料）操作场景的仿真引擎及系统搭建</span>
+    </h1>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">项目负责人</span><span class="meta-link">林嘉豪</span></div>
+      <div class="meta-item"><span class="meta-label">时间</span><span class="meta-link">2026.03 ~ 至今</span></div>
+      <div class="meta-item"><span class="meta-label">仿真引擎</span><span class="meta-link">IsaacSim + Newton</span></div>
+      <div class="meta-item"><span class="meta-label">场景重建</span><span class="meta-link">3DGS 高斯点云</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Hero Demo -->
+<div id="demo" style="max-width:900px;margin:-1rem auto 1.5rem;padding:0 1.5rem">
+  <video src="assets/isaacsim-newton.mp4" controls muted loop playsinline preload="metadata"
+         style="width:100%;border-radius:var(--radius-lg);border:1px solid var(--border-strong);box-shadow:var(--shadow-md);background:#000;display:block"></video>
+  <p style="text-align:center;font-family:var(--font-ui);font-size:.82rem;color:var(--text3);margin-top:.6rem">双引擎融合演示</p>
+</div>
+
+<!-- Overview -->
+<section id="overview" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Overview</span>
+    <h2 class="section-title">项目概述</h2>
+    <div class="quote-block">
+      <p>"从真实世界到仿真世界，再从仿真世界回到真实世界——构建面向具身智能时代的数据飞轮基础设施。"</p>
+    </div>
+    <p class="section-desc">主导建设<strong>柔性物体操作数据飞轮基础设施</strong>，实现真实采集、仿真重建、合成数据生成、VLA 评估与训练全链路闭环。为具身柔性操作 VLA 等算法迭代与真机部署提供<strong>高保真、可交互、标准化</strong>仿真系统底座。</p>
+    <p class="section-desc">与刚体操作不同，柔性物体（布料、衣物）具有<strong>无限自由度、自遮挡和非线性形变</strong>特性。传统仿真框架在"高保真渲染"与"高精度布料物理"之间难以兼得——基于刚体假设的物理引擎无法模拟布料的弯曲、拉伸与褶皱；而专用布料求解器往往缺乏生产级渲染和机器人接口。本项目旨在填补这一空白。</p>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">核心模块</div></div>
+      <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">仿真引擎</div></div>
+      <div class="stat-card"><div class="stat-num">9</div><div class="stat-label">操作原语</div></div>
+      <div class="stat-card"><div class="stat-num">7</div><div class="stat-label">评测谓词</div></div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:0">
+      <h3>个人贡献</h3>
+      <ul>
+        <li>独立完成 IsaacSim + Newton 双引擎联调、CUDA Graph Capture 性能优化、KinematicPinningSystem 设计与实现</li>
+        <li>主导 3DGS → IsaacSim 导入管线——PLY→USD 转换、碰撞体挂载、坐标对齐全流程</li>
+        <li>负责 Genie Sim 框架适配——布料任务设计、评测基准构建、3 种 Env 开发</li>
+        <li>搭建遥操作数据采集管线、SoftMimicGen 合成数据生成流水线</li>
+        <li>协调对接第三方 3DGS 软硬件资源，完成实验室室内场景的扫描与重建</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Pipeline -->
+<section id="pipeline" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Pipeline</span>
+    <h2 class="section-title">全链路数据飞轮</h2>
+    <p class="section-desc">构建"实景采集 → 仿真重建 → 合成数据生成 → 算法训练 → 规模化评估"完整闭环。</p>
+    <div class="cards-grid">
+      <div class="card"><div class="card-icon">📹</div><h3>① 实景采集</h3><p>Piper 真机 + ROS2 + Orbbec 深度相机，多视角记录布料操作轨迹与点云数据。</p></div>
+      <div class="card"><div class="card-icon">🔮</div><h3>② 仿真重建</h3><p>3DGS 高斯点云训练 → IsaacSim 导入渲染 + 碰撞体，构建高保真数字孪生场景。</p></div>
+      <div class="card"><div class="card-icon">🎲</div><h3>③ 合成数据生成</h3><p>域随机化 + SoftMimicGen 自动生成多样化操作轨迹，批量产出训练数据。</p></div>
+      <div class="card"><div class="card-icon">🧠</div><h3>④ 算法训练与评估</h3><p>VLA 推理管线 + RLinf 强化学习，Docker 封装支持分布式训练与并行评估。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture Diagram -->
+<section id="architecture" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Architecture</span>
+    <h2 class="section-title">系统架构</h2>
+    <div class="arch-diagram">
+      <div class="arch-row">
+        <div class="arch-node">
+          <div class="arch-num">①</div>
+          <h4>实景采集</h4>
+          <div class="arch-detail">Piper 真机<br>ROS2 控制<br>Orbbec 深度相机</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-num">②</div>
+          <h4>仿真重建</h4>
+          <div class="arch-detail">3DGS 高斯点云训练<br>PLY → USD 转换<br>碰撞体挂载与对齐</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-num">③</div>
+          <h4>合成数据生成</h4>
+          <div class="arch-detail">域随机化<br>SoftMimicGen<br>批量轨迹生成</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-num">④</div>
+          <h4>算法训练与评估</h4>
+          <div class="arch-detail">VLA 推理管线<br>RLinf 强化学习<br>Docker 分布式训练</div>
+        </div>
+      </div>
+      <div class="arch-loop">
+        <div class="arch-arrow-loop">
+          <span>←</span> 真机部署验证 → 数据回流 → 下一轮迭代 <span>←</span>
+        </div>
+      </div>
+      <div class="tech-tags" style="justify-content:center;margin-top:1.25rem">
+        <span class="tech-tag">IsaacSim</span>
+        <span class="tech-tag">Newton (VBD)</span>
+        <span class="tech-tag">3DGS</span>
+        <span class="tech-tag">Genie Sim</span>
+        <span class="tech-tag">ROS2</span>
+        <span class="tech-tag">Docker</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Details -->
+<section id="details" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Implementation</span>
+    <h2 class="section-title">主要工作</h2>
+
+    <div class="work-item">
+      <h3><span class="num">1</span> IsaacSim + Newton 双仿真引擎融合</h3>
+      <p class="section-desc">联调 IsaacSim + Newton 仿真引擎，攻克 IsaacSim 渲染 Newton 解算<strong>柔性面料动态仿真</strong>及与<strong>机械臂刚体物理耦合</strong>的难点。</p>
+      <p class="section-desc">在双引擎协同架构下，Newton 的物理解算通过 <strong>NVIDIA Warp</strong> 交由 GPU CUDA 完成，同时利用 <strong>Graph Capture</strong> 机制积极维护布料粒子的计算图与 IsaacSim 渲染管线，将 GPU 资源竞争降至最低。实测双引擎仿真帧率与纯 Newton 引擎基本持平——消费级 <strong>RTX 4060Ti</strong> 环境下稳定达到 <strong>~35 FPS</strong>，<strong>RTX 5090</strong> 环境下可达 <strong>~50 FPS</strong>。其中 <strong>CUDA Graph Capture</strong> 是性能突破的关键——通过将布料仿真计算图一次性捕获并复用，消除了逐帧 GPU 内核启动开销，使布料解算从 <strong>7 FPS 跃升至 34 FPS（约 5× 加速）</strong>。</p>
+      <p class="section-desc">此外，Newton 中刚体与柔性体的抓取物理耦合过程存在<strong>接触隧穿</strong>（Contact Tunneling）现象，导致抓取不稳定。为此，我们设计了 <strong>KinematicPinningSystem</strong>：将指定粒子运动学约束至目标位置，彻底消除隧穿问题。并且 KinematicPinningSystem 是<strong>全 GPU 实现、零 CPU 回读、CUDA Graph 安全</strong>。我们根本性地解决了抓取物理耦合的"接触隧穿"问题，这对遥操作的"跟手"体验尤为关键，并且保障了仿真帧率与仿真及遥操作实时性要求。</p>
+      <div class="media-wide"><video src="assets/teleop-collection.mp4" controls preload="metadata"></video></div>
+      <p class="media-label">真机遥操作采集</p>
+    </div>
+
+    <div class="work-item">
+      <h3><span class="num">2</span> 3DGS 室内场景重建与仿真导入</h3>
+      <p class="section-desc">协调对接第三方 3DGS 软硬件资源，针对室内场景进行<strong>点云采集、3DGS 训练</strong>。实现在 IsaacSim 导入<strong>同构高斯点云和碰撞体</strong>，构建高保真数字孪生场景。</p>
+      <p class="section-desc">完整重建管线分为四个阶段：</p>
+      <p class="section-desc"><strong>① 采集：</strong>使用高斯点云扫描仪对实验室室内环境进行全方位扫描，获取原始点云数据。</p>
+      <p class="section-desc"><strong>② 训练：</strong>将原始数据提交至第三方免费闭源训练平台，完成 3DGS 重建，同步导出<strong>高斯 PLY</strong>（视觉渲染）与<strong>碰撞体 PLY</strong>（物理碰撞）。</p>
+      <p class="section-desc"><strong>③ 转换：</strong>高斯 PLY 无损转为 <strong>USD</strong>，在 IsaacSim 中实现原生高斯渲染；碰撞体 PLY 经 <strong>PLY Mesh → USD Mesh</strong> 转换并挂载 <strong>PhysicsCollisionAPI</strong>，赋予物理碰撞能力。</p>
+      <p class="section-desc"><strong>④ 导入：</strong>两者坐标系统一，导入 IsaacSim 后高斯点云与 USD Mesh 天然保持<strong>同构</strong>——坐标系与缩放精确匹配，已对齐且校准。</p>
+      <div class="media-wide"><video src="assets/3dgs-render.mp4" controls preload="metadata"></video></div>
+      <p class="media-label">3DGS 室内场景重建</p>
+    </div>
+
+    <div class="work-item">
+      <h3><span class="num">3</span> Genie Sim 框架融合</h3>
+      <p class="section-desc">融合智元开源 <strong>Genie Sim</strong> 仿真框架，利用 <strong>LLM 和 MCP</strong> 驱动柔性物体、本体、背景等资产构建仿真场景、指令及评估标准，实现仿真场景的<strong>智能化自动构建</strong>。例如：输入"抓取红布对折"→ Genie Sim 自动生成布料资产、机械臂路径与覆盖率评测标准，无需手工编排。</p>
+      <div class="step-list">
+        <p class="section-desc"><strong>① 布料任务：</strong>参考 SoftGym 设计 5 个典型布料操作任务。</p>
+        <p class="section-desc"><strong>② 评测基准：</strong>新增 4 个 Benchmark YAML 与 Eval Task JSON。</p>
+        <p class="section-desc"><strong>③ 操作原语：</strong>覆盖 9 种操作原语（抓取 · 展开 · 对折 · 抖平 · 挂衣架 · 收纳 · 展平 · 被动释放 · 等待）。</p>
+        <p class="section-desc"><strong>④ 评测谓词：</strong>定义 7 个 ADER Cloth 评测谓词（覆盖率 · 折叠检测 · 沉降 · 抬起 · 挂置 · 装箱 · 粒子距离）。</p>
+        <p class="section-desc"><strong>⑤ 环境适配：</strong>构建 3 种 Env——GarmentReplayEnv（轨迹回放）、GarmentDemoEnv（脚本演示）、GarmentPiEnv（VLA 推理），完整覆盖回放验证、脚本编排与算法推理场景。</p>
+      </div>
+    </div>
+
+    <div class="work-item">
+      <h3><span class="num">4</span> 遥操作数据采集与合成数据生成</h3>
+      <p class="section-desc">通过松灵 <strong>Piper</strong> 真机和 ROS 实现仿真数据采集，基于 IsaacSim 域随机化、<strong>SoftMimicGen</strong> 等插件实现仿真合成数据生成。</p>
+      <div class="media-wide"><video src="assets/teleop-pipeline.mp4" controls preload="metadata"></video></div>
+      <p class="media-label">"先演后录"两阶段采集管线</p>
+      <div class="media-wide"><video src="assets/vla-inference.mp4" controls preload="metadata"></video></div>
+      <p class="media-label">VLA 推理管线</p>
+    </div>
+
+    <div class="work-item">
+      <h3><span class="num">5</span> VLA 推理管线与工程化部署</h3>
+      <p class="section-desc">打通 <strong>VLA 推理管线</strong>，适配 RLinf 强化学习等多类算法交互。支持工程化 <strong>Docker</strong> 封装，满足分布式训练及规模化并行评估。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Achievement -->
+<section id="achievement" class="section section-accent">
+  <div class="container fade-in">
+    <span class="section-subtitle">Achievement</span>
+    <h2 class="section-title">项目成果</h2>
+
+    <div class="highlight-box">
+      <h3>性能指标</h3>
+      <ul>
+        <li>双引擎仿真帧率 <strong>RTX 4060Ti ~35 FPS</strong>，RTX 5090 ~50 FPS，与纯 Newton 引擎基本持平</li>
+        <li>CUDA Graph Capture 使布料解算从 <strong>7 FPS → 34 FPS（约 5× 加速）</strong></li>
+        <li>KinematicPinningSystem 全 GPU 实现，<strong>零 CPU 回读</strong>，彻底消除接触隧穿</li>
+      </ul>
+    </div>
+
+    <div class="highlight-box">
+      <h3>工程落地</h3>
+      <ul>
+        <li>推动工程化落地<strong>企业级首套</strong>柔性物体操作的仿真引擎与完整系统</li>
+        <li>覆盖 <strong>5 个布料操作任务</strong>、<strong>9 种操作原语</strong>、<strong>7 个评测谓词</strong>的标准化评测体系</li>
+        <li>构建 3 种仿真环境（Replay / Demo / VLA 推理），覆盖回放验证到算法推理全场景</li>
+      </ul>
+    </div>
+
+    <div class="highlight-box">
+      <h3>能力沉淀</h3>
+      <ul>
+        <li>3DGS → USD 转换管线，实现高斯点云与物理碰撞体<strong>同构导入</strong></li>
+        <li>遥操作"先演后录"数据采集管线 + SoftMimicGen 自动化合成数据生成</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Lessons Learned -->
+<section id="lessons" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Reflections</span>
+    <h2 class="section-title">踩坑与经验</h2>
+
+    <div class="highlight-box">
+      <h3>关键经验</h3>
+      <ul>
+        <li><strong>CUDA Graph Capture 是最大性能杠杆：</strong>IsaacSim 官方建议"避免 Graph Capture"，但针对布料仿真这种每帧计算模式高度重复的场景，Graph Capture 是正确决策——它带来的加速是"从不可用到可用"的质变，而非渐进优化。技术决策需要在"通用建议"和"场景特殊性"之间做判断。</li>
+        <li><strong>接触隧穿需要根本性方案而非参数调优：</strong>Newton 默认的罚函数接触模型在抓取场景下存在本质缺陷——简单调整接触刚度、阻尼和时间步长无法根除隧穿。KinematicPinningSystem 从约束层面重新定义抓取语义，是"换个问题"而非"调参数"的思路。</li>
+        <li><strong>双引擎 GPU 资源调度需要精细管理：</strong>IsaacSim 渲染和 Newton Warp 解算共享同一 GPU，若无显式同步，渲染管线可能抢占解算所需的 CUDA 核心。利用 IsaacSim 的渲染帧回调机制插入 Warp 同步点，确保解算完成后再提交渲染命令。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Future Work -->
+<section id="future" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">Roadmap</span>
+    <h2 class="section-title">未来工作</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🧵</div>
+        <h3>多材质布料支持</h3>
+        <p>扩展 Newton VBD 求解器参数空间，支持棉、丝、涤纶等不同材质面料的差异化物理特性（弯曲刚度、拉伸刚度、摩擦系数）。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h3>Sim-to-Real 迁移验证</h3>
+        <p>将仿真训练的 VLA 策略直接部署到 Piper 真机，量化 sim-to-real gap，建立从仿真到真机的迁移方法论。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>规模化数据飞轮</h3>
+        <p>在仿真中自动生成 10K+ 操作轨迹，训练端到端布料操作策略，并通过真机反馈持续迭代优化仿真保真度。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tech Stack -->
+<section id="stack" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Foundation</span>
+    <h2 class="section-title">技术栈</h2>
+    <p class="section-desc">仿真引擎、视觉重建、数据生成与工程化部署的核心技术组件。</p>
+    <div class="cards-grid">
+      <div class="card"><div class="card-icon">⚙️</div><h3>Newton</h3><p>核心物理仿真引擎，内置 VBD 柔性布料求解器，模拟布料弯曲、拉伸及褶皱特性。</p></div>
+      <div class="card"><div class="card-icon">🎮</div><h3>IsaacSim</h3><p>NVIDIA 机器人仿真平台，提供高保真渲染、物理模拟与域随机化能力。</p></div>
+      <div class="card"><div class="card-icon">🔮</div><h3>3DGS</h3><p>3D Gaussian Splatting 场景重建，从真实 RGB-D 数据生成高质量高斯点云。</p></div>
+      <div class="card"><div class="card-icon">🤖</div><h3>ROS2</h3><p>机器人操作系统，实现机械臂控制、数据采集与设备间通信。</p></div>
+      <div class="card"><div class="card-icon">🧬</div><h3>Genie Sim</h3><p>智元开源仿真框架，LLM + MCP 驱动场景资产自动构建与任务生成。</p></div>
+      <div class="card"><div class="card-icon">🐳</div><h3>Docker</h3><p>容器化工程部署，支持分布式训练、规模化并行评估与一键复现。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- References -->
+<section id="references" class="section">
+  <div class="container fade-in">
+    <span class="section-subtitle">References</span>
+    <h2 class="section-title">引用</h2>
+    <ul class="ref-list">
+      <li>[1] 智元机器人. <strong>Genie Sim</strong> — 仿真场景自动构建框架. <a href="https://github.com/AgibotTech/genie_sim" target="_blank" rel="noopener">github.com/AgibotTech/genie_sim</a></li>
+      <li>[2] Lin et al. <strong>SoftGym</strong> — Benchmarking Deep Reinforcement Learning for Deformable Object Manipulation (CoRL 2020). <a href="https://github.com/Xingyu-Lin/softgym" target="_blank" rel="noopener">github.com/Xingyu-Lin/softgym</a></li>
+      <li>[3] Ajay et al. <strong>SoftMimicGen</strong> — Automated Data Generation for Imitation Learning of Deformable Object Manipulation (arXiv 2023). <a href="https://arxiv.org/abs/2310.01931" target="_blank" rel="noopener">arxiv.org/abs/2310.01931</a></li>
+    </ul>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2026 林嘉豪 · <a href="/projects/">返回项目列表</a> · <a href="/">返回主页</a></p>
+</footer>
+
+<script>
+(function(){
+  var st=0,progress=document.getElementById('scrollProgress'),navbar=document.getElementById('navbar');
+  window.addEventListener('scroll',function(){
+    st=document.documentElement.scrollTop||document.body.scrollTop;
+    var sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+    progress.style.width=(st/sh*100)+'%';
+    navbar.classList.toggle('scrolled',st>10);
+  });
+  var sections=document.querySelectorAll('.section[id]'),links=document.querySelectorAll('.nav-links a[href^="#"]');
+  window.addEventListener('scroll',function(){
+    var cur='';
+    sections.forEach(function(s){if(st>=s.offsetTop-120)cur=s.getAttribute('id')});
+    links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+cur)});
+  });
+  var observer=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.style.animationPlayState='running'})},{threshold:.1});
+  document.querySelectorAll('.fade-in').forEach(function(el){observer.observe(el)});
+})();
+</script>
+</body>
+</html>

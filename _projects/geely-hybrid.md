@@ -8,9 +8,15 @@ description: "基于离线强化学习的智能混动模式切换策略优化"
 
 **南栖仙策** · 2021.06 ~ 2022.08
 
+![混动电控单元 Offline RL 标定系统架构](/assets/projects/geely-hybrid/assets/cover.png)
+*混动电控单元 Offline RL 标定系统架构*
+
 ## 项目概述
 
 以 WLTC 为目标工况，以控制混动模式切换和发动机输出功率为手段，以保证电平衡下累计油耗最低为目标，验证 Model-based Offline RL 技术在汽车混动标定问题上的有效性。
+
+![混动电控单元 Offline RL 标定系统架构](/assets/projects/geely-hybrid/assets/cover.png)
+*混动电控单元 Offline RL 标定系统架构*
 
 ## 技术栈
 
