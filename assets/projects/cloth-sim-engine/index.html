@@ -72,7 +72,6 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
 .stat-card{padding:1.5rem 1rem;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:all .25s}
 .stat-card:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 .stat-num{font-family:var(--font-display);font-size:2.4rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
-.stat-num.qual{font-size:1.4rem}
 .stat-label{font-family:var(--font-ui);font-size:.82rem;color:var(--text3);margin-top:.3rem}
 
 /* Cards */
@@ -94,17 +93,6 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
 .arch-arrow{display:flex;align-items:center;justify-content:center;color:var(--accent2);font-size:1.4rem;flex-shrink:0;min-width:30px}
 .arch-loop{margin-top:1.5rem;text-align:center;padding-top:1rem;border-top:1px dashed var(--border-strong)}
 .arch-loop .arch-arrow-loop{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-ui);font-size:.82rem;color:var(--accent2);font-weight:500}
-
-/* Comparison Table */
-.compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin:2rem 0}
-.compare-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all .25s}
-.compare-card.ours{border-color:var(--accent2);border-width:2px;background:var(--gradient-subtle)}
-.compare-card h4{font-family:var(--font-ui);font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
-.compare-card .check{color:var(--accent);font-weight:700}
-.compare-card .cross{color:var(--text3)}
-.compare-card ul{list-style:none;margin-top:.5rem}
-.compare-card li{font-size:.88rem;color:var(--text2);padding:.25rem 0;line-height:1.6}
-.compare-card li::before{content:'·';display:inline-block;margin-right:.5rem;color:var(--accent2)}
 
 /* Work Items */
 .work-item{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
@@ -151,7 +139,7 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
 @media(max-width:768px){
   .hero{min-height:60vh;padding:5rem 1.25rem 2rem}
   .hero h1{font-size:2rem}
-  .cards-grid,.stats-row,.compare-grid{grid-template-columns:1fr}
+  .cards-grid,.stats-row{grid-template-columns:1fr}
   .work-item h3{font-size:1.05rem}
   .arch-node{min-width:120px;max-width:none}
 }
@@ -199,7 +187,7 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
 <div id="demo" style="max-width:900px;margin:-1rem auto 1.5rem;padding:0 1.5rem">
   <video src="assets/isaacsim-newton.mp4" controls muted loop playsinline preload="metadata"
          style="width:100%;border-radius:var(--radius-lg);border:1px solid var(--border-strong);box-shadow:var(--shadow-md);background:#000;display:block"></video>
-  <p style="text-align:center;font-family:var(--font-ui);font-size:.82rem;color:var(--text3);margin-top:.6rem">双引擎融合演示</p>
+  <p style="text-align:center;font-family:var(--font-ui);font-size:.82rem;color:var(--text3);margin-top:.6rem">双引擎布料仿真 — 柔性面料与机械臂耦合</p>
 </div>
 
 <!-- Overview -->
@@ -213,10 +201,10 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
     <p class="section-desc">主导建设<strong>柔性物体操作数据飞轮基础设施</strong>，实现真实采集、仿真重建、合成数据生成、VLA 评估与训练全链路闭环。为具身柔性操作 VLA 等算法迭代与真机部署提供<strong>高保真、可交互、标准化</strong>仿真系统底座。</p>
     <p class="section-desc">与刚体操作不同，柔性物体（布料、衣物）具有<strong>无限自由度、自遮挡和非线性形变</strong>特性。传统仿真框架在"高保真渲染"与"高精度布料物理"之间难以兼得——基于刚体假设的物理引擎无法模拟布料的弯曲、拉伸与褶皱；而专用布料求解器往往缺乏生产级渲染和机器人接口。本项目旨在填补这一空白。</p>
     <div class="stats-row">
-      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">核心模块</div></div>
-      <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">仿真引擎</div></div>
-      <div class="stat-card"><div class="stat-num">9</div><div class="stat-label">操作原语</div></div>
-      <div class="stat-card"><div class="stat-num">7</div><div class="stat-label">评测谓词</div></div>
+      <div class="stat-card"><div class="stat-num">实时</div><div class="stat-label">遥操作交互体验</div></div>
+      <div class="stat-card"><div class="stat-num">1→N</div><div class="stat-label">演示 → 合成轨迹增广</div></div>
+      <div class="stat-card"><div class="stat-num">~35FPS</div><div class="stat-label">双引擎布料仿真（4060Ti）</div></div>
+      <div class="stat-card"><div class="stat-num">企业级</div><div class="stat-label">首套落地</div></div>
     </div>
 
     <div class="highlight-box" style="margin-top:0">
@@ -225,7 +213,9 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
         <li>独立完成 IsaacSim + Newton 双引擎联调、CUDA Graph Capture 性能优化、KinematicPinningSystem 设计与实现</li>
         <li>主导 3DGS → IsaacSim 导入管线——PLY→USD 转换、碰撞体挂载、坐标对齐全流程</li>
         <li>负责 Genie Sim 框架适配——布料任务设计、评测基准构建、3 种 Env 开发</li>
-        <li>搭建遥操作数据采集管线、SoftMimicGen 合成数据生成流水线</li>
+        <li>设计并实现"先演后采"两阶段遥操作数据采集管线，保障遥操作实时交互与确定性回放</li>
+        <li>集成 SoftMimicGen 仿真合成数据生成——单臂/双臂布料泛化轨迹自动增广</li>
+        <li>搭建 LingBot-VLA 2.0 后训练及 subtask 分层推理闭环</li>
         <li>协调对接第三方 3DGS 软硬件资源，完成实验室室内场景的扫描与重建</li>
       </ul>
     </div>
@@ -237,12 +227,12 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
   <div class="container fade-in">
     <span class="section-subtitle">Pipeline</span>
     <h2 class="section-title">全链路数据飞轮</h2>
-    <p class="section-desc">构建"实景采集 → 仿真重建 → 合成数据生成 → 算法训练 → 规模化评估"完整闭环。</p>
+    <p class="section-desc">构建"实景采集 → 仿真重建 → 遥操作录制 → 合成数据增广 → VLA 后训练与推理"完整闭环。</p>
     <div class="cards-grid">
       <div class="card"><div class="card-icon">📹</div><h3>① 实景采集</h3><p>Piper 真机 + ROS2 + Orbbec 深度相机，多视角记录布料操作轨迹与点云数据。</p></div>
       <div class="card"><div class="card-icon">🔮</div><h3>② 仿真重建</h3><p>3DGS 高斯点云训练 → IsaacSim 导入渲染 + 碰撞体，构建高保真数字孪生场景。</p></div>
-      <div class="card"><div class="card-icon">🎲</div><h3>③ 合成数据生成</h3><p>域随机化 + SoftMimicGen 自动生成多样化操作轨迹，批量产出训练数据。</p></div>
-      <div class="card"><div class="card-icon">🧠</div><h3>④ 算法训练与评估</h3><p>VLA 推理管线 + RLinf 强化学习，Docker 封装支持分布式训练与并行评估。</p></div>
+      <div class="card"><div class="card-icon">🎲</div><h3>③ 遥操作采集</h3><p>"先演后采"两阶段管线——实时录制 + 确定性回放多路相机数据。</p></div>
+      <div class="card"><div class="card-icon">🧠</div><h3>④ 合成数据与训练</h3><p>SoftMimicGen 自动增广 + LingBot-VLA 后训练及分层推理闭环。</p></div>
     </div>
   </div>
 </section>
@@ -268,14 +258,14 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
         <div class="arch-arrow">→</div>
         <div class="arch-node">
           <div class="arch-num">③</div>
-          <h4>合成数据生成</h4>
-          <div class="arch-detail">域随机化<br>SoftMimicGen<br>批量轨迹生成</div>
+          <h4>遥操作采集</h4>
+          <div class="arch-detail">"先演后采"两阶段<br>实时录制<br>确定性回放</div>
         </div>
         <div class="arch-arrow">→</div>
         <div class="arch-node">
           <div class="arch-num">④</div>
-          <h4>算法训练与评估</h4>
-          <div class="arch-detail">VLA 推理管线<br>RLinf 强化学习<br>Docker 分布式训练</div>
+          <h4>合成数据与训练</h4>
+          <div class="arch-detail">SoftMimicGen 增广<br>LingBot-VLA 后训练<br>分层推理闭环</div>
         </div>
       </div>
       <div class="arch-loop">
@@ -288,6 +278,8 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
         <span class="tech-tag">Newton (VBD)</span>
         <span class="tech-tag">3DGS</span>
         <span class="tech-tag">Genie Sim</span>
+        <span class="tech-tag">SoftMimicGen</span>
+        <span class="tech-tag">LingBot-VLA 2.0</span>
         <span class="tech-tag">ROS2</span>
         <span class="tech-tag">Docker</span>
       </div>
@@ -312,12 +304,8 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
 
     <div class="work-item">
       <h3><span class="num">2</span> 3DGS 室内场景重建与仿真导入</h3>
-      <p class="section-desc">协调对接第三方 3DGS 软硬件资源，针对室内场景进行<strong>点云采集、3DGS 训练</strong>。实现在 IsaacSim 导入<strong>同构高斯点云和碰撞体</strong>，构建高保真数字孪生场景。</p>
-      <p class="section-desc">完整重建管线分为四个阶段：</p>
-      <p class="section-desc"><strong>① 采集：</strong>使用高斯点云扫描仪对实验室室内环境进行全方位扫描，获取原始点云数据。</p>
-      <p class="section-desc"><strong>② 训练：</strong>将原始数据提交至第三方免费闭源训练平台，完成 3DGS 重建，同步导出<strong>高斯 PLY</strong>（视觉渲染）与<strong>碰撞体 PLY</strong>（物理碰撞）。</p>
-      <p class="section-desc"><strong>③ 转换：</strong>高斯 PLY 无损转为 <strong>USD</strong>，在 IsaacSim 中实现原生高斯渲染；碰撞体 PLY 经 <strong>PLY Mesh → USD Mesh</strong> 转换并挂载 <strong>PhysicsCollisionAPI</strong>，赋予物理碰撞能力。</p>
-      <p class="section-desc"><strong>④ 导入：</strong>两者坐标系统一，导入 IsaacSim 后高斯点云与 USD Mesh 天然保持<strong>同构</strong>——坐标系与缩放精确匹配，已对齐且校准。</p>
+      <p class="section-desc">协调对接第三方 3DGS 软硬件资源，针对实验室室内环境完成<strong>点云采集与 3DGS 重建</strong>，同步导出高斯 PLY（视觉渲染）与碰撞体 PLY（物理碰撞）。</p>
+      <p class="section-desc">主导导入管线：高斯 PLY 无损转为 USD 实现原生高斯渲染，碰撞体 PLY 挂载 PhysicsCollisionAPI 赋予物理碰撞能力——两者坐标系与缩放精确匹配，在 IsaacSim 中构建<strong>视觉与物理天然同构</strong>的高保真数字孪生场景。</p>
       <div class="media-wide"><video src="assets/3dgs-render.mp4" controls preload="metadata"></video></div>
       <p class="media-label">3DGS 室内场景重建</p>
     </div>
@@ -335,22 +323,147 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
     </div>
 
     <div class="work-item">
-      <h3><span class="num">4</span> 遥操作数据采集与合成数据生成</h3>
-      <p class="section-desc">通过松灵 <strong>Piper</strong> 真机和 ROS 实现仿真数据采集，基于 IsaacSim 域随机化、<strong>SoftMimicGen</strong> 等插件实现仿真合成数据生成。</p>
+      <h3><span class="num">4</span> 遥操作数据采集</h3>
+      <p class="section-desc">设计<strong>"先演后采"两阶段 Teleop 数据采集管线</strong>：将人在环实时演示与重渲染数据生产从同一 GPU 时间轴上解耦——先轻量录制操作轨迹，再离线确定性回放补采相机与语义数据。</p>
+      <p class="section-desc"><strong>架构解决了两个核心问题：</strong></p>
+
+      <div class="highlight-box" style="margin-top:0">
+        <h3>遥操作实时性</h3>
+        <ul>
+          <li>旧链路边遥操作边渲染多路相机，渲染占帧预算 80%，RTX 4060Ti 上仅 8.4Hz，操作响应严重滞后。</li>
+          <li>新架构将相机渲染从演示阶段剥离，遥操作环节仅保留轻量视口渲染——<strong>仿真实时性得到根本保障</strong>（9000 步连续采集零丢帧），操作员获得流畅的实时交互体验。</li>
+        </ul>
+      </div>
+
+      <div class="highlight-box">
+        <h3>回放数据质量</h3>
+        <ul>
+          <li>阶段 A 完整录制操作过程中的关节轨迹、刚体位姿与布料粒子状态；阶段 B 基于录制状态进行确定性回放，批量渲染 RGB/深度/语义等多路相机数据。</li>
+          <li>回放过程<strong>时间钟严格对齐</strong>——每一帧的时间戳、帧序号与物理时间步精确对应，输出帧率固定为训练期望的 30Hz，转换层无需猜测或插值，直接产出标准格式数据集。</li>
+          <li>由于回放基于录制状态而非重新物理解算，<strong>布料形变与原始操作完全一致</strong>，不存在重仿真引入的偏差。</li>
+        </ul>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-num">8.4Hz→实时</div><div class="stat-label">旧链路 → 新架构</div></div>
+        <div class="stat-card"><div class="stat-num">34fps</div><div class="stat-label">单相机回放渲染</div></div>
+        <div class="stat-card"><div class="stat-num">零丢帧</div><div class="stat-label">9000 步连续采集</div></div>
+      </div>
+
       <div class="media-wide"><video src="assets/teleop-pipeline.mp4" controls preload="metadata"></video></div>
       <p class="media-label">"先演后录"两阶段采集管线</p>
       <div class="media-wide"><video src="assets/vla-inference.mp4" controls preload="metadata"></video></div>
-      <p class="media-label">VLA 推理管线</p>
+      <p class="media-label">遥操作演示全过程回放</p>
     </div>
 
     <div class="work-item">
-      <h3><span class="num">5</span> VLA 推理管线与工程化部署</h3>
-      <p class="section-desc">打通 <strong>VLA 推理管线</strong>，适配 RLinf 强化学习等多类算法交互。支持工程化 <strong>Docker</strong> 封装，满足分布式训练及规模化并行评估。</p>
+      <h3><span class="num">5</span> 仿真合成数据生成</h3>
+      <p class="section-desc">融合 NVIDIA <strong>SoftMimicGen</strong> 数据增广框架：以 1-3 条人类遥操作演示为种子，通过非刚性配准自动合成百级多样化操作轨迹，大幅降低真实遥操作数据采集成本。</p>
+
+      <p class="section-desc"><strong>布料泛化能力：</strong>当布料的位置、朝向、形状（适度形变）或尺寸（适度缩放）发生变化时，SoftMimicGen 通过 TPS（Thin Plate Spline，薄板样条非刚性配准）计算源布料与新布料之间的形变映射，将人类演示的末端轨迹自适应变换到新场景——夹爪动作直接重放，末端位姿经形变场调整后由 IK 求解执行。生成的合成轨迹与人类遥操作轨迹<strong>完全同构</strong>（相同的关节维度、粒子状态、帧率与数据格式），下游训练无需任何适配。支持单臂、双臂等多种本体构型。</p>
+
+      <p class="section-desc"><strong>标注融合：</strong>将夹爪末端位姿与柔性体粒子状态等关键信息接入 GenieSim 既有语义标注链路——子任务边界（reach/grasp/transport/hold/release）由录制阶段的自动分段与操作员手动标记共同派生，合成轨迹自动继承源示教的完整语义标注，回流至同一导出管线。</p>
+
+      <div class="arch-diagram">
+        <div class="arch-row" style="flex-wrap:wrap">
+          <div class="arch-node">
+            <div class="arch-num">①</div>
+            <h4>人类遥操作</h4>
+            <div class="arch-detail">1-3 条演示轨迹<br>含关节/粒子/标注</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="arch-num">②</div>
+            <h4>布料随机化</h4>
+            <div class="arch-detail">位置·朝向扰动<br>形状·尺寸变化</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="arch-num">③</div>
+            <h4>TPS 形变映射</h4>
+            <div class="arch-detail">EE 轨迹自适应变换<br>夹爪动作直接重放</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-node">
+            <div class="arch-num">④</div>
+            <h4>同构数据输出</h4>
+            <div class="arch-detail">合成轨迹 × N<br>语义标注自动继承</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin:1.5rem calc(50% - 50vw + 1.5rem);text-align:center">
+        <img src="assets/softmimic_waypoints.png" alt="SoftMimicGen 双臂合成轨迹规划可视化" style="width:100%;max-width:1100px;margin:0 auto;display:block;border-radius:var(--radius);border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+        <p style="font-family:var(--font-ui);font-size:.82rem;color:var(--text3);margin-top:.5rem">SoftMimicGen 双臂合成轨迹 · 10 条生成轨迹的 waypoint 规划可视化</p>
+      </div>
+    </div>
+
+    <div class="work-item">
+      <h3><span class="num">6</span> VLA 的后训练及推理管线与工程化部署</h3>
+      <p class="section-desc">基于蚂蚁灵波开源的 <strong>LingBot-VLA 2.0</strong> 视觉-语言-动作大模型，构建双臂布料操作的后训练与推理闭环：用一条遥操作轨迹完成模型微调，使模型学会理解"抓取布料""对折""放下"等子任务指令，并在仿真环境中按指令逐步完成完整的折衣服流程。整体工程化封装为 <strong>Docker</strong> 镜像，支持分布式训练与规模化并行评估。</p>
+
+      <div class="highlight-box">
+        <h3>模型架构</h3>
+        <ul>
+          <li><strong>VLM 基座：</strong>Qwen3-VL-4B 负责视觉语言理解，冻结不参与训练。</li>
+          <li><strong>Action Expert：</strong>36 层 MoE（32 experts, top-4 路由），基于 Flow Matching 一次生成 50 帧连续动作序列。</li>
+          <li><strong>统一动作空间：</strong>55 维跨本体契约，dual_piper 经 per-robot 配置映射至 14 维关节+夹爪输出。</li>
+        </ul>
+      </div>
+
+      <div class="highlight-box">
+        <h3>后训练与数据</h3>
+        <ul>
+          <li>遥操作采集的动作轨迹附带完整的语义标注——每一帧都知道当前处于"伸手""抓取""搬运""保持""释放"中的哪个阶段。</li>
+          <li>这些阶段信息自动转化为训练时使用的<strong>子任务指令</strong>（如"右手抓住布料""双臂协同折叠"），模型在学习动作的同时也学会了理解任务进度。</li>
+          <li>模型训练与推理使用<strong>完全相同的指令格式和动作表示</strong>，确保训练效果在部署时无损迁移。</li>
+        </ul>
+      </div>
+
+      <div class="highlight-box">
+        <h3>推理执行</h3>
+        <ul>
+          <li>执行时，系统按任务进度自动切换子任务指令发送给模型——例如完成抓取后自动切换为"折叠"指令，模型随即调整动作策略。</li>
+          <li>指令切换时强制模型重新规划，避免旧任务的运动惯性干扰新阶段。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="arch-diagram" style="margin-top:2rem">
+      <div class="arch-row" style="flex-wrap:wrap">
+        <div class="arch-node">
+          <div class="arch-num">①</div>
+          <h4>遥操作录制</h4>
+          <div class="arch-detail">实时操作轨迹<br>关节·粒子·语义</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-num">②</div>
+          <h4>离线回放渲染</h4>
+          <div class="arch-detail">30Hz 时间对齐<br>RGB·深度·语义</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-num">③</div>
+          <h4>数据增广</h4>
+          <div class="arch-detail">SoftMimicGen 1→N<br>同构合成轨迹</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-num">④</div>
+          <h4>VLA 后训练</h4>
+          <div class="arch-detail">LingBot-VLA 微调<br>子任务指令对齐</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-num">⑤</div>
+          <h4>闭环推理</h4>
+          <div class="arch-detail">FSM 分层驱动<br>仿真端到端执行</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
-
-<!-- Achievement -->
 <section id="achievement" class="section section-accent">
   <div class="container fade-in">
     <span class="section-subtitle">Achievement</span>
@@ -371,6 +484,8 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
         <li>推动工程化落地<strong>企业级首套</strong>柔性物体操作的仿真引擎与完整系统</li>
         <li>覆盖 <strong>5 个布料操作任务</strong>、<strong>9 种操作原语</strong>、<strong>7 个评测谓词</strong>的标准化评测体系</li>
         <li>构建 3 种仿真环境（Replay / Demo / VLA 推理），覆盖回放验证到算法推理全场景</li>
+        <li>遥操作采集实现<strong>实时</strong>交互，确定性回放零丢帧</li>
+        <li>SoftMimicGen 实现 1 条人类演示 → <strong>10 条双臂合成轨迹</strong>，含完整 RGB 图像与语义标注</li>
       </ul>
     </div>
 
@@ -379,6 +494,8 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
       <ul>
         <li>3DGS → USD 转换管线，实现高斯点云与物理碰撞体<strong>同构导入</strong></li>
         <li>遥操作"先演后录"数据采集管线 + SoftMimicGen 自动化合成数据生成</li>
+        <li>LingBot-VLA 2.0 后训练与 subtask 分层推理闭环，训练/推理契约严格对齐</li>
+        <li>双臂姿态感知 IK 设计，解决 13cm 杠杆下 8.4cm→0.14cm 指尖漂移问题</li>
       </ul>
     </div>
   </div>
@@ -396,6 +513,8 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
         <li><strong>CUDA Graph Capture 是最大性能杠杆：</strong>IsaacSim 官方建议"避免 Graph Capture"，但针对布料仿真这种每帧计算模式高度重复的场景，Graph Capture 是正确决策——它带来的加速是"从不可用到可用"的质变，而非渐进优化。技术决策需要在"通用建议"和"场景特殊性"之间做判断。</li>
         <li><strong>接触隧穿需要根本性方案而非参数调优：</strong>Newton 默认的罚函数接触模型在抓取场景下存在本质缺陷——简单调整接触刚度、阻尼和时间步长无法根除隧穿。KinematicPinningSystem 从约束层面重新定义抓取语义，是"换个问题"而非"调参数"的思路。</li>
         <li><strong>双引擎 GPU 资源调度需要精细管理：</strong>IsaacSim 渲染和 Newton Warp 解算共享同一 GPU，若无显式同步，渲染管线可能抢占解算所需的 CUDA 核心。利用 IsaacSim 的渲染帧回调机制插入 Warp 同步点，确保解算完成后再提交渲染命令。</li>
+        <li><strong>遥操作采集关键在于解耦而非加速：</strong>将相机渲染从演示阶段剥离，以确定性状态回放替代重仿真，同时解决了"实时性"和"数据一致性"两个表面矛盾的问题——8.4Hz 到实时交互的飞跃是解耦的产物，不是优化渲染的产物。</li>
+        <li><strong>合成数据的泛化来自形变映射而非随机扰动：</strong>SoftMimicGen 通过 TPS 非刚性配准将源轨迹"迁移"到新布料形态，而非简单加噪声——这使得合成轨迹保持了与人类演示相同的操作语义和物理合理性。</li>
       </ul>
     </div>
   </div>
@@ -426,6 +545,19 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
   </div>
 </section>
 
+<!-- Summary -->
+<section id="summary" class="section section-dark">
+  <div class="container fade-in">
+    <span class="section-subtitle">Summary</span>
+    <h2 class="section-title">总结</h2>
+    <div class="quote-block">
+      <p>"从真实世界到仿真世界，再从仿真世界回到真实世界。"</p>
+    </div>
+    <p class="section-desc">柔性物体操作的数据飞轮闭环已初步建立：双引擎仿真引擎提供物理底座，3DGS 数字孪生弥合虚实鸿沟，"先演后采"遥操作管线保障数据质量，SoftMimicGen 让一条人类演示自举出百级训练数据，LingBot-VLA 完成从数据到策略的闭环验证。</p>
+    <p class="section-desc">当前处于<strong>从演示验证走向规模化验证</strong>的过渡阶段——下一步是规模化数据生成与 sim-to-real 真机部署，让数据飞轮真正转动起来。</p>
+  </div>
+</section>
+
 <!-- Tech Stack -->
 <section id="stack" class="section section-dark">
   <div class="container fade-in">
@@ -438,6 +570,9 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
       <div class="card"><div class="card-icon">🔮</div><h3>3DGS</h3><p>3D Gaussian Splatting 场景重建，从真实 RGB-D 数据生成高质量高斯点云。</p></div>
       <div class="card"><div class="card-icon">🤖</div><h3>ROS2</h3><p>机器人操作系统，实现机械臂控制、数据采集与设备间通信。</p></div>
       <div class="card"><div class="card-icon">🧬</div><h3>Genie Sim</h3><p>智元开源仿真框架，LLM + MCP 驱动场景资产自动构建与任务生成。</p></div>
+      <div class="card"><div class="card-icon">🧵</div><h3>SoftMimicGen</h3><p>NVIDIA 数据增广框架，TPS 非刚性配准从少量遥操作演示自动合成百级轨迹。</p></div>
+      <div class="card"><div class="card-icon">🦾</div><h3>Piper</h3><p>松灵双臂机械臂，用于遥操作数据采集与真机部署验证。</p></div>
+      <div class="card"><div class="card-icon">🧠</div><h3>LingBot-VLA 2.0</h3><p>蚂蚁灵波开源视觉-语言-动作大模型，支持 subtask 级指令驱动的双臂操作。</p></div>
       <div class="card"><div class="card-icon">🐳</div><h3>Docker</h3><p>容器化工程部署，支持分布式训练、规模化并行评估与一键复现。</p></div>
     </div>
   </div>
@@ -449,9 +584,10 @@ body{font-family:var(--font-body);font-size:1.05rem;line-height:1.75;color:var(-
     <span class="section-subtitle">References</span>
     <h2 class="section-title">引用</h2>
     <ul class="ref-list">
-      <li>[1] 智元机器人. <strong>Genie Sim</strong> — 仿真场景自动构建框架. <a href="https://github.com/AgibotTech/genie_sim" target="_blank" rel="noopener">github.com/AgibotTech/genie_sim</a></li>
+      <li>[1] 智元机器人（Agibot）. <strong>Genie Sim</strong> — 仿真场景自动构建框架. <a href="https://github.com/AgibotTech/genie_sim" target="_blank" rel="noopener">github.com/AgibotTech/genie_sim</a></li>
       <li>[2] Lin et al. <strong>SoftGym</strong> — Benchmarking Deep Reinforcement Learning for Deformable Object Manipulation (CoRL 2020). <a href="https://github.com/Xingyu-Lin/softgym" target="_blank" rel="noopener">github.com/Xingyu-Lin/softgym</a></li>
       <li>[3] Ajay et al. <strong>SoftMimicGen</strong> — Automated Data Generation for Imitation Learning of Deformable Object Manipulation (arXiv 2023). <a href="https://arxiv.org/abs/2310.01931" target="_blank" rel="noopener">arxiv.org/abs/2310.01931</a></li>
+      <li>[4] 蚂蚁灵波. <strong>LingBot-VLA 2.0</strong> — A Vision-Language-Action Model for Generalist Robot Manipulation (arXiv 2607.06403). <a href="https://arxiv.org/abs/2607.06403" target="_blank" rel="noopener">arxiv.org/abs/2607.06403</a></li>
     </ul>
   </div>
 </section>
