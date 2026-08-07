@@ -1,5 +1,5 @@
 /* ============================================================
- * Hero — MiMo layout: left text, right earth
+ * Hero — MiMo layout: left text + rerun.io-style robot arm canvas
  * ============================================================ */
 
 .hero {
@@ -98,28 +98,6 @@
               opacity 0.65s cubic-bezier(0.55, 0, 0.85, 0.3);
 }
 
-/* ---- Earth Decoration ---- */
-.hero-earth {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  z-index: 0;
-  width: 560px;
-  height: 420px;
-  pointer-events: none;
-  transform: translateY(-50%);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hero-earth:hover { transform: translateY(calc(-50% - 30px)); }
-.hero-earth svg { width: 100%; height: 100%; }
-.hero-earth:hover svg {
-  animation: earthSpin 3s linear infinite;
-}
-@keyframes earthSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 /* ---- Cursor ---- */
 .cursor-ring {
   position: fixed;
@@ -154,16 +132,29 @@
 }
 .cursor-dot.cursor-hero { opacity: 0; }
 
+/* Robot hero canvas layer + cursor grab gag */
+.hero-robot {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.hero-robot.robot-hero-ready { opacity: 1; }
+.cursor-ring.cursor-hidden, .cursor-dot.cursor-hidden { opacity: 0; }
+@media (max-width: 768px) {
+  .hero-robot { display: none; }
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 1024px) {
   .hero-title { font-size: 80px; line-height: 80px; }
   .hero-subtitle { font-size: 28px; line-height: 36px; }
-  .hero-earth { width: 360px; height: 280px; }
 }
 @media (max-width: 768px) {
   .hero { width: 100%; height: 60vh; min-height: 400px; align-items: center; text-align: center; }
   .hero-title { font-size: 48px; line-height: 56px; white-space: normal; }
   .hero-subtitle { font-size: 18px; line-height: 26px; white-space: normal; }
-  .hero-earth { display: none; }
   .cursor-ring, .cursor-dot { display: none; }
 }

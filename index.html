@@ -11,7 +11,9 @@
   <link rel="manifest" href="/images/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="stylesheet" href="/assets/css/hero.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <script type="importmap">
+    { "imports": { "three": "/assets/js/robot-hero/three.module.min.js" } }
+  </script>
 </head>
 <body>
 
@@ -46,7 +48,7 @@
     <div class="hero-reveal-bg"></div>
     <!-- Brush mask overlay -->
     <div class="hero-reveal-mask"></div>
-    <div class="hero-earth" id="heroEarth" aria-hidden="true"></div>
+    <div class="hero-robot" id="heroRobot" aria-hidden="true"></div>
     <div class="hero-content" data-cursor="hero">
       <h1 class="hero-title">
         <span>林</span><span>嘉</span><span>豪</span>
@@ -131,6 +133,7 @@
     dot.className = 'cursor-dot';
     document.body.appendChild(ring);
     document.body.appendChild(dot);
+    window.__heroCursor = { ring: ring, dot: dot };
 
     var mx = 0, my = 0, rx = 0, ry = 0;
     document.addEventListener('mousemove', function(e) {
@@ -148,17 +151,6 @@
 
     var hero = document.getElementById('hero');
     if (!hero) return;
-
-    // Lottie Earth animation
-    if (typeof lottie !== 'undefined') {
-      lottie.loadAnimation({
-        container: document.getElementById('heroEarth'),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: '/assets/earth/data.json'
-      });
-    }
 
     hero.addEventListener('mouseenter', function() {
       ring.classList.add('cursor-hero');
@@ -204,6 +196,24 @@
       });
     }
   })();
+  </script>
+
+  <!-- Robot hero (rerun.io-style arm that grabs your cursor) -->
+  <script type="module">
+    import { initRobotHero } from '/assets/js/robot-hero/robot-hero.js';
+    var robotEl = document.getElementById('heroRobot');
+    if (robotEl && window.matchMedia('(min-width: 768px)').matches) {
+      initRobotHero(robotEl, {
+        onCursorGrab: function() {
+          var c = window.__heroCursor;
+          if (c) { c.ring.classList.add('cursor-hidden'); c.dot.classList.add('cursor-hidden'); }
+        },
+        onCursorRestore: function() {
+          var c = window.__heroCursor;
+          if (c) { c.ring.classList.remove('cursor-hidden'); c.dot.classList.remove('cursor-hidden'); }
+        }
+      });
+    }
   </script>
 </body>
 </html>
