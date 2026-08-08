@@ -469,7 +469,10 @@ export function initRobotHero(container, opts = {}) {
 
     // Orient the fan halfway between the camera's right axis and its
     // forward axis (flattened onto the ground plane).
-    const ORIENT_BLEND = .5;
+    // ORIENT_BLEND controls how much the fan faces the camera vs.
+    // faces right. On wider screens we increase it so the fan arcs
+    // cover more of the horizontal viewport.
+    let ORIENT_BLEND = .5;
     const orientFan = () => {
       camera.updateMatrixWorld(true);
       const right = new o.Vector3();
@@ -924,6 +927,41 @@ export function initRobotHero(container, opts = {}) {
         renderer.setSize(w, h, false);
         const fullH = Math.max(1, h - VIEW_INSET);
         camera.setViewOffset(w, fullH, 0, 0, w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        // Adapt the fan backdrop to the viewport aspect ratio so the
+        // rainbow cables span the full width on any monitor.
+        //
+        // The fan is a fixed-size arc (FAN_LEN=8.5, WIDTH_B=5.5) in
+        // world space.  At the design reference aspect (~1.6:1, e.g.
+        // 1280x800) it fills the view nicely.  On wider screens the
+        // camera sees more of the world horizontally, so the fan
+        // appears smaller relative to the viewport — we compensate by
+        // scaling the fan horizontally (X axis only) so the arc
+        // naturally extends further to the right, matching rerun.io's
+        // behavior where the fan emanates from the robot toward the
+        // right side of the screen.
+        const aspect = w / h;
+        const refAspect = 1.6;  // ~16:10 design reference
+        if (aspect > refAspect) {
+          // Wider than reference: widen fan horizontally only (no Z
+          // scaling so the fan stays behind the robot at all times).
+          // Do NOT shift the fan left — it should stay anchored at
+          // the robot position and extend rightward naturally.
+          const s = aspect / refAspect;           // e.g. 1.78/1.6 ≈ 1.11
+          fanGroup.scale.set(s, 1, 1);            // widen only
+          fanGroup.position.set(0, .2, 0);
+        } else if (aspect < refAspect * 0.8) {
+          // Much narrower than reference: shrink horizontally
+          const s = Math.max(0.6, aspect / refAspect);
+          fanGroup.scale.set(s, 1, 1);
+          fanGroup.position.set(0, .2, 0);
+        } else {
+          // Near reference: use original placement
+          fanGroup.scale.set(1, 1, 1);
+          fanGroup.position.set(0, .2, 0);
+        }
+        orientFan();
         setTargetSize(w, h);
       }
     });
