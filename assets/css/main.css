@@ -304,6 +304,15 @@ a[href$=".pdf"]:hover { background: var(--text); color: #fff; opacity: 1; }
 }
 .site-footer a { color: var(--text); }
 
+/* Large monitors: widen the content band so the page doesn't sit
+   in a narrow centered strip (user feedback 2026-08) */
+@media (min-width: 1600px) {
+  .wrapper { max-width: 1040px; }
+}
+@media (min-width: 2100px) {
+  .wrapper { max-width: 1160px; }
+}
+
 @media (max-width: 768px) {
   .wrapper { padding: 0 20px; }
   .site-header .wrapper { padding: 0 18px; }
