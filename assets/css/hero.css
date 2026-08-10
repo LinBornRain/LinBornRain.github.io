@@ -32,12 +32,11 @@
   max-width: none;
   padding: 0;
   pointer-events: auto;
-  /* Optically center the text block. The hero is 740px tall with
-     justify-content: center, but the content block (title+subtitle+bio+links)
-     is ~260px tall. We need to nudge it up so the optical center of
-     the text aligns with the hero's vertical center, accounting for
-     the robot's visual weight on the right pulling attention down. */
-  transform: translateY(-30px) translateX(60px);
+  /* Align hero text with the main content wrapper below.
+     On 2560px: hero container left edge = (2560-1760)/2 = 400px,
+     main wrapper left edge = (2560-1280)/2 = 640px.
+     translateX(240px) aligns the text with the content column. */
+  transform: translateY(-30px) translateX(240px);
 }
 
 /* ---- Typography Scale ----
