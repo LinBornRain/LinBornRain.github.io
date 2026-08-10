@@ -32,48 +32,118 @@
   max-width: none;
   padding: 0;
   pointer-events: auto;
+  /* Optically center the text block. The hero is 740px tall with
+     justify-content: center, but the content block (title+subtitle+bio+links)
+     is ~260px tall. We need to nudge it up so the optical center of
+     the text aligns with the hero's vertical center, accounting for
+     the robot's visual weight on the right pulling attention down. */
+  transform: translateY(-30px) translateX(60px);
 }
+
+/* ---- Typography Scale ----
+   Name:     72px / 400 weight / serif
+   Title:    30px / 600 weight / serif
+   Bio:      16px / 400 weight / sans
+   Links:    14px / 500 weight / sans
+   Ratio:    2.4 : 1.9 : 1.0 : 0.9  (harmonious, not jarring)
+*/
 
 .hero-title {
   font-family: Georgia, 'PingFang SC', 'Noto Serif SC', serif;
-  font-size: 120px;
-  font-weight: 400;
-  line-height: 120px;
-  color: #000;
-  margin: 0 0 16px;
+  font-size: 72px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: #1a1a1a;
+  margin: 0 0 20px;
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 .hero-title span {
   display: inline-block;
   opacity: 0;
-  transform: translateY(40px);
-  animation: heroCharReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: translateY(30px);
+  animation: heroCharReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-.hero-title span:nth-child(1) { animation-delay: 0.3s; }
-.hero-title span:nth-child(2) { animation-delay: 0.36s; }
-.hero-title span:nth-child(3) { animation-delay: 0.42s; }
+.hero-title span:nth-child(1) { animation-delay: 0.2s; }
+.hero-title span:nth-child(2) { animation-delay: 0.28s; }
+.hero-title span:nth-child(3) { animation-delay: 0.36s; }
 
 @keyframes heroCharReveal {
   to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-subtitle {
-  display: inline-block;
+  display: block;
   max-width: none;
   font-family: Georgia, 'PingFang SC', serif;
-  font-size: 36px;
-  font-weight: 600;
-  line-height: 48px;
-  color: #000;
-  margin: 0;
-  overflow: hidden;
-  white-space: nowrap;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #444;
+  margin: 0 0 4px;
   opacity: 0;
-  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+}
+
+.hero-bio {
+  display: block;
+  max-width: 520px;
+  font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', 'Segoe UI', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #555;
+  margin: 28px 0 0;
+  opacity: 0;
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+}
+
+.hero-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+  opacity: 0;
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.03em;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.hero-link:hover {
+  color: #000;
+  border-color: #999;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.hero-link svg {
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.hero-link:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 @keyframes heroFadeIn {
-  0% { opacity: 0; transform: translateY(40px); }
+  0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
@@ -162,8 +232,11 @@
 
 /* ---- Responsive ---- */
 @media (max-width: 1024px) {
-  .hero-title { font-size: 80px; line-height: 80px; }
-  .hero-subtitle { font-size: 28px; line-height: 36px; }
+  .hero-title { font-size: 56px; margin-bottom: 16px; }
+  .hero-subtitle { font-size: 26px; margin-bottom: 4px; }
+  .hero-bio { font-size: 15px; max-width: 380px; margin-top: 24px; }
+  .hero-links { margin-top: 32px; }
+  .hero-content { transform: translateY(10px); }
 }
 /* Large monitors: let the visual hero band grow past the MiMo 1260 cap */
 @media (min-width: 1600px) {
@@ -174,7 +247,9 @@
 }
 @media (max-width: 768px) {
   .hero { width: 100%; height: 60vh; min-height: 400px; align-items: center; text-align: center; }
-  .hero-title { font-size: 48px; line-height: 56px; white-space: normal; }
-  .hero-subtitle { font-size: 18px; line-height: 26px; white-space: normal; }
+  .hero-title { font-size: 40px; white-space: normal; margin-bottom: 12px; }
+  .hero-subtitle { font-size: 20px; white-space: normal; margin-bottom: 4px; }
+  .hero-bio { font-size: 14px; max-width: 320px; margin: 20px auto 0; }
+  .hero-links { justify-content: center; margin-top: 28px; }
   .cursor-ring, .cursor-dot { display: none; }
 }
