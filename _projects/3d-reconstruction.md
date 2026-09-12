@@ -1,10 +1,10 @@
 ---
 layout: default
-title: "3D 物体外观和交互重建"
+title: "GPT6 ASTRA直出——物体外观及交互3D重建"
 description: "基于实拍视频的外观与交互一对一重建：32 项可交互 USD 资产 × Newton 物理仿真"
 ---
 
-# 3D 物体外观和交互重建 · 实物 ↔ 重建一对一对比
+# GPT6 ASTRA直出——物体外观及交互3D重建
 
 **个人项目** · 2026.09
 
