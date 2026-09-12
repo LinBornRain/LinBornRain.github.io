@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>item_001–032 · 重建资产与实物对比报告</title>
+<meta name="description" content="32 项可交互 USD 重建资产的实物 ↔ 重建一对一对比：32 张规范化外观对比图与 31 支 Newton 交互录制 ↔ 实物录像并置对比视频。">
+<meta name="author" content="林嘉豪 · Jiahao Lin">
+<meta property="og:type" content="website">
+<meta property="og:title" content="3D 物体外观和交互重建 · 实物 ↔ 重建一对一对比">
+<meta property="og:description" content="32 项 USD 可交互资产：外观逐视角对照（5:5、无文字）+ Newton 交互录制与实物录像并置对比（31 支）。">
+<meta property="og:image" content="外观对比/banner_collage.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root {
     --ink: #23201a; --muted: #6d675c; --line: #e7e3d8; --accent: #9a2b2b;
@@ -102,7 +109,20 @@
   .abstract code { background: rgba(154,43,43,.08); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
 
   /* ===== 总揽 ===== */
-  .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 6px; }
+  .ov-toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 10px 18px; margin: 22px 0 6px;
+  }
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+  .ov-search { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+  .ov-search input {
+    width: 230px; max-width: 46vw; padding: 7px 14px; font-size: 13px;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink);
+    font-family: inherit; outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .ov-search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(154,43,43,.08); }
+  .ov-count { font-size: 12.5px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ov-empty { text-align: center; color: var(--muted); font-size: 14px; padding: 28px 0 8px; }
   .flt {
     border: 1px solid var(--line); background: var(--card); border-radius: 999px;
     padding: 5px 15px; font-size: 13px; color: var(--muted); cursor: pointer;
@@ -225,6 +245,19 @@
     position: sticky; top: 0; text-align: center; color: #cfc9ba; font-size: 12.5px;
     letter-spacing: .1em; padding: 6px 0 12px; cursor: zoom-out;
   }
+  #lightbox .lb-bar {
+    position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: center;
+    gap: 10px; padding: 8px 0 4px;
+  }
+  #lightbox .lb-nav, #lightbox .lb-close {
+    width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+    border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.08); color: #f2eee4;
+    font-size: 20px; line-height: 1; display: inline-flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+  }
+  #lightbox .lb-nav:hover, #lightbox .lb-close:hover { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.5); }
+  #lightbox .lb-close { position: absolute; right: 3vw; font-size: 15px; }
+  #lightbox .lb-count { color: #e7e2d6; font-size: 13px; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
   #lightbox img {
     display: block; margin: 0 auto; max-width: 96vw; height: auto;
     box-shadow: 0 10px 50px rgba(0,0,0,.55); border-radius: 4px; cursor: zoom-out;
@@ -266,7 +299,7 @@
 <div id="progress"></div>
 
 <header class="hero">
-  <a class="site-back" href="/projects/3d-reconstruction/">← 返回项目页 · 林嘉豪</a>
+  <a class="site-back" href="https://linbornrain.github.io/projects/3d-reconstruction/">← 返回项目页 · 林嘉豪</a>
   <div class="kicker">USD Interactive Assets · Newton Reconstruction</div>
   <h1>重建资产与实物的一对一对比报告</h1>
   <div class="rule"></div>
@@ -305,12 +338,18 @@
   <!-- ================= 总揽 ================= -->
   <section id="sec-overview-grid">
     <h2><span class="sec-no">✦</span>总揽 · item_001 – item_032<span class="sec-en">Gallery of All Items</span></h2>
-    <p class="lead">全部 32 项重建资产一览：缩略图取自各项最新外观对比；按类别分组筛选，点击卡片缩略图跳转至一对一外观对比，
-    或经卡片链接直达交互对比视频。金色徽章为该模型的精修/版本标记。</p>
-    <div class="filter-bar"><button class="flt active" data-cat="all">全部 <b>32</b></button><button class="flt" data-cat="cabinet"><i style="background:#7a5c2e"></i>柜架与桌几 <b>5</b></button><button class="flt" data-cat="seating"><i style="background:#2e6b4f"></i>座椅与软包 <b>4</b></button><button class="flt" data-cat="appliance"><i style="background:#a1741f"></i>灯具与电器 <b>6</b></button><button class="flt" data-cat="digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></button><button class="flt" data-cat="package"><i style="background:#7d4a86"></i>包装与软物 <b>6</b></button><button class="flt" data-cat="kitchen"><i style="background:#9a2b2b"></i>厨房与餐具 <b>8</b></button></div>
+    <p class="lead">全部 32 项重建资产一览：缩略图为该项单视角对比（<b>左实物 ｜ 右重建</b>，各占一半、无文字）；可按类别筛选或搜索编号/名称，
+    点击卡片缩略图跳转至一对一外观对比，或经卡片链接直达交互对比视频。金色徽章为该模型的精修/版本标记。</p>
+    <div class="ov-toolbar">
+      <div class="filter-bar"><button class="flt active" data-cat="all">全部 <b>32</b></button><button class="flt" data-cat="cabinet"><i style="background:#7a5c2e"></i>柜架与桌几 <b>5</b></button><button class="flt" data-cat="seating"><i style="background:#2e6b4f"></i>座椅与软包 <b>4</b></button><button class="flt" data-cat="appliance"><i style="background:#a1741f"></i>灯具与电器 <b>6</b></button><button class="flt" data-cat="digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></button><button class="flt" data-cat="package"><i style="background:#7d4a86"></i>包装与软物 <b>6</b></button><button class="flt" data-cat="kitchen"><i style="background:#9a2b2b"></i>厨房与餐具 <b>8</b></button></div>
+      <div class="ov-search">
+        <input id="ov-q" type="search" placeholder="搜索 item 编号或名称…" aria-label="搜索项目">
+        <span class="ov-count" id="ov-count">32 / 32</span>
+      </div>
+    </div>
     <div class="ov-grid">
-      <div class="ov-card" data-cat="cabinet">
-        <a href="#app-001" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_001.jpg" alt="item_001"></a>
+      <div class="ov-card" data-cat="cabinet" data-search="item_001 储物柜 柜架与桌几">
+        <a href="#app-001" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_001.jpg" alt="item_001"></a>
         <div class="ov-body">
           <div class="ov-id">item_001</div>
           <div class="ov-name">储物柜</div>
@@ -318,8 +357,8 @@
           <div class="ov-links"><a href="#app-001" class="mini-link">▦ 外观对比</a><span class="mini-link disabled" title="无 Newton 录制">⚠ 无录制</span></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="package">
-        <a href="#app-002" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_002.jpg" alt="item_002"></a>
+      <div class="ov-card" data-cat="package" data-search="item_002 果汁箱（含果汁饮料） 包装与软物">
+        <a href="#app-002" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_002.jpg" alt="item_002"></a>
         <div class="ov-body">
           <div class="ov-id">item_002</div>
           <div class="ov-name">果汁箱（含果汁饮料）</div>
@@ -327,8 +366,8 @@
           <div class="ov-links"><a href="#app-002" class="mini-link">▦ 外观对比</a><a href="#vid-002" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="cabinet">
-        <a href="#app-003" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_003.jpg" alt="item_003"></a>
+      <div class="ov-card" data-cat="cabinet" data-search="item_003 储物边柜 柜架与桌几">
+        <a href="#app-003" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_003.jpg" alt="item_003"></a>
         <div class="ov-body">
           <div class="ov-id">item_003</div>
           <div class="ov-name">储物边柜</div>
@@ -336,8 +375,8 @@
           <div class="ov-links"><a href="#app-003" class="mini-link">▦ 外观对比</a><a href="#vid-003" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="seating">
-        <a href="#app-004" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_004.jpg" alt="item_004"></a>
+      <div class="ov-card" data-cat="seating" data-search="item_004 升降办公椅 座椅与软包">
+        <a href="#app-004" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_004.jpg" alt="item_004"></a>
         <div class="ov-body">
           <div class="ov-id">item_004</div>
           <div class="ov-name">升降办公椅</div>
@@ -345,8 +384,8 @@
           <div class="ov-links"><a href="#app-004" class="mini-link">▦ 外观对比</a><a href="#vid-004" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="appliance">
-        <a href="#app-005" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_005.jpg" alt="item_005"></a>
+      <div class="ov-card" data-cat="appliance" data-search="item_005 落地灯 灯具与电器">
+        <a href="#app-005" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_005.jpg" alt="item_005"></a>
         <div class="ov-body">
           <div class="ov-id">item_005</div>
           <div class="ov-name">落地灯</div>
@@ -354,8 +393,8 @@
           <div class="ov-links"><a href="#app-005" class="mini-link">▦ 外观对比</a><a href="#vid-005" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="seating">
-        <a href="#app-006" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_006.jpg" alt="item_006"></a>
+      <div class="ov-card" data-cat="seating" data-search="item_006 l形靠背沙发 座椅与软包">
+        <a href="#app-006" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_006.jpg" alt="item_006"></a>
         <div class="ov-body">
           <div class="ov-id">item_006</div>
           <div class="ov-name">L形靠背沙发</div>
@@ -363,8 +402,8 @@
           <div class="ov-links"><a href="#app-006" class="mini-link">▦ 外观对比</a><a href="#vid-006" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="seating">
-        <a href="#app-007" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_007.jpg" alt="item_007"></a>
+      <div class="ov-card" data-cat="seating" data-search="item_007 单人椅 座椅与软包">
+        <a href="#app-007" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_007.jpg" alt="item_007"></a>
         <div class="ov-body">
           <div class="ov-id">item_007</div>
           <div class="ov-name">单人椅</div>
@@ -372,8 +411,8 @@
           <div class="ov-links"><a href="#app-007" class="mini-link">▦ 外观对比</a><a href="#vid-007" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="seating">
-        <a href="#app-008" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_008.jpg" alt="item_008"></a>
+      <div class="ov-card" data-cat="seating" data-search="item_008 脚凳 座椅与软包">
+        <a href="#app-008" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_008.jpg" alt="item_008"></a>
         <div class="ov-body">
           <div class="ov-id">item_008</div>
           <div class="ov-name">脚凳</div>
@@ -381,8 +420,8 @@
           <div class="ov-links"><a href="#app-008" class="mini-link">▦ 外观对比</a><a href="#vid-008" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="cabinet">
-        <a href="#app-009" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_009.jpg" alt="item_009"></a>
+      <div class="ov-card" data-cat="cabinet" data-search="item_009 边桌 柜架与桌几">
+        <a href="#app-009" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_009.jpg" alt="item_009"></a>
         <div class="ov-body">
           <div class="ov-id">item_009</div>
           <div class="ov-name">边桌</div>
@@ -390,8 +429,8 @@
           <div class="ov-links"><a href="#app-009" class="mini-link">▦ 外观对比</a><a href="#vid-009" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="kitchen">
-        <a href="#app-010" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_010.jpg" alt="item_010"></a>
+      <div class="ov-card" data-cat="kitchen" data-search="item_010 水果刀与刀鞘 厨房与餐具">
+        <a href="#app-010" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_010.jpg" alt="item_010"></a>
         <div class="ov-body">
           <div class="ov-id">item_010</div>
           <div class="ov-name">水果刀与刀鞘</div>
@@ -399,8 +438,8 @@
           <div class="ov-links"><a href="#app-010" class="mini-link">▦ 外观对比</a><a href="#vid-010" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="cabinet">
-        <a href="#app-011" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_011.jpg" alt="item_011"></a>
+      <div class="ov-card" data-cat="cabinet" data-search="item_011 床头桌 柜架与桌几">
+        <a href="#app-011" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_011.jpg" alt="item_011"></a>
         <div class="ov-body">
           <div class="ov-id">item_011</div>
           <div class="ov-name">床头桌</div>
@@ -408,8 +447,8 @@
           <div class="ov-links"><a href="#app-011" class="mini-link">▦ 外观对比</a><a href="#vid-011" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="cabinet">
-        <a href="#app-012" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_012.jpg" alt="item_012"></a>
+      <div class="ov-card" data-cat="cabinet" data-search="item_012 六斗抽屉柜 柜架与桌几">
+        <a href="#app-012" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_012.jpg" alt="item_012"></a>
         <div class="ov-body">
           <div class="ov-id">item_012</div>
           <div class="ov-name">六斗抽屉柜</div>
@@ -417,8 +456,8 @@
           <div class="ov-links"><a href="#app-012" class="mini-link">▦ 外观对比</a><a href="#vid-012" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="appliance">
-        <a href="#app-013" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_013.jpg" alt="item_013"></a>
+      <div class="ov-card" data-cat="appliance" data-search="item_013 四槽面包机 灯具与电器">
+        <a href="#app-013" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_013.jpg" alt="item_013"></a>
         <div class="ov-body">
           <div class="ov-id">item_013</div>
           <div class="ov-name">四槽面包机</div>
@@ -426,8 +465,8 @@
           <div class="ov-links"><a href="#app-013" class="mini-link">▦ 外观对比</a><a href="#vid-013" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="appliance">
-        <a href="#app-014" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_014.jpg" alt="item_014"></a>
+      <div class="ov-card" data-cat="appliance" data-search="item_014 微波炉 灯具与电器">
+        <a href="#app-014" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_014.jpg" alt="item_014"></a>
         <div class="ov-body">
           <div class="ov-id">item_014</div>
           <div class="ov-name">微波炉</div>
@@ -435,8 +474,8 @@
           <div class="ov-links"><a href="#app-014" class="mini-link">▦ 外观对比</a><a href="#vid-014" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="appliance">
-        <a href="#app-015" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_015.jpg" alt="item_015"></a>
+      <div class="ov-card" data-cat="appliance" data-search="item_015 电饭煲 灯具与电器">
+        <a href="#app-015" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_015.jpg" alt="item_015"></a>
         <div class="ov-body">
           <div class="ov-id">item_015</div>
           <div class="ov-name">电饭煲</div>
@@ -444,8 +483,8 @@
           <div class="ov-links"><a href="#app-015" class="mini-link">▦ 外观对比</a><a href="#vid-015" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="appliance">
-        <a href="#app-016" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_016.jpg" alt="item_016"></a>
+      <div class="ov-card" data-cat="appliance" data-search="item_016 空气炸锅 灯具与电器">
+        <a href="#app-016" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_016.jpg" alt="item_016"></a>
         <div class="ov-body">
           <div class="ov-id">item_016</div>
           <div class="ov-name">空气炸锅</div>
@@ -453,8 +492,8 @@
           <div class="ov-links"><a href="#app-016" class="mini-link">▦ 外观对比</a><a href="#vid-016" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="appliance">
-        <a href="#app-017" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_017.jpg" alt="item_017"></a>
+      <div class="ov-card" data-cat="appliance" data-search="item_017 电热水壶 灯具与电器">
+        <a href="#app-017" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_017.jpg" alt="item_017"></a>
         <div class="ov-body">
           <div class="ov-id">item_017</div>
           <div class="ov-name">电热水壶</div>
@@ -462,8 +501,8 @@
           <div class="ov-links"><a href="#app-017" class="mini-link">▦ 外观对比</a><a href="#vid-017" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="digital">
-        <a href="#app-018" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_018.jpg" alt="item_018"></a>
+      <div class="ov-card" data-cat="digital" data-search="item_018 thinkpad 笔记本电脑 数码外设">
+        <a href="#app-018" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_018.jpg" alt="item_018"></a>
         <div class="ov-body">
           <div class="ov-id">item_018</div>
           <div class="ov-name">ThinkPad 笔记本电脑</div>
@@ -471,8 +510,8 @@
           <div class="ov-links"><a href="#app-018" class="mini-link">▦ 外观对比</a><a href="#vid-018" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="digital">
-        <a href="#app-019" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_019.jpg" alt="item_019"></a>
+      <div class="ov-card" data-cat="digital" data-search="item_019 粉色无线鼠标 数码外设">
+        <a href="#app-019" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_019.jpg" alt="item_019"></a>
         <div class="ov-body">
           <div class="ov-id">item_019</div>
           <div class="ov-name">粉色无线鼠标</div>
@@ -480,8 +519,8 @@
           <div class="ov-links"><a href="#app-019" class="mini-link">▦ 外观对比</a><a href="#vid-019" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="digital">
-        <a href="#app-020" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_020.jpg" alt="item_020"></a>
+      <div class="ov-card" data-cat="digital" data-search="item_020 aoc 曲面显示器 数码外设">
+        <a href="#app-020" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_020.jpg" alt="item_020"></a>
         <div class="ov-body">
           <div class="ov-id">item_020</div>
           <div class="ov-name">AOC 曲面显示器</div>
@@ -489,8 +528,8 @@
           <div class="ov-links"><a href="#app-020" class="mini-link">▦ 外观对比</a><a href="#vid-020" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="package">
-        <a href="#app-021" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_021.jpg" alt="item_021"></a>
+      <div class="ov-card" data-cat="package" data-search="item_021 蓝色悬挂抽纸包装 包装与软物">
+        <a href="#app-021" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_021.jpg" alt="item_021"></a>
         <div class="ov-body">
           <div class="ov-id">item_021</div>
           <div class="ov-name">蓝色悬挂抽纸包装</div>
@@ -498,8 +537,8 @@
           <div class="ov-links"><a href="#app-021" class="mini-link">▦ 外观对比</a><a href="#vid-021" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="package">
-        <a href="#app-022" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_022.jpg" alt="item_022"></a>
+      <div class="ov-card" data-cat="package" data-search="item_022 绿色无芯卷纸包装 包装与软物">
+        <a href="#app-022" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_022.jpg" alt="item_022"></a>
         <div class="ov-body">
           <div class="ov-id">item_022</div>
           <div class="ov-name">绿色无芯卷纸包装</div>
@@ -507,8 +546,8 @@
           <div class="ov-links"><a href="#app-022" class="mini-link">▦ 外观对比</a><a href="#vid-022" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="kitchen">
-        <a href="#app-023" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_023.jpg" alt="item_023"></a>
+      <div class="ov-card" data-cat="kitchen" data-search="item_023 深灰陶瓷马克杯 厨房与餐具">
+        <a href="#app-023" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_023.jpg" alt="item_023"></a>
         <div class="ov-body">
           <div class="ov-id">item_023</div>
           <div class="ov-name">深灰陶瓷马克杯</div>
@@ -516,8 +555,8 @@
           <div class="ov-links"><a href="#app-023" class="mini-link">▦ 外观对比</a><a href="#vid-023" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="kitchen">
-        <a href="#app-024" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_024.jpg" alt="item_024"></a>
+      <div class="ov-card" data-cat="kitchen" data-search="item_024 黄色小熊垃圾桶 厨房与餐具">
+        <a href="#app-024" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_024.jpg" alt="item_024"></a>
         <div class="ov-body">
           <div class="ov-id">item_024</div>
           <div class="ov-name">黄色小熊垃圾桶</div>
@@ -525,8 +564,8 @@
           <div class="ov-links"><a href="#app-024" class="mini-link">▦ 外观对比</a><a href="#vid-024" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="package">
-        <a href="#app-025" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_025.jpg" alt="item_025"></a>
+      <div class="ov-card" data-cat="package" data-search="item_025 薯片袋（闭口未开封） 包装与软物">
+        <a href="#app-025" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_025.jpg" alt="item_025"></a>
         <div class="ov-body">
           <div class="ov-id">item_025</div>
           <div class="ov-name">薯片袋（闭口未开封）</div>
@@ -534,8 +573,8 @@
           <div class="ov-links"><a href="#app-025" class="mini-link">▦ 外观对比</a><a href="#vid-025" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="package">
-        <a href="#app-026" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_026.jpg" alt="item_026"></a>
+      <div class="ov-card" data-cat="package" data-search="item_026 罐装薯片 包装与软物">
+        <a href="#app-026" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_026.jpg" alt="item_026"></a>
         <div class="ov-body">
           <div class="ov-id">item_026</div>
           <div class="ov-name">罐装薯片</div>
@@ -543,8 +582,8 @@
           <div class="ov-links"><a href="#app-026" class="mini-link">▦ 外观对比</a><a href="#vid-026" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="package">
-        <a href="#app-027" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_027.jpg" alt="item_027"></a>
+      <div class="ov-card" data-cat="package" data-search="item_027 酸菜鱼调味料 包装与软物">
+        <a href="#app-027" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_027.jpg" alt="item_027"></a>
         <div class="ov-body">
           <div class="ov-id">item_027</div>
           <div class="ov-name">酸菜鱼调味料</div>
@@ -552,8 +591,8 @@
           <div class="ov-links"><a href="#app-027" class="mini-link">▦ 外观对比</a><a href="#vid-027" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="kitchen">
-        <a href="#app-028" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_028.jpg" alt="item_028"></a>
+      <div class="ov-card" data-cat="kitchen" data-search="item_028 锅铲 厨房与餐具">
+        <a href="#app-028" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_028.jpg" alt="item_028"></a>
         <div class="ov-body">
           <div class="ov-id">item_028</div>
           <div class="ov-name">锅铲</div>
@@ -561,8 +600,8 @@
           <div class="ov-links"><a href="#app-028" class="mini-link">▦ 外观对比</a><a href="#vid-028" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="kitchen">
-        <a href="#app-029" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_029.jpg" alt="item_029"></a>
+      <div class="ov-card" data-cat="kitchen" data-search="item_029 木碗 厨房与餐具">
+        <a href="#app-029" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_029.jpg" alt="item_029"></a>
         <div class="ov-body">
           <div class="ov-id">item_029</div>
           <div class="ov-name">木碗</div>
@@ -570,8 +609,8 @@
           <div class="ov-links"><a href="#app-029" class="mini-link">▦ 外观对比</a><a href="#vid-029" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="kitchen">
-        <a href="#app-030" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_030.jpg" alt="item_030"></a>
+      <div class="ov-card" data-cat="kitchen" data-search="item_030 木质兔子盘子 厨房与餐具">
+        <a href="#app-030" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_030.jpg" alt="item_030"></a>
         <div class="ov-body">
           <div class="ov-id">item_030</div>
           <div class="ov-name">木质兔子盘子</div>
@@ -579,8 +618,8 @@
           <div class="ov-links"><a href="#app-030" class="mini-link">▦ 外观对比</a><a href="#vid-030" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="kitchen">
-        <a href="#app-031" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_031.jpg" alt="item_031"></a>
+      <div class="ov-card" data-cat="kitchen" data-search="item_031 砧板 厨房与餐具">
+        <a href="#app-031" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_031.jpg" alt="item_031"></a>
         <div class="ov-body">
           <div class="ov-id">item_031</div>
           <div class="ov-name">砧板</div>
@@ -588,8 +627,8 @@
           <div class="ov-links"><a href="#app-031" class="mini-link">▦ 外观对比</a><a href="#vid-031" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div>
-      <div class="ov-card" data-cat="kitchen">
-        <a href="#app-032" class="ov-thumb"><img loading="lazy" src="外观对比/thumbs/item_032.jpg" alt="item_032"></a>
+      <div class="ov-card" data-cat="kitchen" data-search="item_032 炒锅与玻璃锅盖 厨房与餐具">
+        <a href="#app-032" class="ov-thumb"><img loading="lazy" decoding="async" src="外观对比/thumbs/item_032.jpg" alt="item_032"></a>
         <div class="ov-body">
           <div class="ov-id">item_032</div>
           <div class="ov-name">炒锅与玻璃锅盖</div>
@@ -597,6 +636,7 @@
           <div class="ov-links"><a href="#app-032" class="mini-link">▦ 外观对比</a><a href="#vid-032" class="mini-link">▶ 交互视频</a></div>
         </div>
       </div></div>
+    <p class="ov-empty" id="ov-empty" hidden>没有匹配的项目，试试其它关键词或切换类别。</p>
   </section>
 
   <!-- ================= Section 1 ================= -->
@@ -610,193 +650,193 @@
       <figure class="card" id="app-001">
         <div class="fig-head"><span class="fig-no">Figure 1</span><span class="fig-title">item_001 · 储物柜</span>
           <span class="c-badge head-badge" style="--cb:#7a5c2e">柜架与桌几</span></div>
-        <a href="外观对比/item_001_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_001.jpg" alt="item_001 外观对比"></a>
+        <a href="外观对比/item_001_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_001.jpg" alt="item_001 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。3 视角。模型渲染来自交付管线（PhysX-Anything）Blender 验证渲染。</figcaption>
       </figure>
       <figure class="card" id="app-002">
         <div class="fig-head"><span class="fig-no">Figure 2</span><span class="fig-title">item_002 · 果汁箱（含果汁饮料）</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <a href="外观对比/item_002_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_002.jpg" alt="item_002 外观对比"></a>
+        <a href="外观对比/item_002_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_002.jpg" alt="item_002 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。R5 中央插舌槽口版模型。</figcaption>
       </figure>
       <figure class="card" id="app-003">
         <div class="fig-head"><span class="fig-no">Figure 3</span><span class="fig-title">item_003 · 储物边柜</span>
           <span class="c-badge head-badge" style="--cb:#7a5c2e">柜架与桌几</span></div>
-        <a href="外观对比/item_003_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_003.jpg" alt="item_003 外观对比"></a>
+        <a href="外观对比/item_003_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_003.jpg" alt="item_003 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。3 视角。最终按压交互版模型（Cycles 渲染）。</figcaption>
       </figure>
       <figure class="card" id="app-004">
         <div class="fig-head"><span class="fig-no">Figure 4</span><span class="fig-title">item_004 · 升降办公椅</span>
           <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软包</span></div>
-        <a href="外观对比/item_004_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_004.jpg" alt="item_004 外观对比"></a>
+        <a href="外观对比/item_004_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_004.jpg" alt="item_004 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-005">
         <div class="fig-head"><span class="fig-no">Figure 5</span><span class="fig-title">item_005 · 落地灯</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <a href="外观对比/item_005_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_005.jpg" alt="item_005 外观对比"></a>
+        <a href="外观对比/item_005_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_005.jpg" alt="item_005 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-006">
         <div class="fig-head"><span class="fig-no">Figure 6</span><span class="fig-title">item_006 · L形靠背沙发</span>
           <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软包</span></div>
-        <a href="外观对比/item_006_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_006.jpg" alt="item_006 外观对比"></a>
+        <a href="外观对比/item_006_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_006.jpg" alt="item_006 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-007">
         <div class="fig-head"><span class="fig-no">Figure 7</span><span class="fig-title">item_007 · 单人椅</span>
           <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软包</span></div>
-        <a href="外观对比/item_007_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_007.jpg" alt="item_007 外观对比"></a>
+        <a href="外观对比/item_007_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_007.jpg" alt="item_007 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-008">
         <div class="fig-head"><span class="fig-no">Figure 8</span><span class="fig-title">item_008 · 脚凳</span>
           <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软包</span></div>
-        <a href="外观对比/item_008_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_008.jpg" alt="item_008 外观对比"></a>
+        <a href="外观对比/item_008_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_008.jpg" alt="item_008 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-009">
         <div class="fig-head"><span class="fig-no">Figure 9</span><span class="fig-title">item_009 · 边桌</span>
           <span class="c-badge head-badge" style="--cb:#7a5c2e">柜架与桌几</span></div>
-        <a href="外观对比/item_009_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_009.jpg" alt="item_009 外观对比"></a>
+        <a href="外观对比/item_009_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_009.jpg" alt="item_009 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-010">
         <div class="fig-head"><span class="fig-no">Figure 10</span><span class="fig-title">item_010 · 水果刀与刀鞘</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <a href="外观对比/item_010_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_010.jpg" alt="item_010 外观对比"></a>
+        <a href="外观对比/item_010_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_010.jpg" alt="item_010 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 刀鞘精修版模型。</figcaption>
       </figure>
       <figure class="card" id="app-011">
         <div class="fig-head"><span class="fig-no">Figure 11</span><span class="fig-title">item_011 · 床头桌</span>
           <span class="c-badge head-badge" style="--cb:#7a5c2e">柜架与桌几</span></div>
-        <a href="外观对比/item_011_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_011.jpg" alt="item_011 外观对比"></a>
+        <a href="外观对比/item_011_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_011.jpg" alt="item_011 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-012">
         <div class="fig-head"><span class="fig-no">Figure 12</span><span class="fig-title">item_012 · 六斗抽屉柜</span>
           <span class="c-badge head-badge" style="--cb:#7a5c2e">柜架与桌几</span></div>
-        <a href="外观对比/item_012_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_012.jpg" alt="item_012 外观对比"></a>
+        <a href="外观对比/item_012_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_012.jpg" alt="item_012 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-013">
         <div class="fig-head"><span class="fig-no">Figure 13</span><span class="fig-title">item_013 · 四槽面包机</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <a href="外观对比/item_013_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_013.jpg" alt="item_013 外观对比"></a>
+        <a href="外观对比/item_013_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_013.jpg" alt="item_013 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2（P1–P7）精修版模型。</figcaption>
       </figure>
       <figure class="card" id="app-014">
         <div class="fig-head"><span class="fig-no">Figure 14</span><span class="fig-title">item_014 · 微波炉</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <a href="外观对比/item_014_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_014.jpg" alt="item_014 外观对比"></a>
+        <a href="外观对比/item_014_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_014.jpg" alt="item_014 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 精修版模型。</figcaption>
       </figure>
       <figure class="card" id="app-015">
         <div class="fig-head"><span class="fig-no">Figure 15</span><span class="fig-title">item_015 · 电饭煲</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <a href="外观对比/item_015_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_015.jpg" alt="item_015 外观对比"></a>
+        <a href="外观对比/item_015_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_015.jpg" alt="item_015 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 精修版模型。</figcaption>
       </figure>
       <figure class="card" id="app-016">
         <div class="fig-head"><span class="fig-no">Figure 16</span><span class="fig-title">item_016 · 空气炸锅</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <a href="外观对比/item_016_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_016.jpg" alt="item_016 外观对比"></a>
+        <a href="外观对比/item_016_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_016.jpg" alt="item_016 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-017">
         <div class="fig-head"><span class="fig-no">Figure 17</span><span class="fig-title">item_017 · 电热水壶</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <a href="外观对比/item_017_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_017.jpg" alt="item_017 外观对比"></a>
+        <a href="外观对比/item_017_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_017.jpg" alt="item_017 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-018">
         <div class="fig-head"><span class="fig-no">Figure 18</span><span class="fig-title">item_018 · ThinkPad 笔记本电脑</span>
           <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
-        <a href="外观对比/item_018_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_018.jpg" alt="item_018 外观对比"></a>
+        <a href="外观对比/item_018_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_018.jpg" alt="item_018 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-019">
         <div class="fig-head"><span class="fig-no">Figure 19</span><span class="fig-title">item_019 · 粉色无线鼠标</span>
           <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
-        <a href="外观对比/item_019_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_019.jpg" alt="item_019 外观对比"></a>
+        <a href="外观对比/item_019_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_019.jpg" alt="item_019 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-020">
         <div class="fig-head"><span class="fig-no">Figure 20</span><span class="fig-title">item_020 · AOC 曲面显示器</span>
           <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
-        <a href="外观对比/item_020_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_020.jpg" alt="item_020 外观对比"></a>
+        <a href="外观对比/item_020_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_020.jpg" alt="item_020 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-021">
         <div class="fig-head"><span class="fig-no">Figure 21</span><span class="fig-title">item_021 · 蓝色悬挂抽纸包装</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <a href="外观对比/item_021_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_021.jpg" alt="item_021 外观对比"></a>
+        <a href="外观对比/item_021_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_021.jpg" alt="item_021 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-022">
         <div class="fig-head"><span class="fig-no">Figure 22</span><span class="fig-title">item_022 · 绿色无芯卷纸包装</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <a href="外观对比/item_022_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_022.jpg" alt="item_022 外观对比"></a>
+        <a href="外观对比/item_022_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_022.jpg" alt="item_022 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-023">
         <div class="fig-head"><span class="fig-no">Figure 23</span><span class="fig-title">item_023 · 深灰陶瓷马克杯</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <a href="外观对比/item_023_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_023.jpg" alt="item_023 外观对比"></a>
+        <a href="外观对比/item_023_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_023.jpg" alt="item_023 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。精修版模型。</figcaption>
       </figure>
       <figure class="card" id="app-024">
         <div class="fig-head"><span class="fig-no">Figure 24</span><span class="fig-title">item_024 · 黄色小熊垃圾桶</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <a href="外观对比/item_024_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_024.jpg" alt="item_024 外观对比"></a>
+        <a href="外观对比/item_024_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_024.jpg" alt="item_024 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-025">
         <div class="fig-head"><span class="fig-no">Figure 25</span><span class="fig-title">item_025 · 薯片袋（闭口未开封）</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <a href="外观对比/item_025_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_025.jpg" alt="item_025 外观对比"></a>
+        <a href="外观对比/item_025_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_025.jpg" alt="item_025 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v3 封口袋精修版模型。</figcaption>
       </figure>
       <figure class="card" id="app-026">
         <div class="fig-head"><span class="fig-no">Figure 26</span><span class="fig-title">item_026 · 罐装薯片</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <a href="外观对比/item_026_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_026.jpg" alt="item_026 外观对比"></a>
+        <a href="外观对比/item_026_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_026.jpg" alt="item_026 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-027">
         <div class="fig-head"><span class="fig-no">Figure 27</span><span class="fig-title">item_027 · 酸菜鱼调味料</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <a href="外观对比/item_027_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_027.jpg" alt="item_027 外观对比"></a>
+        <a href="外观对比/item_027_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_027.jpg" alt="item_027 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。精修版模型。</figcaption>
       </figure>
       <figure class="card" id="app-028">
         <div class="fig-head"><span class="fig-no">Figure 28</span><span class="fig-title">item_028 · 锅铲</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <a href="外观对比/item_028_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_028.jpg" alt="item_028 外观对比"></a>
+        <a href="外观对比/item_028_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_028.jpg" alt="item_028 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-029">
         <div class="fig-head"><span class="fig-no">Figure 29</span><span class="fig-title">item_029 · 木碗</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <a href="外观对比/item_029_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_029.jpg" alt="item_029 外观对比"></a>
+        <a href="外观对比/item_029_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_029.jpg" alt="item_029 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-030">
         <div class="fig-head"><span class="fig-no">Figure 30</span><span class="fig-title">item_030 · 木质兔子盘子</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <a href="外观对比/item_030_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_030.jpg" alt="item_030 外观对比"></a>
+        <a href="外观对比/item_030_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_030.jpg" alt="item_030 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-031">
         <div class="fig-head"><span class="fig-no">Figure 31</span><span class="fig-title">item_031 · 砧板</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <a href="外观对比/item_031_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_031.jpg" alt="item_031 外观对比"></a>
+        <a href="外观对比/item_031_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_031.jpg" alt="item_031 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
       </figure>
       <figure class="card" id="app-032">
         <div class="fig-head"><span class="fig-no">Figure 32</span><span class="fig-title">item_032 · 炒锅与玻璃锅盖</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <a href="外观对比/item_032_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" src="外观对比/thumbs/item_032.jpg" alt="item_032 外观对比"></a>
+        <a href="外观对比/item_032_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_032.jpg" alt="item_032 外观对比"></a>
         <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 精修版模型。</figcaption>
       </figure></div>
     <span class="back-top-link"><a href="#sec-overview-grid">↑ 返回总揽</a></span>
@@ -812,7 +852,7 @@
       <figure class="card video-card" id="vid-002">
         <div class="fig-head"><span class="fig-no">Video 1</span><span class="fig-title">item_002 · 果汁箱（含果汁饮料）</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_002_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_002_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_002_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：外盖解锁 → 双层插拴分片开启 → 内盖折页展开 → 果汁瓶取出/放回 → 重新闭合（R5 中央插舌槽口版）。<span class="meta">时长 22.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -820,7 +860,7 @@
       <figure class="card video-card" id="vid-003">
         <div class="fig-head"><span class="fig-no">Video 2</span><span class="fig-title">item_003 · 储物边柜</span>
           <span class="c-badge head-badge" style="--cb:#7a5c2e">柜架与桌几</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_003_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_003_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_003_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：柜门向内按压 → 保持 → 松手弹开 → 继续外摆 → 关门复锁（按压交互最终版）。<span class="meta">时长 22.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -828,7 +868,7 @@
       <figure class="card video-card" id="vid-004">
         <div class="fig-head"><span class="fig-no">Video 3</span><span class="fig-title">item_004 · 升降办公椅</span>
           <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软包</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_004_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_004_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_004_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：拨杆控制气杆升降、负载压缩、整椅旋转与滚动。<span class="meta">时长 22.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐；实物为直向拍摄，两侧以模糊背景填充补齐为严格 5:5（原生比例、不裁剪不拉伸））</span></figcaption>
@@ -836,7 +876,7 @@
       <figure class="card video-card" id="vid-005">
         <div class="fig-head"><span class="fig-no">Video 4</span><span class="fig-title">item_005 · 落地灯</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_005_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_005_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_005_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：脚踏/线控开关按压切换灯态，电线联动。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐；实物为直向拍摄，两侧以模糊背景填充补齐为严格 5:5（原生比例、不裁剪不拉伸））</span></figcaption>
@@ -844,7 +884,7 @@
       <figure class="card video-card" id="vid-006">
         <div class="fig-head"><span class="fig-no">Video 5</span><span class="fig-title">item_006 · L形靠背沙发</span>
           <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软包</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_006_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_006_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_006_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：连续软包坐压与回弹（坐下—停留—起身）。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -852,7 +892,7 @@
       <figure class="card video-card" id="vid-007">
         <div class="fig-head"><span class="fig-no">Video 6</span><span class="fig-title">item_007 · 单人椅</span>
           <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软包</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_007_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_007_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_007_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：连续软包坐压与回弹。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -860,7 +900,7 @@
       <figure class="card video-card" id="vid-008">
         <div class="fig-head"><span class="fig-no">Video 7</span><span class="fig-title">item_008 · 脚凳</span>
           <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软包</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_008_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_008_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_008_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：连续软包坐压与回弹。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -868,7 +908,7 @@
       <figure class="card video-card" id="vid-009">
         <div class="fig-head"><span class="fig-no">Video 8</span><span class="fig-title">item_009 · 边桌</span>
           <span class="c-badge head-badge" style="--cb:#7a5c2e">柜架与桌几</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_009_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_009_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_009_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：水瓶放置、松手稳定支撑、再次拿起。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -876,7 +916,7 @@
       <figure class="card video-card" id="vid-010">
         <div class="fig-head"><span class="fig-no">Video 9</span><span class="fig-title">item_010 · 水果刀与刀鞘</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_010_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_010_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_010_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：刀鞘拔出、独立侧移、入口对准、插回保持（v2 刀鞘精修）。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -884,7 +924,7 @@
       <figure class="card video-card" id="vid-011">
         <div class="fig-head"><span class="fig-no">Video 10</span><span class="fig-title">item_011 · 床头桌</span>
           <span class="c-badge head-badge" style="--cb:#7a5c2e">柜架与桌几</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_011_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_011_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_011_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：右侧铰链柜门开合。<span class="meta">时长 11.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐；实物为直向拍摄，两侧以模糊背景填充补齐为严格 5:5（原生比例、不裁剪不拉伸））</span></figcaption>
@@ -892,7 +932,7 @@
       <figure class="card video-card" id="vid-012">
         <div class="fig-head"><span class="fig-no">Video 11</span><span class="fig-title">item_012 · 六斗抽屉柜</span>
           <span class="c-badge head-badge" style="--cb:#7a5c2e">柜架与桌几</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_012_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_012_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_012_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：六个抽屉独立抽拉。<span class="meta">时长 19.8s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -900,7 +940,7 @@
       <figure class="card video-card" id="vid-013">
         <div class="fig-head"><span class="fig-no">Video 12</span><span class="fig-title">item_013 · 四槽面包机</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_013_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_013_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_013_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：双侧升降压杆与旋钮（v2 P1–P7 精修）。<span class="meta">时长 14.9s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -908,7 +948,7 @@
       <figure class="card video-card" id="vid-014">
         <div class="fig-head"><span class="fig-no">Video 13</span><span class="fig-title">item_014 · 微波炉</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_014_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_014_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_014_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：侧铰链门开合与内腔（v2 精修）。<span class="meta">时长 16.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -916,7 +956,7 @@
       <figure class="card video-card" id="vid-015">
         <div class="fig-head"><span class="fig-no">Video 14</span><span class="fig-title">item_015 · 电饭煲</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_015_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_015_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_015_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：按键解锁、掀盖、关闭复位（v2 精修）。<span class="meta">时长 11.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -924,7 +964,7 @@
       <figure class="card video-card" id="vid-016">
         <div class="fig-head"><span class="fig-no">Video 15</span><span class="fig-title">item_016 · 空气炸锅</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_016_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_016_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_016_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：抽拉内锅、双旋钮。<span class="meta">时长 11.4s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -932,7 +972,7 @@
       <figure class="card video-card" id="vid-017">
         <div class="fig-head"><span class="fig-no">Video 16</span><span class="fig-title">item_017 · 电热水壶</span>
           <span class="c-badge head-badge" style="--cb:#a1741f">灯具与电器</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_017_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_017_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_017_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：按键开盖、提壶与回底座。<span class="meta">时长 21.4s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -940,7 +980,7 @@
       <figure class="card video-card" id="vid-018">
         <div class="fig-head"><span class="fig-no">Video 17</span><span class="fig-title">item_018 · ThinkPad 笔记本电脑</span>
           <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_018_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_018_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_018_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：屏幕翻盖、独立按键。<span class="meta">时长 15.6s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -948,7 +988,7 @@
       <figure class="card video-card" id="vid-019">
         <div class="fig-head"><span class="fig-no">Video 18</span><span class="fig-title">item_019 · 粉色无线鼠标</span>
           <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_019_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_019_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_019_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：翻转露底开关、按键、滚轮。<span class="meta">时长 12.6s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -956,7 +996,7 @@
       <figure class="card video-card" id="vid-020">
         <div class="fig-head"><span class="fig-no">Video 19</span><span class="fig-title">item_020 · AOC 曲面显示器</span>
           <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_020_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_020_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_020_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：曲屏支架升降。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -964,7 +1004,7 @@
       <figure class="card video-card" id="vid-021">
         <div class="fig-head"><span class="fig-no">Video 20</span><span class="fig-title">item_021 · 蓝色悬挂抽纸包装</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_021_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_021_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_021_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：整包拿取、挤压与回弹。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -972,7 +1012,7 @@
       <figure class="card video-card" id="vid-022">
         <div class="fig-head"><span class="fig-no">Video 21</span><span class="fig-title">item_022 · 绿色无芯卷纸包装</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_022_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_022_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_022_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：整包翻转、挤压与回弹。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -980,7 +1020,7 @@
       <figure class="card video-card" id="vid-023">
         <div class="fig-head"><span class="fig-no">Video 22</span><span class="fig-title">item_023 · 深灰陶瓷马克杯</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_023_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_023_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_023_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：拿取、倾斜、放回。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -988,7 +1028,7 @@
       <figure class="card video-card" id="vid-024">
         <div class="fig-head"><span class="fig-no">Video 23</span><span class="fig-title">item_024 · 黄色小熊垃圾桶</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_024_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_024_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_024_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：压圈取下与复位。<span class="meta">时长 19.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -996,7 +1036,7 @@
       <figure class="card video-card" id="vid-025">
         <div class="fig-head"><span class="fig-no">Video 24</span><span class="fig-title">item_025 · 薯片袋（闭口未开封）</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_025_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_025_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_025_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：抓握挤压、捏顶封提起旋转、放回自立（v3 精修）。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -1004,7 +1044,7 @@
       <figure class="card video-card" id="vid-026">
         <div class="fig-head"><span class="fig-no">Video 25</span><span class="fig-title">item_026 · 罐装薯片</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_026_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_026_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_026_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：独立罐盖取下、侧移与回扣。<span class="meta">时长 16.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -1012,7 +1052,7 @@
       <figure class="card video-card" id="vid-027">
         <div class="fig-head"><span class="fig-no">Video 26</span><span class="fig-title">item_027 · 酸菜鱼调味料</span>
           <span class="c-badge head-badge" style="--cb:#7d4a86">包装与软物</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_027_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_027_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_027_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：纸盒顶盖与折页、料包取出。<span class="meta">时长 14.5s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -1020,7 +1060,7 @@
       <figure class="card video-card" id="vid-028">
         <div class="fig-head"><span class="fig-no">Video 27</span><span class="fig-title">item_028 · 锅铲</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_028_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_028_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_028_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：提起、翻转、放回。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -1028,7 +1068,7 @@
       <figure class="card video-card" id="vid-029">
         <div class="fig-head"><span class="fig-no">Video 28</span><span class="fig-title">item_029 · 木碗</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_029_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_029_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_029_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：捧起、倾斜展示内腔、放回。<span class="meta">时长 14.9s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -1036,7 +1076,7 @@
       <figure class="card video-card" id="vid-030">
         <div class="fig-head"><span class="fig-no">Video 29</span><span class="fig-title">item_030 · 木质兔子盘子</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_030_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_030_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_030_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：由耳部拿取、整体倾斜、放回。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -1044,7 +1084,7 @@
       <figure class="card video-card" id="vid-031">
         <div class="fig-head"><span class="fig-no">Video 30</span><span class="fig-title">item_031 · 砧板</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_031_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_031_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_031_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：握柄拿取、倾斜、放回。<span class="meta">时长 12.0s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -1052,7 +1092,7 @@
       <figure class="card video-card" id="vid-032">
         <div class="fig-head"><span class="fig-no">Video 31</span><span class="fig-title">item_032 · 炒锅与玻璃锅盖</span>
           <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房与餐具</span></div>
-        <video controls preload="none" poster="交互对比/posters/item_032_交互对比_Newton_vs_实物.jpg">
+        <video controls preload="none" playsinline poster="交互对比/posters/item_032_交互对比_Newton_vs_实物.jpg">
           <source src="交互对比/item_032_交互对比_Newton_vs_实物.mp4" type="video/mp4">
         </video>
         <figcaption><b>交互内容</b>：独立揭盖、抬锅倾斜、先锅后盖放回（v2 精修）。<span class="meta">时长 14.3s · 左屏 Newton 重建交互录制，右屏实物交互录像（720p/30fps，左右严格 5:5 对半，较短侧末帧定格补齐）</span></figcaption>
@@ -1062,12 +1102,21 @@
 
   <footer>
     交付对比_20260911 · 重建资产与实物对比报告 · 生成于 2026-09-11<br>
-    外观对比 32 项 · 交互对比视频 31 支 · 合成脚本与清单见同目录 <code>README.md</code> 与 <code>tools/</code>
+    外观对比 32 项 · 交互对比视频 31 支 · 合成脚本与清单见同目录 <code>README.md</code> 与 <code>tools/</code><br>
+    <a href="https://linbornrain.github.io/projects/3d-reconstruction/">← 返回项目页</a> ·
+    <a href="https://linbornrain.github.io/projects/">全部项目</a> ·
+    <a href="https://linbornrain.github.io/">个人主页</a>
   </footer>
 </div>
 
 <div id="lightbox">
-  <div class="lb-hint">上下滚动查看完整长图 · 点击任意处或按 Esc 关闭</div>
+  <div class="lb-bar">
+    <button class="lb-nav" id="lb-prev" title="上一张（←）" aria-label="上一张">‹</button>
+    <span class="lb-count" id="lb-count">1 / 1</span>
+    <button class="lb-nav" id="lb-next" title="下一张（→）" aria-label="下一张">›</button>
+    <button class="lb-close" id="lb-close" title="关闭（Esc）" aria-label="关闭">✕</button>
+  </div>
+  <div class="lb-hint">上下滚动查看完整长图 · ← / → 切换 · 点击空白或按 Esc 关闭</div>
   <img id="lightbox-img" src="" alt="">
 </div>
 <button id="top-btn" title="回到顶部">↑</button>
@@ -1104,33 +1153,69 @@
   }, {rootMargin: '-20% 0px -70% 0px'});
   secs.forEach(s => spy.observe(s));
 
-  // 类别筛选
+  // 类别筛选 + 关键词搜索（联动，带计数）
+  const ovCards = [...document.querySelectorAll('.ov-card')];
+  const ovCount = document.getElementById('ov-count');
+  const ovEmpty = document.getElementById('ov-empty');
+  let curCat = 'all';
+  let curQ = '';
+  function applyFilter() {
+    let shown = 0;
+    ovCards.forEach(c => {
+      const okCat = curCat === 'all' || c.dataset.cat === curCat;
+      const okQ = !curQ || c.dataset.search.includes(curQ);
+      const show = okCat && okQ;
+      c.style.display = show ? '' : 'none';
+      if (show) shown++;
+    });
+    ovCount.textContent = shown + ' / ' + ovCards.length;
+    ovEmpty.hidden = shown !== 0;
+  }
   document.querySelectorAll('.flt').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.flt').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const cat = btn.dataset.cat;
-      document.querySelectorAll('.ov-card').forEach(c => {
-        c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
-      });
+      curCat = btn.dataset.cat;
+      applyFilter();
     });
   });
+  const ovQ = document.getElementById('ov-q');
+  ovQ.addEventListener('input', () => { curQ = ovQ.value.trim().toLowerCase(); applyFilter(); });
+  ovQ.addEventListener('keydown', e => { if (e.key === 'Escape') { ovQ.value = ''; curQ = ''; applyFilter(); } });
 
-  // lightbox（可滚动查看长图）
+  // lightbox（可滚动查看长图 + 上一张/下一张）
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lightbox-img');
-  document.querySelectorAll('[data-lightbox]').forEach(a => {
+  const lbCount = document.getElementById('lb-count');
+  const lbPrev = document.getElementById('lb-prev');
+  const lbNext = document.getElementById('lb-next');
+  const gallery = [...document.querySelectorAll('[data-lightbox]')];
+  let lbIdx = -1;
+  function showIdx(i) {
+    lbIdx = (i + gallery.length) % gallery.length;
+    lbImg.src = gallery[lbIdx].getAttribute('href');
+    lbCount.textContent = (lbIdx + 1) + ' / ' + gallery.length;
+    lb.scrollTop = 0;
+  }
+  gallery.forEach((a, i) => {
     a.addEventListener('click', e => {
       e.preventDefault();
-      lbImg.src = a.getAttribute('href');
+      showIdx(i);
       lb.classList.add('open');
-      lb.scrollTop = 0;
       document.body.style.overflow = 'hidden';
     });
   });
   function closeLb() { lb.classList.remove('open'); lbImg.src=''; document.body.style.overflow=''; }
+  lbPrev.addEventListener('click', e => { e.stopPropagation(); showIdx(lbIdx - 1); });
+  lbNext.addEventListener('click', e => { e.stopPropagation(); showIdx(lbIdx + 1); });
+  lbImg.addEventListener('click', e => e.stopPropagation());
   lb.addEventListener('click', closeLb);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') showIdx(lbIdx - 1);
+    if (e.key === 'ArrowRight') showIdx(lbIdx + 1);
+  });
 
   // 视频互斥播放
   document.querySelectorAll('video').forEach(v => {
