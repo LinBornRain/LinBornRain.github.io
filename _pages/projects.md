@@ -6,6 +6,23 @@ permalink: /projects/
 
 # 项目经历
 
+## 3D 物体外观和交互重建
+
+**个人项目** · 2026.09
+
+以手机实拍的外观/交互视频为唯一依据，对 32 个日常物体（家具、电器、数码外设、包装软物、厨房餐具）进行外观与交互的一对一重建。
+
+- 每项构建带原生 USD Physics 关节的可仿真 USD/USDZ 资产，在 Newton（SolverMuJoCo）中复现真实交互动作
+- 外观对比：每项 3~4 个与实物录像帧逐角度对应的视图，统一 1280px 宽、左实物｜右重建严格 5:5、图内无文字
+- 交互对比：31 支左右并置视频（左 Newton 录制 / 右实物录像），720p、严格 5:5，直向实物视频以模糊填充补齐
+- 累计 240+ 项 Newton 物理检查通过
+
+**技术栈**: `USD / USDZ` `Newton` `SolverMuJoCo` `Blender` `FFmpeg` `Python` `Real2Sim`
+
+→ [打开完整对比报告（32 图 + 31 视频）](/assets/projects/3d-reconstruction/index.html) · [项目页](/projects/3d-reconstruction/)
+
+---
+
 ## 柔性物体（面料）操作场景的仿真引擎及系统搭建
 
 **杰克科技 / 艾图机器人** · 2026.03 ~ 至今
