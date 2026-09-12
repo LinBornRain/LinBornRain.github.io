@@ -131,6 +131,51 @@
   .cat-nav a b { color: var(--ink); font-size: 11.5px; }
   .cat-nav a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
 
+  /* ===== 外观对比轮播（每类目一个） ===== */
+  .carousel { position: relative; max-width: 960px; margin: 6px auto 0; outline: none; }
+  .carousel:focus-visible { box-shadow: 0 0 0 3px rgba(154,43,43,.12); border-radius: 12px; }
+  .car-viewport { position: relative; }
+  .car-slide { display: none; margin: 0; }
+  .car-slide.active { display: block; animation: carIn .34s ease both; }
+  @keyframes carIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .car-btn {
+    position: absolute; top: 44%; z-index: 3; width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--line); background: rgba(255,255,255,.94); color: var(--ink);
+    font-size: 21px; line-height: 1; cursor: pointer; box-shadow: 0 2px 12px rgba(60,45,20,.16);
+    display: flex; align-items: center; justify-content: center; transition: all .15s;
+  }
+  .car-btn:hover { color: var(--accent); border-color: var(--accent); transform: scale(1.06); }
+  .car-prev { left: -8px; }
+  .car-next { right: -8px; }
+  .car-bar {
+    display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 14px;
+  }
+  .car-dots { display: flex; gap: 7px; }
+  .car-dot {
+    width: 9px; height: 9px; padding: 0; border-radius: 50%; border: 0; cursor: pointer;
+    background: #d9d3c5; transition: all .15s;
+  }
+  .car-dot:hover { background: #bdb5a4; }
+  .car-dot.active { background: var(--accent); transform: scale(1.3); }
+  .car-count { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .05em; }
+  .car-thumbs {
+    display: flex; gap: 8px; max-width: 100%; overflow-x: auto; padding: 2px 2px 6px;
+    scrollbar-width: thin;
+  }
+  .car-thumb {
+    flex: none; width: 92px; height: 46px; padding: 0; border-radius: 7px; overflow: hidden;
+    border: 2px solid transparent; background: var(--soft); cursor: pointer; opacity: .62;
+    transition: all .18s;
+  }
+  .car-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .car-thumb:hover { opacity: .9; }
+  .car-thumb.active { border-color: var(--accent); opacity: 1; }
+  @media (max-width: 760px) {
+    .car-btn { width: 36px; height: 36px; font-size: 18px; }
+    .car-prev { left: -2px; } .car-next { right: -2px; }
+    .car-thumb { width: 74px; height: 37px; }
+  }
+
   /* ===== 总揽 ===== */
   .ov-toolbar {
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
@@ -701,223 +746,318 @@
     
     <div class="cat-block" id="app-cat-cabinet" data-cat="cabinet">
       <h3 class="cat-head"><span class="cat-dot" style="background:#7a5c2e"></span><span class="cat-name">收纳柜与桌几</span><span class="cat-count">5 项</span></h3>
-      <div class="fig-grid">
-        <figure class="card" id="app-001">
-          <div class="fig-head"><span class="fig-no">Figure 1</span><span class="fig-title">item_001 · 储物柜</span>
-            <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
-          <a href="外观对比/item_001_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_001.jpg" alt="item_001 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。3 视角。模型渲染来自交付管线（PhysX-Anything）Blender 验证渲染。</figcaption>
-        </figure>
-        <figure class="card" id="app-003">
-          <div class="fig-head"><span class="fig-no">Figure 2</span><span class="fig-title">item_003 · 储物边柜</span>
-            <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
-          <a href="外观对比/item_003_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_003.jpg" alt="item_003 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。3 视角。最终按压交互版模型（Cycles 渲染）。</figcaption>
-        </figure>
-        <figure class="card" id="app-009">
-          <div class="fig-head"><span class="fig-no">Figure 3</span><span class="fig-title">item_009 · 边桌</span>
-            <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
-          <a href="外观对比/item_009_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_009.jpg" alt="item_009 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-011">
-          <div class="fig-head"><span class="fig-no">Figure 4</span><span class="fig-title">item_011 · 床头桌</span>
-            <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
-          <a href="外观对比/item_011_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_011.jpg" alt="item_011 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-012">
-          <div class="fig-head"><span class="fig-no">Figure 5</span><span class="fig-title">item_012 · 六斗抽屉柜</span>
-            <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
-          <a href="外观对比/item_012_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_012.jpg" alt="item_012 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure></div>
+      <div class="carousel" tabindex="0" aria-label="收纳柜与桌几 外观对比轮播">
+        <div class="car-viewport">
+          <figure class="card car-slide active" id="app-001">
+            <div class="fig-head"><span class="fig-no">Figure 1</span><span class="fig-title">item_001 · 储物柜</span>
+              <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
+            <a href="外观对比/item_001_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_001.jpg" alt="item_001 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。3 视角。模型渲染来自交付管线（PhysX-Anything）Blender 验证渲染。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-003">
+            <div class="fig-head"><span class="fig-no">Figure 2</span><span class="fig-title">item_003 · 储物边柜</span>
+              <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
+            <a href="外观对比/item_003_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_003.jpg" alt="item_003 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。3 视角。最终按压交互版模型（Cycles 渲染）。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-009">
+            <div class="fig-head"><span class="fig-no">Figure 3</span><span class="fig-title">item_009 · 边桌</span>
+              <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
+            <a href="外观对比/item_009_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_009.jpg" alt="item_009 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-011">
+            <div class="fig-head"><span class="fig-no">Figure 4</span><span class="fig-title">item_011 · 床头桌</span>
+              <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
+            <a href="外观对比/item_011_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_011.jpg" alt="item_011 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-012">
+            <div class="fig-head"><span class="fig-no">Figure 5</span><span class="fig-title">item_012 · 六斗抽屉柜</span>
+              <span class="c-badge head-badge" style="--cb:#7a5c2e">收纳柜与桌几</span></div>
+            <a href="外观对比/item_012_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_012.jpg" alt="item_012 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure></div>
+        <button class="car-btn car-prev" type="button" aria-label="上一张">‹</button>
+        <button class="car-btn car-next" type="button" aria-label="下一张">›</button>
+        <div class="car-bar">
+          <div class="car-dots"><button class="car-dot active" type="button" aria-label="第 1 张"></button><button class="car-dot" type="button" aria-label="第 2 张"></button><button class="car-dot" type="button" aria-label="第 3 张"></button><button class="car-dot" type="button" aria-label="第 4 张"></button><button class="car-dot" type="button" aria-label="第 5 张"></button></div>
+          <div class="car-count">1 / 5</div>
+          <div class="car-thumbs"><button class="car-thumb active" type="button" title="item_001 · 储物柜" aria-label="切换到 item_001">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_001.jpg" alt="item_001"></button><button class="car-thumb" type="button" title="item_003 · 储物边柜" aria-label="切换到 item_003">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_003.jpg" alt="item_003"></button><button class="car-thumb" type="button" title="item_009 · 边桌" aria-label="切换到 item_009">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_009.jpg" alt="item_009"></button><button class="car-thumb" type="button" title="item_011 · 床头桌" aria-label="切换到 item_011">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_011.jpg" alt="item_011"></button><button class="car-thumb" type="button" title="item_012 · 六斗抽屉柜" aria-label="切换到 item_012">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_012.jpg" alt="item_012"></button></div>
+        </div>
+      </div>
     </div>
     <div class="cat-block" id="app-cat-seating" data-cat="seating">
       <h3 class="cat-head"><span class="cat-dot" style="background:#2e6b4f"></span><span class="cat-name">座椅与软体家具</span><span class="cat-count">4 项</span></h3>
-      <div class="fig-grid">
-        <figure class="card" id="app-004">
-          <div class="fig-head"><span class="fig-no">Figure 6</span><span class="fig-title">item_004 · 升降办公椅</span>
-            <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软体家具</span></div>
-          <a href="外观对比/item_004_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_004.jpg" alt="item_004 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-006">
-          <div class="fig-head"><span class="fig-no">Figure 7</span><span class="fig-title">item_006 · L形靠背沙发</span>
-            <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软体家具</span></div>
-          <a href="外观对比/item_006_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_006.jpg" alt="item_006 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-007">
-          <div class="fig-head"><span class="fig-no">Figure 8</span><span class="fig-title">item_007 · 单人椅</span>
-            <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软体家具</span></div>
-          <a href="外观对比/item_007_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_007.jpg" alt="item_007 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-008">
-          <div class="fig-head"><span class="fig-no">Figure 9</span><span class="fig-title">item_008 · 脚凳</span>
-            <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软体家具</span></div>
-          <a href="外观对比/item_008_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_008.jpg" alt="item_008 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure></div>
+      <div class="carousel" tabindex="0" aria-label="座椅与软体家具 外观对比轮播">
+        <div class="car-viewport">
+          <figure class="card car-slide active" id="app-004">
+            <div class="fig-head"><span class="fig-no">Figure 6</span><span class="fig-title">item_004 · 升降办公椅</span>
+              <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软体家具</span></div>
+            <a href="外观对比/item_004_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_004.jpg" alt="item_004 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-006">
+            <div class="fig-head"><span class="fig-no">Figure 7</span><span class="fig-title">item_006 · L形靠背沙发</span>
+              <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软体家具</span></div>
+            <a href="外观对比/item_006_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_006.jpg" alt="item_006 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-007">
+            <div class="fig-head"><span class="fig-no">Figure 8</span><span class="fig-title">item_007 · 单人椅</span>
+              <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软体家具</span></div>
+            <a href="外观对比/item_007_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_007.jpg" alt="item_007 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-008">
+            <div class="fig-head"><span class="fig-no">Figure 9</span><span class="fig-title">item_008 · 脚凳</span>
+              <span class="c-badge head-badge" style="--cb:#2e6b4f">座椅与软体家具</span></div>
+            <a href="外观对比/item_008_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_008.jpg" alt="item_008 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure></div>
+        <button class="car-btn car-prev" type="button" aria-label="上一张">‹</button>
+        <button class="car-btn car-next" type="button" aria-label="下一张">›</button>
+        <div class="car-bar">
+          <div class="car-dots"><button class="car-dot active" type="button" aria-label="第 1 张"></button><button class="car-dot" type="button" aria-label="第 2 张"></button><button class="car-dot" type="button" aria-label="第 3 张"></button><button class="car-dot" type="button" aria-label="第 4 张"></button></div>
+          <div class="car-count">1 / 4</div>
+          <div class="car-thumbs"><button class="car-thumb active" type="button" title="item_004 · 升降办公椅" aria-label="切换到 item_004">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_004.jpg" alt="item_004"></button><button class="car-thumb" type="button" title="item_006 · L形靠背沙发" aria-label="切换到 item_006">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_006.jpg" alt="item_006"></button><button class="car-thumb" type="button" title="item_007 · 单人椅" aria-label="切换到 item_007">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_007.jpg" alt="item_007"></button><button class="car-thumb" type="button" title="item_008 · 脚凳" aria-label="切换到 item_008">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_008.jpg" alt="item_008"></button></div>
+        </div>
+      </div>
     </div>
     <div class="cat-block" id="app-cat-household" data-cat="household">
       <h3 class="cat-head"><span class="cat-dot" style="background:#5f6f7a"></span><span class="cat-name">照明与家居杂项</span><span class="cat-count">2 项</span></h3>
-      <div class="fig-grid">
-        <figure class="card" id="app-005">
-          <div class="fig-head"><span class="fig-no">Figure 10</span><span class="fig-title">item_005 · 落地灯</span>
-            <span class="c-badge head-badge" style="--cb:#5f6f7a">照明与家居杂项</span></div>
-          <a href="外观对比/item_005_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_005.jpg" alt="item_005 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-024">
-          <div class="fig-head"><span class="fig-no">Figure 11</span><span class="fig-title">item_024 · 黄色小熊垃圾桶</span>
-            <span class="c-badge head-badge" style="--cb:#5f6f7a">照明与家居杂项</span></div>
-          <a href="外观对比/item_024_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_024.jpg" alt="item_024 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure></div>
+      <div class="carousel" tabindex="0" aria-label="照明与家居杂项 外观对比轮播">
+        <div class="car-viewport">
+          <figure class="card car-slide active" id="app-005">
+            <div class="fig-head"><span class="fig-no">Figure 10</span><span class="fig-title">item_005 · 落地灯</span>
+              <span class="c-badge head-badge" style="--cb:#5f6f7a">照明与家居杂项</span></div>
+            <a href="外观对比/item_005_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_005.jpg" alt="item_005 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-024">
+            <div class="fig-head"><span class="fig-no">Figure 11</span><span class="fig-title">item_024 · 黄色小熊垃圾桶</span>
+              <span class="c-badge head-badge" style="--cb:#5f6f7a">照明与家居杂项</span></div>
+            <a href="外观对比/item_024_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_024.jpg" alt="item_024 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure></div>
+        <button class="car-btn car-prev" type="button" aria-label="上一张">‹</button>
+        <button class="car-btn car-next" type="button" aria-label="下一张">›</button>
+        <div class="car-bar">
+          <div class="car-dots"><button class="car-dot active" type="button" aria-label="第 1 张"></button><button class="car-dot" type="button" aria-label="第 2 张"></button></div>
+          <div class="car-count">1 / 2</div>
+          <div class="car-thumbs"><button class="car-thumb active" type="button" title="item_005 · 落地灯" aria-label="切换到 item_005">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_005.jpg" alt="item_005"></button><button class="car-thumb" type="button" title="item_024 · 黄色小熊垃圾桶" aria-label="切换到 item_024">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_024.jpg" alt="item_024"></button></div>
+        </div>
+      </div>
     </div>
     <div class="cat-block" id="app-cat-appliance" data-cat="appliance">
       <h3 class="cat-head"><span class="cat-dot" style="background:#a1741f"></span><span class="cat-name">厨房电器</span><span class="cat-count">5 项</span></h3>
-      <div class="fig-grid">
-        <figure class="card" id="app-013">
-          <div class="fig-head"><span class="fig-no">Figure 12</span><span class="fig-title">item_013 · 四槽面包机</span>
-            <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
-          <a href="外观对比/item_013_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_013.jpg" alt="item_013 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2（P1–P7）精修版模型。</figcaption>
-        </figure>
-        <figure class="card" id="app-014">
-          <div class="fig-head"><span class="fig-no">Figure 13</span><span class="fig-title">item_014 · 微波炉</span>
-            <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
-          <a href="外观对比/item_014_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_014.jpg" alt="item_014 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 精修版模型。</figcaption>
-        </figure>
-        <figure class="card" id="app-015">
-          <div class="fig-head"><span class="fig-no">Figure 14</span><span class="fig-title">item_015 · 电饭煲</span>
-            <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
-          <a href="外观对比/item_015_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_015.jpg" alt="item_015 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 精修版模型。</figcaption>
-        </figure>
-        <figure class="card" id="app-016">
-          <div class="fig-head"><span class="fig-no">Figure 15</span><span class="fig-title">item_016 · 空气炸锅</span>
-            <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
-          <a href="外观对比/item_016_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_016.jpg" alt="item_016 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-017">
-          <div class="fig-head"><span class="fig-no">Figure 16</span><span class="fig-title">item_017 · 电热水壶</span>
-            <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
-          <a href="外观对比/item_017_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_017.jpg" alt="item_017 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure></div>
+      <div class="carousel" tabindex="0" aria-label="厨房电器 外观对比轮播">
+        <div class="car-viewport">
+          <figure class="card car-slide active" id="app-013">
+            <div class="fig-head"><span class="fig-no">Figure 12</span><span class="fig-title">item_013 · 四槽面包机</span>
+              <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
+            <a href="外观对比/item_013_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_013.jpg" alt="item_013 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2（P1–P7）精修版模型。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-014">
+            <div class="fig-head"><span class="fig-no">Figure 13</span><span class="fig-title">item_014 · 微波炉</span>
+              <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
+            <a href="外观对比/item_014_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_014.jpg" alt="item_014 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 精修版模型。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-015">
+            <div class="fig-head"><span class="fig-no">Figure 14</span><span class="fig-title">item_015 · 电饭煲</span>
+              <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
+            <a href="外观对比/item_015_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_015.jpg" alt="item_015 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 精修版模型。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-016">
+            <div class="fig-head"><span class="fig-no">Figure 15</span><span class="fig-title">item_016 · 空气炸锅</span>
+              <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
+            <a href="外观对比/item_016_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_016.jpg" alt="item_016 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-017">
+            <div class="fig-head"><span class="fig-no">Figure 16</span><span class="fig-title">item_017 · 电热水壶</span>
+              <span class="c-badge head-badge" style="--cb:#a1741f">厨房电器</span></div>
+            <a href="外观对比/item_017_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_017.jpg" alt="item_017 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure></div>
+        <button class="car-btn car-prev" type="button" aria-label="上一张">‹</button>
+        <button class="car-btn car-next" type="button" aria-label="下一张">›</button>
+        <div class="car-bar">
+          <div class="car-dots"><button class="car-dot active" type="button" aria-label="第 1 张"></button><button class="car-dot" type="button" aria-label="第 2 张"></button><button class="car-dot" type="button" aria-label="第 3 张"></button><button class="car-dot" type="button" aria-label="第 4 张"></button><button class="car-dot" type="button" aria-label="第 5 张"></button></div>
+          <div class="car-count">1 / 5</div>
+          <div class="car-thumbs"><button class="car-thumb active" type="button" title="item_013 · 四槽面包机" aria-label="切换到 item_013">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_013.jpg" alt="item_013"></button><button class="car-thumb" type="button" title="item_014 · 微波炉" aria-label="切换到 item_014">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_014.jpg" alt="item_014"></button><button class="car-thumb" type="button" title="item_015 · 电饭煲" aria-label="切换到 item_015">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_015.jpg" alt="item_015"></button><button class="car-thumb" type="button" title="item_016 · 空气炸锅" aria-label="切换到 item_016">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_016.jpg" alt="item_016"></button><button class="car-thumb" type="button" title="item_017 · 电热水壶" aria-label="切换到 item_017">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_017.jpg" alt="item_017"></button></div>
+        </div>
+      </div>
     </div>
     <div class="cat-block" id="app-cat-digital" data-cat="digital">
       <h3 class="cat-head"><span class="cat-dot" style="background:#2f5d8a"></span><span class="cat-name">数码外设</span><span class="cat-count">3 项</span></h3>
-      <div class="fig-grid">
-        <figure class="card" id="app-018">
-          <div class="fig-head"><span class="fig-no">Figure 17</span><span class="fig-title">item_018 · ThinkPad 笔记本电脑</span>
-            <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
-          <a href="外观对比/item_018_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_018.jpg" alt="item_018 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-019">
-          <div class="fig-head"><span class="fig-no">Figure 18</span><span class="fig-title">item_019 · 粉色无线鼠标</span>
-            <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
-          <a href="外观对比/item_019_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_019.jpg" alt="item_019 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-020">
-          <div class="fig-head"><span class="fig-no">Figure 19</span><span class="fig-title">item_020 · AOC 曲面显示器</span>
-            <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
-          <a href="外观对比/item_020_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_020.jpg" alt="item_020 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure></div>
+      <div class="carousel" tabindex="0" aria-label="数码外设 外观对比轮播">
+        <div class="car-viewport">
+          <figure class="card car-slide active" id="app-018">
+            <div class="fig-head"><span class="fig-no">Figure 17</span><span class="fig-title">item_018 · ThinkPad 笔记本电脑</span>
+              <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
+            <a href="外观对比/item_018_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_018.jpg" alt="item_018 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-019">
+            <div class="fig-head"><span class="fig-no">Figure 18</span><span class="fig-title">item_019 · 粉色无线鼠标</span>
+              <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
+            <a href="外观对比/item_019_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_019.jpg" alt="item_019 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-020">
+            <div class="fig-head"><span class="fig-no">Figure 19</span><span class="fig-title">item_020 · AOC 曲面显示器</span>
+              <span class="c-badge head-badge" style="--cb:#2f5d8a">数码外设</span></div>
+            <a href="外观对比/item_020_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_020.jpg" alt="item_020 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure></div>
+        <button class="car-btn car-prev" type="button" aria-label="上一张">‹</button>
+        <button class="car-btn car-next" type="button" aria-label="下一张">›</button>
+        <div class="car-bar">
+          <div class="car-dots"><button class="car-dot active" type="button" aria-label="第 1 张"></button><button class="car-dot" type="button" aria-label="第 2 张"></button><button class="car-dot" type="button" aria-label="第 3 张"></button></div>
+          <div class="car-count">1 / 3</div>
+          <div class="car-thumbs"><button class="car-thumb active" type="button" title="item_018 · ThinkPad 笔记本电脑" aria-label="切换到 item_018">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_018.jpg" alt="item_018"></button><button class="car-thumb" type="button" title="item_019 · 粉色无线鼠标" aria-label="切换到 item_019">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_019.jpg" alt="item_019"></button><button class="car-thumb" type="button" title="item_020 · AOC 曲面显示器" aria-label="切换到 item_020">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_020.jpg" alt="item_020"></button></div>
+        </div>
+      </div>
     </div>
     <div class="cat-block" id="app-cat-package" data-cat="package">
       <h3 class="cat-head"><span class="cat-dot" style="background:#7d4a86"></span><span class="cat-name">包装与容器</span><span class="cat-count">6 项</span></h3>
-      <div class="fig-grid">
-        <figure class="card" id="app-002">
-          <div class="fig-head"><span class="fig-no">Figure 20</span><span class="fig-title">item_002 · 果汁箱（含果汁饮料）</span>
-            <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
-          <a href="外观对比/item_002_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_002.jpg" alt="item_002 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。R5 中央插舌槽口版模型。</figcaption>
-        </figure>
-        <figure class="card" id="app-021">
-          <div class="fig-head"><span class="fig-no">Figure 21</span><span class="fig-title">item_021 · 蓝色悬挂抽纸包装</span>
-            <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
-          <a href="外观对比/item_021_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_021.jpg" alt="item_021 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-022">
-          <div class="fig-head"><span class="fig-no">Figure 22</span><span class="fig-title">item_022 · 绿色无芯卷纸包装</span>
-            <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
-          <a href="外观对比/item_022_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_022.jpg" alt="item_022 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-025">
-          <div class="fig-head"><span class="fig-no">Figure 23</span><span class="fig-title">item_025 · 薯片袋（闭口未开封）</span>
-            <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
-          <a href="外观对比/item_025_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_025.jpg" alt="item_025 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v3 封口袋精修版模型。</figcaption>
-        </figure>
-        <figure class="card" id="app-026">
-          <div class="fig-head"><span class="fig-no">Figure 24</span><span class="fig-title">item_026 · 罐装薯片</span>
-            <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
-          <a href="外观对比/item_026_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_026.jpg" alt="item_026 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-027">
-          <div class="fig-head"><span class="fig-no">Figure 25</span><span class="fig-title">item_027 · 酸菜鱼调味料</span>
-            <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
-          <a href="外观对比/item_027_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_027.jpg" alt="item_027 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。精修版模型。</figcaption>
-        </figure></div>
+      <div class="carousel" tabindex="0" aria-label="包装与容器 外观对比轮播">
+        <div class="car-viewport">
+          <figure class="card car-slide active" id="app-002">
+            <div class="fig-head"><span class="fig-no">Figure 20</span><span class="fig-title">item_002 · 果汁箱（含果汁饮料）</span>
+              <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
+            <a href="外观对比/item_002_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_002.jpg" alt="item_002 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。R5 中央插舌槽口版模型。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-021">
+            <div class="fig-head"><span class="fig-no">Figure 21</span><span class="fig-title">item_021 · 蓝色悬挂抽纸包装</span>
+              <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
+            <a href="外观对比/item_021_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_021.jpg" alt="item_021 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-022">
+            <div class="fig-head"><span class="fig-no">Figure 22</span><span class="fig-title">item_022 · 绿色无芯卷纸包装</span>
+              <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
+            <a href="外观对比/item_022_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_022.jpg" alt="item_022 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-025">
+            <div class="fig-head"><span class="fig-no">Figure 23</span><span class="fig-title">item_025 · 薯片袋（闭口未开封）</span>
+              <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
+            <a href="外观对比/item_025_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_025.jpg" alt="item_025 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v3 封口袋精修版模型。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-026">
+            <div class="fig-head"><span class="fig-no">Figure 24</span><span class="fig-title">item_026 · 罐装薯片</span>
+              <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
+            <a href="外观对比/item_026_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_026.jpg" alt="item_026 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-027">
+            <div class="fig-head"><span class="fig-no">Figure 25</span><span class="fig-title">item_027 · 酸菜鱼调味料</span>
+              <span class="c-badge head-badge" style="--cb:#7d4a86">包装与容器</span></div>
+            <a href="外观对比/item_027_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_027.jpg" alt="item_027 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。精修版模型。</figcaption>
+          </figure></div>
+        <button class="car-btn car-prev" type="button" aria-label="上一张">‹</button>
+        <button class="car-btn car-next" type="button" aria-label="下一张">›</button>
+        <div class="car-bar">
+          <div class="car-dots"><button class="car-dot active" type="button" aria-label="第 1 张"></button><button class="car-dot" type="button" aria-label="第 2 张"></button><button class="car-dot" type="button" aria-label="第 3 张"></button><button class="car-dot" type="button" aria-label="第 4 张"></button><button class="car-dot" type="button" aria-label="第 5 张"></button><button class="car-dot" type="button" aria-label="第 6 张"></button></div>
+          <div class="car-count">1 / 6</div>
+          <div class="car-thumbs"><button class="car-thumb active" type="button" title="item_002 · 果汁箱（含果汁饮料）" aria-label="切换到 item_002">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_002.jpg" alt="item_002"></button><button class="car-thumb" type="button" title="item_021 · 蓝色悬挂抽纸包装" aria-label="切换到 item_021">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_021.jpg" alt="item_021"></button><button class="car-thumb" type="button" title="item_022 · 绿色无芯卷纸包装" aria-label="切换到 item_022">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_022.jpg" alt="item_022"></button><button class="car-thumb" type="button" title="item_025 · 薯片袋（闭口未开封）" aria-label="切换到 item_025">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_025.jpg" alt="item_025"></button><button class="car-thumb" type="button" title="item_026 · 罐装薯片" aria-label="切换到 item_026">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_026.jpg" alt="item_026"></button><button class="car-thumb" type="button" title="item_027 · 酸菜鱼调味料" aria-label="切换到 item_027">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_027.jpg" alt="item_027"></button></div>
+        </div>
+      </div>
     </div>
     <div class="cat-block" id="app-cat-kitchen" data-cat="kitchen">
       <h3 class="cat-head"><span class="cat-dot" style="background:#9a2b2b"></span><span class="cat-name">厨房餐具与用具</span><span class="cat-count">7 项</span></h3>
-      <div class="fig-grid">
-        <figure class="card" id="app-010">
-          <div class="fig-head"><span class="fig-no">Figure 26</span><span class="fig-title">item_010 · 水果刀与刀鞘</span>
-            <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
-          <a href="外观对比/item_010_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_010.jpg" alt="item_010 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 刀鞘精修版模型。</figcaption>
-        </figure>
-        <figure class="card" id="app-023">
-          <div class="fig-head"><span class="fig-no">Figure 27</span><span class="fig-title">item_023 · 深灰陶瓷马克杯</span>
-            <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
-          <a href="外观对比/item_023_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_023.jpg" alt="item_023 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。精修版模型。</figcaption>
-        </figure>
-        <figure class="card" id="app-028">
-          <div class="fig-head"><span class="fig-no">Figure 28</span><span class="fig-title">item_028 · 锅铲</span>
-            <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
-          <a href="外观对比/item_028_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_028.jpg" alt="item_028 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-029">
-          <div class="fig-head"><span class="fig-no">Figure 29</span><span class="fig-title">item_029 · 木碗</span>
-            <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
-          <a href="外观对比/item_029_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_029.jpg" alt="item_029 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-030">
-          <div class="fig-head"><span class="fig-no">Figure 30</span><span class="fig-title">item_030 · 木质兔子盘子</span>
-            <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
-          <a href="外观对比/item_030_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_030.jpg" alt="item_030 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-031">
-          <div class="fig-head"><span class="fig-no">Figure 31</span><span class="fig-title">item_031 · 砧板</span>
-            <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
-          <a href="外观对比/item_031_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_031.jpg" alt="item_031 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
-        </figure>
-        <figure class="card" id="app-032">
-          <div class="fig-head"><span class="fig-no">Figure 32</span><span class="fig-title">item_032 · 炒锅与玻璃锅盖</span>
-            <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
-          <a href="外观对比/item_032_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_032.jpg" alt="item_032 外观对比"></a>
-          <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 精修版模型。</figcaption>
-        </figure></div>
+      <div class="carousel" tabindex="0" aria-label="厨房餐具与用具 外观对比轮播">
+        <div class="car-viewport">
+          <figure class="card car-slide active" id="app-010">
+            <div class="fig-head"><span class="fig-no">Figure 26</span><span class="fig-title">item_010 · 水果刀与刀鞘</span>
+              <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
+            <a href="外观对比/item_010_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_010.jpg" alt="item_010 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 刀鞘精修版模型。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-023">
+            <div class="fig-head"><span class="fig-no">Figure 27</span><span class="fig-title">item_023 · 深灰陶瓷马克杯</span>
+              <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
+            <a href="外观对比/item_023_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_023.jpg" alt="item_023 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。精修版模型。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-028">
+            <div class="fig-head"><span class="fig-no">Figure 28</span><span class="fig-title">item_028 · 锅铲</span>
+              <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
+            <a href="外观对比/item_028_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_028.jpg" alt="item_028 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-029">
+            <div class="fig-head"><span class="fig-no">Figure 29</span><span class="fig-title">item_029 · 木碗</span>
+              <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
+            <a href="外观对比/item_029_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_029.jpg" alt="item_029 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-030">
+            <div class="fig-head"><span class="fig-no">Figure 30</span><span class="fig-title">item_030 · 木质兔子盘子</span>
+              <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
+            <a href="外观对比/item_030_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_030.jpg" alt="item_030 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-031">
+            <div class="fig-head"><span class="fig-no">Figure 31</span><span class="fig-title">item_031 · 砧板</span>
+              <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
+            <a href="外观对比/item_031_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_031.jpg" alt="item_031 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。</figcaption>
+          </figure>
+          <figure class="card car-slide" id="app-032">
+            <div class="fig-head"><span class="fig-no">Figure 32</span><span class="fig-title">item_032 · 炒锅与玻璃锅盖</span>
+              <span class="c-badge head-badge" style="--cb:#9a2b2b">厨房餐具与用具</span></div>
+            <a href="外观对比/item_032_外观对比.jpg" class="fig-frame" data-lightbox><img loading="lazy" decoding="async" src="外观对比/thumbs/item_032.jpg" alt="item_032 外观对比"></a>
+            <figcaption>实物（原始录像帧）↔ 最新重建模型，逐视角一对一。4 视角。v2 精修版模型。</figcaption>
+          </figure></div>
+        <button class="car-btn car-prev" type="button" aria-label="上一张">‹</button>
+        <button class="car-btn car-next" type="button" aria-label="下一张">›</button>
+        <div class="car-bar">
+          <div class="car-dots"><button class="car-dot active" type="button" aria-label="第 1 张"></button><button class="car-dot" type="button" aria-label="第 2 张"></button><button class="car-dot" type="button" aria-label="第 3 张"></button><button class="car-dot" type="button" aria-label="第 4 张"></button><button class="car-dot" type="button" aria-label="第 5 张"></button><button class="car-dot" type="button" aria-label="第 6 张"></button><button class="car-dot" type="button" aria-label="第 7 张"></button></div>
+          <div class="car-count">1 / 7</div>
+          <div class="car-thumbs"><button class="car-thumb active" type="button" title="item_010 · 水果刀与刀鞘" aria-label="切换到 item_010">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_010.jpg" alt="item_010"></button><button class="car-thumb" type="button" title="item_023 · 深灰陶瓷马克杯" aria-label="切换到 item_023">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_023.jpg" alt="item_023"></button><button class="car-thumb" type="button" title="item_028 · 锅铲" aria-label="切换到 item_028">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_028.jpg" alt="item_028"></button><button class="car-thumb" type="button" title="item_029 · 木碗" aria-label="切换到 item_029">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_029.jpg" alt="item_029"></button><button class="car-thumb" type="button" title="item_030 · 木质兔子盘子" aria-label="切换到 item_030">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_030.jpg" alt="item_030"></button><button class="car-thumb" type="button" title="item_031 · 砧板" aria-label="切换到 item_031">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_031.jpg" alt="item_031"></button><button class="car-thumb" type="button" title="item_032 · 炒锅与玻璃锅盖" aria-label="切换到 item_032">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_032.jpg" alt="item_032"></button></div>
+        </div>
+      </div>
     </div>
     <span class="back-top-link"><a href="#sec-overview-grid">↑ 返回总揽</a></span>
   </section>
@@ -1239,7 +1379,43 @@
       if (e.isIntersecting) { e.target.classList.add('rv-in'); rvObs.unobserve(e.target); }
     });
   }, {rootMargin: '0px 0px -6% 0px', threshold: 0.02});
-  document.querySelectorAll('.card, .ov-card, .abstract, table.spec').forEach(el => rvObs.observe(el));
+  document.querySelectorAll('.card:not(.car-slide), .ov-card, .abstract, table.spec, .carousel').forEach(el => rvObs.observe(el));
+
+  // 外观对比轮播（每类目一个）
+  document.querySelectorAll('.carousel').forEach(car => {
+    const slides = [...car.querySelectorAll('.car-slide')];
+    const dots = [...car.querySelectorAll('.car-dot')];
+    const thumbs = [...car.querySelectorAll('.car-thumb')];
+    const count = car.querySelector('.car-count');
+    let i = 0;
+    function show(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => s.classList.toggle('active', k === i));
+      dots.forEach((d, k) => d.classList.toggle('active', k === i));
+      thumbs.forEach((t, k) => t.classList.toggle('active', k === i));
+      count.textContent = (i + 1) + ' / ' + slides.length;
+      const t = thumbs[i];
+      if (t && t.scrollIntoView) t.scrollIntoView({block: 'nearest', inline: 'center', behavior: 'smooth'});
+    }
+    car.querySelector('.car-prev').addEventListener('click', () => show(i - 1));
+    car.querySelector('.car-next').addEventListener('click', () => show(i + 1));
+    dots.forEach((d, k) => d.addEventListener('click', () => show(k)));
+    thumbs.forEach((t, k) => t.addEventListener('click', () => show(k)));
+    car.addEventListener('keydown', e => {
+      if (document.getElementById('lightbox').classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') { show(i - 1); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { show(i + 1); e.preventDefault(); }
+    });
+    let x0 = null;
+    car.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive: true});
+    car.addEventListener('touchend', e => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 45) show(dx < 0 ? i + 1 : i - 1);
+      x0 = null;
+    });
+    show(0);
+  });
 
   // 阅读进度条
   const prog = document.getElementById('progress');
