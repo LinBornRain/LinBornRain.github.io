@@ -33,6 +33,13 @@
       linear-gradient(180deg, #f6f2e7 0%, var(--bg) 100%);
   }
   .kicker { letter-spacing: .42em; color: var(--accent); font-size: 12.5px; text-transform: uppercase; font-weight: 600; }
+  .site-back {
+    position: absolute; top: 18px; left: 22px; font-size: 13px; color: var(--muted);
+    border: 1px solid var(--line); background: rgba(255,255,255,.7); border-radius: 999px;
+    padding: 5px 14px; backdrop-filter: blur(4px); transition: all .15s;
+  }
+  .site-back:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+  @media (max-width: 640px) { .site-back { position: static; display: inline-block; margin-bottom: 14px; } }
   header.hero h1 { font-size: 2.6rem; margin: 16px 0 6px; font-weight: 700; letter-spacing: .02em; }
   header.hero .rule { width: 74px; height: 2px; background: var(--accent); margin: 18px auto 16px; position: relative; }
   header.hero .rule::before, header.hero .rule::after {
@@ -259,6 +266,7 @@
 <div id="progress"></div>
 
 <header class="hero">
+  <a class="site-back" href="/projects/3d-reconstruction/">← 返回项目页 · 林嘉豪</a>
   <div class="kicker">USD Interactive Assets · Newton Reconstruction</div>
   <h1>重建资产与实物的一对一对比报告</h1>
   <div class="rule"></div>
