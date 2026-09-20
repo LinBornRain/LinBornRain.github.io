@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GPT6 ASTRA直出——物体外观及交互3D重建</title>
-<meta name="description" content="34 项可交互 USD 重建资产的实物 ↔ 重建一对一对比：34 张规范化外观对比图与 34 支 Newton 交互录制 ↔ 实物录像并置对比视频。">
+<title>GPT6 ASTRA 直出——物体外观及交互 3D 重建</title>
+<meta name="description" content="34 项可交互 USD 重建资产与实物的一对一对照：34 张逐视角外观对比图（严格 5:5、图内无文字），34 支交互对比视频（实物录像 ↔ Newton 重建录制）。">
 <meta name="author" content="林嘉豪 · Jiahao Lin">
 <meta property="og:type" content="website">
-<meta property="og:title" content="GPT6 ASTRA直出——物体外观及交互3D重建">
+<meta property="og:title" content="GPT6 ASTRA 直出——物体外观及交互 3D 重建">
 <meta property="og:description" content="34 项 USD 可交互资产：外观逐视角对照（5:5、无文字）+ Newton 交互录制与实物录像并置对比（34 支）。">
 <meta property="og:image" content="外观对比/banner_collage.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -115,7 +115,7 @@
   .header-banner img { width: 100%; display: block; }
 
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
-  section { margin-top: 84px; }
+  section { margin-top: 84px; scroll-margin-top: 84px; }
   section > h2 {
     font-size: clamp(1.4rem, 3vw, 1.78rem); padding-bottom: 13px; margin-bottom: 8px;
     border-bottom: 1px solid var(--line); position: relative;
@@ -130,7 +130,8 @@
     font-size: .72rem; letter-spacing: .3em; text-transform: uppercase;
     color: var(--faint); font-weight: 500;
   }
-  section > p.lead { color: var(--muted); max-width: 860px; }
+  section > p.lead { color: var(--muted); max-width: 880px; line-height: 1.95; }
+  section > p.lead b { color: var(--ink-2); }
   .legend {
     display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 2px; font-size: 12px; color: var(--muted);
   }
@@ -147,7 +148,16 @@
     padding: 24px 30px; margin-top: 60px; font-size: 15px; border-radius: 0 8px 8px 0;
   }
   .abstract b { font-family: "Noto Serif SC", serif; }
+  .abstract > b:first-child { color: var(--accent); letter-spacing: .06em; }
   .abstract code { background: rgba(154,43,43,.08); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+  .abstract p { margin: 14px 0 0; }
+  .abstract ul { margin: 14px 0 2px; padding: 0; list-style: none; }
+  .abstract li { position: relative; padding-left: 1.5em; margin: 7px 0; }
+  .abstract li::before {
+    content: ""; position: absolute; left: .35em; top: .78em;
+    width: .55em; height: 2px; background: var(--accent); border-radius: 1px;
+  }
+  .abstract li b { margin-right: .45em; }
 
   /* ===== 类目分块与类目导航 ===== */
   .cat-block { margin-top: 40px; scroll-margin-top: 84px; }
@@ -208,7 +218,6 @@
   @media (max-width: 760px) {
     .car-btn { width: 36px; height: 36px; font-size: 18px; }
     .car-prev { left: -2px; } .car-next { right: -2px; }
-  
   }
 
   /* ===== 总揽分页轮播 ===== */
@@ -382,13 +391,111 @@
   .back-top-link a { color: var(--muted); border-bottom: 1px dashed #b9b2a2; padding-bottom: 1px; }
   .back-top-link a:hover { color: var(--accent); text-decoration: none; border-bottom-color: var(--accent); }
 
-  /* ===== table ===== */
-  table.spec { width: 100%; border-collapse: collapse; font-size: 14px; margin: 20px 0; background: var(--card);
-    border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(60,50,30,.05); }
-  table.spec th, table.spec td { border: 1px solid var(--line); padding: 9px 14px; text-align: left; }
-  table.spec th { background: var(--soft); font-family: "Noto Serif SC", serif; }
-  table.spec tr:nth-child(even) td { background: #faf8f1; }
-  table.spec code { background: rgba(154,43,43,.07); padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
+  /* ===== 架构节：链路卡片 / 维度说明 / 要求标签 ===== */
+
+  .chain { list-style: none; margin: 16px 0 24px; padding: 0; counter-reset: step;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 980px) { .chain { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .chain { grid-template-columns: 1fr; } }
+  .chain li {
+    counter-increment: step; background: var(--card); border: 1px solid var(--line);
+    border-radius: 10px; padding: 12px 14px 11px; box-shadow: var(--sh-1);
+    transition: box-shadow .2s var(--ease), border-color .2s var(--ease);
+  }
+  .chain li:hover { box-shadow: var(--sh-2); border-color: var(--line-strong); }
+  .chain li::before {
+    content: counter(step); display: inline-flex; align-items: center; justify-content: center;
+    width: 21px; height: 21px; border-radius: 50%; margin-right: 7px; vertical-align: 2px;
+    background: var(--accent); color: #fff; font-size: 12px; font-weight: 700;
+  }
+  .chain-name { font-family: var(--font-serif); font-size: 14px; }
+  .chain-desc { margin: 6px 0 7px; font-size: 12.5px; color: var(--ink-2); line-height: 1.65; }
+  .chain-io { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 6px; font-size: 11.5px; }
+  .chain-io span {
+    background: var(--soft); border: 1px solid var(--line); border-radius: 4px;
+    padding: 0 6px; color: var(--muted);
+  }
+  .chain-io span.out { color: var(--ink-2); background: #f6f1e3; border-color: var(--line-strong); }
+  .chain-io i { color: var(--accent); font-style: normal; font-weight: 700; }
+  .chain-io code { background: rgba(154,43,43,.07); padding: 0 4px; border-radius: 3px; font-size: 11px; }
+
+  .dims { border-top: 1px solid var(--line); margin: 4px 0 14px; }
+  .dims-row {
+    display: grid; grid-template-columns: 4.5em 1fr; gap: 4px 14px;
+    padding: 10px 2px; border-bottom: 1px solid var(--line); align-items: baseline;
+  }
+  .dims-row > b { font-family: var(--font-serif); font-size: 13.5px; color: var(--accent); }
+  .dims-row p { margin: 0; font-size: 13px; color: var(--ink-2); line-height: 1.85; }
+  .dims-row p b.cd { color: var(--accent); }
+  .dims-row p b.au { color: var(--gold); }
+  .dims-row code { background: rgba(154,43,43,.07); padding: 0 4px; border-radius: 3px; font-size: 11.5px; }
+  .dim-chip {
+    display: inline-block; font-size: 12.5px; color: var(--muted); background: var(--card);
+    border: 1px solid var(--line-strong); border-radius: 999px; padding: 2px 11px;
+  }
+  .dim-chip.fill { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .dim-chip.aux { border-color: var(--gold); color: var(--gold); font-weight: 600; }
+  .dims-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
+  @media (max-width: 640px) {
+    .dims-row { grid-template-columns: 1fr; gap: 2px; }
+  }
+
+  /* ===== 架构节：小标题 / 代码块 / 说明 ===== */
+  h3.arch-sub {
+    display: flex; align-items: baseline; gap: 9px;
+    font-size: 1.04rem; font-weight: 700; margin: 36px 0 12px;
+    font-family: var(--font-serif); scroll-margin-top: 72px;
+  }
+  h3.arch-sub::before { content: "▍"; color: var(--accent); font-size: .92em; }
+  pre.spec-code {
+    position: relative; margin: 0 0 16px; padding: 16px 16px 14px; background: var(--soft);
+    border: 1px solid var(--line); border-radius: 8px;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px; line-height: 1.7; color: var(--ink-2);
+    overflow-x: auto; white-space: pre; tab-size: 2;
+  }
+  pre.spec-code[data-title] { padding-top: 44px; }
+  pre.spec-code[data-title]::before {
+    content: attr(data-title); position: absolute; top: 0; left: 0; right: 0;
+    padding: 9px 16px 8px; font-family: var(--font-sans); font-size: 11.5px; font-weight: 600;
+    letter-spacing: .12em; color: var(--muted); background: rgba(255,255,255,.6);
+    border-bottom: 1px solid var(--line); border-radius: 8px 8px 0 0;
+  }
+  .arch-note { color: var(--muted); font-size: 14px; max-width: 880px; margin: 0 0 16px; }
+  .arch-note b { color: var(--ink-2); }
+
+  /* ===== 架构节的 Real2Sim 链路图（破栏：与页首 34 项缩略图横幅同宽 min(96vw,1500px)） ===== */
+  .abstract-fig {
+    margin: 26px 0 0;
+    width: min(96vw, 1500px);
+    position: relative; left: 50%; transform: translateX(-50%);
+  }
+  .abstract-fig .cat-block { margin-top: 0; }
+  .abstract-fig .mv-item { display: block; }
+  .abstract-fig .mv-item img { border-color: var(--line-strong); }
+  .abstract-fig .mv-item:hover img { box-shadow: var(--sh-2); transform: translateY(-2px); }
+  .abstract-fig-cap {
+    margin: 11px auto 0; max-width: 1032px;
+    font-size: 13.5px; color: var(--muted); line-height: 1.75;
+  }
+  .abstract-fig-cap b { font-family: var(--font-sans); color: var(--accent); }
+
+  /* ===== 架构节末：挑战赛佐证（并排一行，灯箱可放大） ===== */
+  .comp-fig { margin: 34px 0 0; }
+  .comp-fig .cat-block { margin-top: 0; }
+  .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .comp-grid .mv-item { display: block; }
+  .comp-grid .mv-item img { width: 100%; height: auto; display: block; }
+  @media (max-width: 640px) { .comp-grid { grid-template-columns: 1fr; } }
+
+  /* ===== 关键点提示框（与「摘要」同一视觉语言，用金色区分） ===== */
+  .arch-key {
+    background: var(--soft); border-left: 3px solid var(--gold);
+    padding: 13px 18px; margin: 16px 0; border-radius: 0 8px 8px 0;
+    font-size: 14px; line-height: 1.75; color: var(--ink-2); max-width: 980px;
+  }
+  .arch-key b { font-family: var(--font-serif); color: var(--ink); }
+  .arch-key code { background: rgba(154,43,43,.07); padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
 
   /* ===== lightbox（可滚动查看长图 + 缩放 + 标题） ===== */
   #lightbox {
@@ -446,7 +553,7 @@
   .flash { animation: flashRing 1.5s var(--ease) 1; }
 
   /* ===== 滚动渐显 ===== */
-  .js .card, .js .ov-carousel, .js .abstract, .js table.spec {
+  .js .card, .js .ov-carousel, .js .abstract {
     opacity: 0; transform: translateY(18px);
   }
   .js .rv-in {
@@ -457,23 +564,27 @@
     nav.toc, #progress, #top-btn, .car-btn, .car-bar, .flt, .ov-search, .site-back { display: none !important; }
     body { background: #fff; }
     .cat-block { break-inside: avoid; }
-  
+    /* 打印 / 导出 PDF 时必须显形，否则正文与卡片会整片空白 */
+    .js .card, .js .ov-carousel, .js .abstract {
+      opacity: 1 !important; transform: none !important; transition: none !important;
+    }
+
     .ov-track .ov-card { display: block !important; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .js .card, .js .ov-carousel, .js .abstract, .js table.spec {
+    .js .card, .js .ov-carousel, .js .abstract {
       opacity: 1 !important; transform: none !important; transition: none !important;
     }
-  
     html { scroll-behavior: auto; }
     .ov-track { scroll-behavior: auto; }
   }
 
   footer {
     margin-top: 100px; border-top: 1px solid var(--line); padding: 34px 24px 64px;
-    text-align: center; color: var(--muted); font-size: 13px;
+    text-align: center; color: var(--muted); font-size: 13px; line-height: 2;
   }
+  footer code { background: var(--soft); padding: 1px 6px; border-radius: 4px; font-size: 12px; }
   #top-btn {
     position: fixed; right: 26px; bottom: 26px; z-index: 150;
     width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line);
@@ -481,9 +592,6 @@
     box-shadow: 0 3px 12px rgba(60,50,30,.16); display: none; transition: transform .15s;
   }
   #top-btn:hover { transform: translateY(-3px); }
-  @media (max-width: 760px) {
-  
-  }
   @media (max-width: 640px) {
     header.hero h1 { font-size: 1.75rem; }
     nav.toc a { padding: 11px 8px 9px; font-size: 12.5px; }
@@ -499,13 +607,13 @@
 <header class="hero">
   <a class="site-back" href="https://linbornrain.github.io/projects/3d-reconstruction/">← 返回项目页 · 林嘉豪</a>
   <div class="kicker">USD Interactive Assets · Newton Reconstruction</div>
-  <h1>GPT6 ASTRA直出——物体外观及交互3D重建</h1>
+  <h1>GPT6 ASTRA 直出——物体外观及交互 3D 重建</h1>
   <div class="rule"></div>
-  <p class="sub">34 项可交互 USD 重建资产的<b>外观对比</b>（实物录像帧 ↔ 重建模型渲染）
-  与 <b>交互对比</b>（Newton 重建交互录制 ↔ 实物交互录像）。</p>
+  <p class="sub">34 项可交互 USD 重建资产，逐项与实物对照：<b>外观</b>逐视角 5:5 并排（实物录像帧 ↔ 重建渲染），
+  <b>交互</b>同屏上下并置（实物录像 ↔ Newton 重建录制）。</p>
   <div class="meta-row">
     <span class="chip">✦ 报告日期 <b>2026-09-11</b></span>
-    <span class="chip">✦ 覆盖 <b>34 个物体</b></span>
+    <span class="chip">✦ 覆盖 <b>34 项资产</b></span>
     <span class="chip">▦ 外观对比图 <b>34</b> 张</span>
     <span class="chip">▶ 交互对比视频 <b>34</b> 支</span>
     <span class="chip">⚙ 物理求解 <b>Newton（SolverMuJoCo）</b></span>
@@ -559,6 +667,7 @@
 
 <nav class="toc" id="toc">
   <a href="#abstract" data-sec="abstract">摘要</a>
+  <a href="#sec-architecture" data-sec="sec-architecture">❖ · 架构与工作链路</a>
   <a href="#sec-overview-grid" data-sec="sec-overview-grid">总揽</a>
   <a href="#sec-appearance" data-sec="sec-appearance">Ⅰ · 外观对比</a>
   <a href="#sec-video" data-sec="sec-video">Ⅱ · 交互对比视频</a>
@@ -567,20 +676,149 @@
 <div class="wrap">
 
   <div class="abstract" id="abstract">
-    <b>摘要。</b> 34 项资产（家具、厨房电器、数码外设、包装与容器、厨房餐具，以及茶水间与办公室两处室内环境）的可交互 USD 重建结果汇总：
-    每项给出实物录像帧与重建模型的多视角对照图，以及 Newton 重建交互录制与实物交互录像的并置对比视频。
+    <b>摘要。</b>本报告汇总 <b>34 项可交互 USD 重建资产</b>——涵盖收纳柜与桌几、家具与家居用品、厨房电器、数码外设、包装与容器、厨房餐具与用具六个物体类目，
+    以及茶水间、办公室两处室内环境。每项资产均附有与实物的一对一证据：
+    <ul>
+      <li><b>外观对比 · 34 张</b>实物录像帧 ↔ 重建模型渲染，逐视角并排，严格 5:5、图内无文字；</li>
+      <li><b>交互对比 · 34 支</b>实物交互录像 ↔ Newton 重建交互录制，同屏上下并置。</li>
+    </ul>
+    <p>第 <a href="#sec-architecture">❖ 架构与工作链路</a> 节说明这套结果如何产出：Real2Sim 链路架构（图 1），以及工作链路各环节的输入与输出。</p>
   </div>
+
+  <!-- ================= ❖ 架构与工作链路 ================= -->
+  <section id="sec-architecture">
+    <h2><span class="sec-no">❖</span>架构与工作链路<span class="sec-en">Architecture</span></h2>
+    <p class="lead">链路分工一句话：<b>GPT-6 Astra 通过代码硬编码决定「长什么样、怎么动」，PhysX-Omni / 多模态模型（也可以是 GPT-6）判断「多重量级、这看起来像什么材质」，规范给定「摩擦与恢复是多少」。</b></p>
+
+    <!-- 图 1 · Real2Sim 链路 -->
+    <div class="abstract-fig">
+      <div class="cat-block" data-cat="architecture">
+      <a class="mv-item" href="架构图/real2sim-chain-architecture.png" data-lightbox data-name="Real2Sim 链路架构"
+         aria-label="Real2Sim 链路架构">
+        <img decoding="async" src="架构图/real2sim-chain-architecture.png"
+             alt="Real2Sim 链路：从单目视频到可仿真资产" width="1997" height="1092">
+      </a>
+      </div>
+      <p class="abstract-fig-cap"><b>图 1　Real2Sim 链路架构。</b><a href="架构图/real2sim-chain-architecture.html" target="_blank" rel="noopener"><b>⤢ 可缩放 · 可导览版本</b></a></p>
+    </div>
+
+    <h3 class="arch-sub" id="arch-chain">工作链路：每一环的产物即下一环的输入</h3>
+    <ol class="chain">
+      <li>
+        <b class="chain-name">视频解析</b>
+        <p class="chain-desc">抽帧 + 元数据，形成只读证据集</p>
+        <p class="chain-io"><span>外观轨 + 交互轨（1080p）</span><i>→</i><span class="out">参考帧集</span></p>
+      </li>
+      <li>
+        <b class="chain-name">物性推理</b>
+        <p class="chain-desc">Omni VLM + Agent 多模态</p>
+        <p class="chain-io"><span>参考帧</span><i>→</i><span class="out">逐部件材质 / 密度 / 模量 + 尺寸锚</span></p>
+      </li>
+      <li>
+        <b class="chain-name">外观建模</b>
+        <p class="chain-desc">编码代理写程序化脚本（共用几何库 + 专属脚本）</p>
+        <p class="chain-io"><span>参考帧</span><i>→</i><span class="out">几何 / 材质 / UV / 贴图（blend · visual.usdc）</span></p>
+      </li>
+      <li>
+        <b class="chain-name">物理装配</b>
+        <p class="chain-desc">刚体四件套 + 关节（类型 / 轴 / 限位 / 驱动）</p>
+        <p class="chain-io"><span>建模脚本</span><i>→</i><span class="out">physics.usda</span></p>
+      </li>
+      <li>
+        <b class="chain-name">属性补全（融合层）</b>
+        <p class="chain-desc">类别证据链 + 密度钳制；只增不改</p>
+        <p class="chain-io"><span>资产 + 推理 + 完整物理规范</span><i>→</i><span class="out">physics:* / 物理材质绑定</span></p>
+      </li>
+      <li>
+        <b class="chain-name">标准收口</b>
+        <p class="chain-desc">三格式导出 + 五项结构要求</p>
+        <p class="chain-io"><span>补全后资产</span><i>→</i><span class="out">USD / MJCF / URDF / blend</span></p>
+      </li>
+      <li>
+        <b class="chain-name">验证</b>
+        <p class="chain-desc">Newton + MuJoCo 逐项断言；三路渲染互校</p>
+        <p class="chain-io"><span>交付资产 + 参考帧</span><i>→</i><span class="out">断言记录 / 对照图 / 录像</span></p>
+      </li>
+      <li>
+        <b class="chain-name">复审与打包</b>
+        <p class="chain-desc">逐项复审，批次快照可回滚</p>
+        <p class="chain-io"><span>验证证据</span><i>→</i><span class="out">交付包 + manifest</span></p>
+      </li>
+    </ol>
+
+    <h3 class="arch-sub" id="arch-code">十二个维度：每一项内容如何产生</h3>
+    <p class="arch-note">外观建模不是「生成后处理」，而是把视频里的结构关系翻译成代码。以一件无线鼠标为例，其专属脚本可直接读到：</p>
+<pre class="spec-code" data-title="无线鼠标 · 专属建模脚本（节选）">base = group('MouseBody', (0, 0, .002), .080, iner=[.00008, .00008, .000025])   # 质量与惯量显式给出
+def width(y):                                                                  # 侧壁轮廓：解析函数
+    if y &lt; -.027:  return .002 + math.sqrt(max(0, .028**2 - (y + .027)**2))
+    if y &gt;  .045:  return .020 + math.sqrt(max(0, .010**2 - (y - .045)**2))
+    return .030
+joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       # 类型 / 轴 / 行程 / 刚度 / 阻尼</pre>
+    <p class="arch-key">在这里，<b>「怎么动」与「长什么样」由同一份代码、同一次判断给出</b>——这正是生成式路线必须拆成两次估计、且拆开后无人能逐项核对的部分。</p>
+    <p class="arch-note">可仿真资产的<b>十二个维度</b>按来源分两类——<b>7 项由代码直接写出，5 项由测量与确定性计算补全</b>，没有一项数值取自生成模型。
+    对任何一件可动物品，每个维度的内容都按固定的方式产生：</p>
+    <div class="dims-legend">
+      <span class="dim-chip fill">代码直接写出 · 7 项</span>
+      <span class="dim-chip aux">测量与确定性计算补全 · 5 项</span>
+    </div>
+    <div class="dims">
+      <div class="dims-row">
+        <b>外观层</b>
+        <p><b class="cd">几何</b>——编码代理对照参考帧逐件手写程序化建模：轮廓为解析函数，结构靠布尔与放样，不用生成式网格；
+        <b class="cd">UV</b>——<code>smart_project</code> 展开 + 代码显式指定；
+        <b class="cd">贴图</b>——印刷与纹理从参考帧透视校正后采样，不绘制、不生成；
+        <b class="au">材质</b>——视觉面由代码节点定义，物理面（摩擦 / 恢复）按类别取自完整物理规范。</p>
+      </div>
+      <div class="dims-row">
+        <b>结构层</b>
+        <p><b class="cd">部件</b>——建模时随结构与配合关系一次划定，无需事后分割；
+        <b class="au">语义</b>——代码即语义，物性类别走四级证据链（多模态推理 → USD 材质名 → 组名 → 人工定类）；
+        <b class="au">尺度</b>——参考帧比例推定 + 尺寸锚先验，标注 <code>dimensionsMeasured = false</code>。</p>
+      </div>
+      <div class="dims-row">
+        <b>物理层</b>
+        <p><b class="cd">关节</b>——类型（转动 / 滑动）与配合在代码中直接写出；
+        <b class="cd">轴向</b>——四元数显式定轴；
+        <b class="cd">限位</b>——上下限与行程直接写出；
+        <b class="au">质量</b>——作者原值优先，缺失时以「实测质量 ÷ 体积」在先验区间内钳制补写；
+        <b class="au">碰撞</b>——解析基元为主、<code>convex_hull</code> 辅助。</p>
+      </div>
+    </div>
+    <p class="arch-note">三条纪律：<b>① 没有视频依据的东西不加</b>——与生成模型「补全、美化」的默认倾向相反，某鼠标重建时移除了无依据的品牌标识与多余按键；
+    <b>② 隐含量显式化</b>——质量、惯量、关节参数都写在代码里，不留待下游推导；<b>③ 不确定的标为近似</b>，列入「不声称」清单（尺寸为比例推定，材质与刚度为近似）。</p>
+    <p class="arch-note"><b>融合层</b>由 Agent AI（多模态）参与审计与匹配融合——物性先验按语义部件挂接到物理刚体，属性<b>只增不改</b>；
+    <b>验收</b>以 USD / MJCF / blend 三格式收口，物理侧 Newton 与 MuJoCo 交叉断言、渲染侧三路互校，复审不通过则回流主链。</p>
+
+    <!-- 挑战赛佐证：初赛 A 榜第 6 -->
+    <div class="comp-fig">
+      <div class="cat-block" data-cat="competition">
+        <div class="comp-grid">
+          <a class="mv-item" href="挑战赛/初赛A榜.png" data-lightbox data-name="2026-具身仿真合成挑战赛 · 初赛 A 榜第 6（77.98 分）"
+             aria-label="初赛 A 榜：lin 第 6 名，77.98 分">
+            <img decoding="async" src="挑战赛/初赛A榜.png"
+                 alt="2026-具身仿真合成挑战赛初赛 A 榜：lin 以 77.98 分位列第 6（6 / 252）" width="1251" height="687">
+          </a>
+          <a class="mv-item" href="挑战赛/参赛信息.png" data-lightbox data-name="参赛信息 · 初赛 A 榜 6 / 252 · 进行中"
+             aria-label="参赛信息：初赛 A 榜 6 / 252，进行中">
+            <img decoding="async" src="挑战赛/参赛信息.png"
+                 alt="2026-具身仿真合成挑战赛参赛信息：2026-08-30 参加，初赛 A 榜 6 / 252，进行中" width="990" height="544">
+          </a>
+        </div>
+      </div>
+      <p class="abstract-fig-cap"><a href="https://tianchi.aliyun.com/competition/entrance/532506?spm=5176.12281973.J_rt7ppEcsZBa044MP17qQJ.19.26d33b74oLvnqa" target="_blank" rel="noopener"><b>↗ 2026-具身仿真合成挑战赛</b></a><b> · 初赛 A 榜 6 / 252（77.98 分，榜单每小时整点更新）。</b></p>
+    </div>
+  </section>
 
   <!-- ================= 总揽 ================= -->
   <section id="sec-overview-grid">
-    <h2><span class="sec-no">✦</span>总揽 · 34 个物体<span class="sec-en">Gallery</span></h2>
-    <p class="lead">按 <b>6 个类目</b>分组；缩略图为该物体的单视角对比（左实物 ｜ 右重建）。可按类别筛选或搜索名称。</p>
+    <h2><span class="sec-no">✦</span>总揽 · 34 项资产<span class="sec-en">Gallery</span></h2>
+    <p class="lead">按 <b>7 个类目</b>分组；每张缩略图为该资产的单视角对比（左实物 ｜ 右重建），点击卡片直达第 Ⅰ 节对应的多视角对照。可按类目筛选，或按名称 / 编号搜索。</p>
     <div class="legend"><span>左实物 ｜ 右重建</span><span>每格 5:5 对半</span><span>图内无文字</span></div>
     <div class="ov-toolbar">
-      <div class="filter-bar"><button class="flt active" data-cat="all">全部 <b>32</b></button><button class="flt" data-cat="cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>5</b></button><button class="flt" data-cat="seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>6</b></button><button class="flt" data-cat="appliance"><i style="background:#a1741f"></i>厨房电器 <b>5</b></button><button class="flt" data-cat="digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></button><button class="flt" data-cat="package"><i style="background:#7d4a86"></i>包装与容器 <b>6</b></button><button class="flt" data-cat="kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>7</b></button><button class="flt" data-cat="environment"><i style="background:#4a6f7a"></i>室内环境 <b>2</b></button></div>
+      <div class="filter-bar"><button class="flt active" data-cat="all">全部 <b>34</b></button><button class="flt" data-cat="cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>5</b></button><button class="flt" data-cat="seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>6</b></button><button class="flt" data-cat="appliance"><i style="background:#a1741f"></i>厨房电器 <b>5</b></button><button class="flt" data-cat="digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></button><button class="flt" data-cat="package"><i style="background:#7d4a86"></i>包装与容器 <b>6</b></button><button class="flt" data-cat="kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>7</b></button><button class="flt" data-cat="environment"><i style="background:#4a6f7a"></i>室内环境 <b>2</b></button></div>
       <div class="ov-search">
         <input id="ov-q" type="search" placeholder="搜索 item 编号或名称…" aria-label="搜索项目">
-        <span class="ov-count" id="ov-count">32 / 32</span>
+        <span class="ov-count" id="ov-count">34 / 34</span>
       </div>
     </div>
     
@@ -831,13 +1069,13 @@
         </div>
       </div>
     </div>
-    <p class="ov-empty" id="ov-empty" hidden>没有匹配的项目，试试其它关键词或切换类别。</p>
+    <p class="ov-empty" id="ov-empty" hidden>没有匹配的项目，试试其他关键词或切换类目。</p>
   </section>
 
-  <!-- ================= Section 1 ================= -->
+  <!-- ================= Ⅰ 外观对比 ================= -->
   <section id="sec-appearance">
     <h2><span class="sec-no">Ⅰ</span>外观对比<span class="sec-en">Appearance</span></h2>
-    <p class="lead">逐项多视角一对一：每行为一个视角，<b>左实物 ｜ 右重建</b>，严格 5:5、图内无文字。点击图片可在灯箱查看原尺寸（←/→ 切换、双击缩放、Esc 关闭）。</p>
+    <p class="lead">逐项、逐视角的一对一对照：每行为一个视角，<b>左实物 ｜ 右重建</b>，严格 5:5，图内无文字。点击图片进入灯箱——滚动查看原尺寸长图，← / → 在同类目内切换物体，双击缩放，Esc 关闭。</p>
     <div class="cat-nav"><a href="#app-cat-cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>5</b></a><a href="#app-cat-seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>6</b></a><a href="#app-cat-appliance"><i style="background:#a1741f"></i>厨房电器 <b>5</b></a><a href="#app-cat-digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></a><a href="#app-cat-package"><i style="background:#7d4a86"></i>包装与容器 <b>6</b></a><a href="#app-cat-kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>7</b></a><a href="#app-cat-environment"><i style="background:#4a6f7a"></i>室内环境 <b>2</b></a></div>
     
     <div class="cat-block" id="app-cat-cabinet" data-cat="cabinet">
@@ -1076,10 +1314,10 @@
     <span class="back-top-link"><a href="#sec-overview-grid">↑ 返回总揽</a></span>
   </section>
 
-  <!-- ================= Section 2 ================= -->
+  <!-- ================= Ⅱ 交互对比视频 ================= -->
   <section id="sec-video">
     <h2><span class="sec-no">Ⅱ</span>交互对比视频<span class="sec-en">Interaction</span></h2>
-    <p class="lead">上下对比：<b>上为实物交互录像</b>、<b>下为 Newton 重建交互录制</b>（720p，等比填充）。点击播放。</p>
+    <p class="lead">同一段交互的两种记录：<b>上为实物交互录像，下为 Newton 重建交互录制</b>（720p，等比填充）。逐项对照，点击播放。</p>
     <div class="cat-nav"><a href="#vid-cat-cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>5</b></a><a href="#vid-cat-seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>6</b></a><a href="#vid-cat-appliance"><i style="background:#a1741f"></i>厨房电器 <b>5</b></a><a href="#vid-cat-digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></a><a href="#vid-cat-package"><i style="background:#7d4a86"></i>包装与容器 <b>6</b></a><a href="#vid-cat-kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>7</b></a><a href="#vid-cat-environment"><i style="background:#4a6f7a"></i>室内环境 <b>2</b></a></div>
     
     <div class="cat-block" id="vid-cat-cabinet" data-cat="cabinet">
@@ -1455,8 +1693,8 @@
   </section>
 
   <footer>
-    交付对比_20260911 · 重建资产与实物对比报告 · 生成于 2026-09-11<br>
-    外观对比 34 项 · 交互对比视频 34 支 · 合成脚本与清单见同目录 <code>README.md</code> 与 <code>tools/</code><br>
+    交付对比 20260911 · 重建资产 ↔ 实物对比报告 · 生成于 2026-09-11<br>
+    外观对比 34 张 · 交互对比 34 支 · 合成脚本与清单见同目录 <code>README.md</code><br>
     <a href="https://linbornrain.github.io/projects/3d-reconstruction/">← 返回项目页</a> ·
     <a href="https://linbornrain.github.io/projects/">全部项目</a> ·
     <a href="https://linbornrain.github.io/">个人主页</a>
@@ -1471,7 +1709,7 @@
     <button class="lb-nav" id="lb-next" title="下一张（→）" aria-label="下一张">›</button>
     <button class="lb-close" id="lb-close" title="关闭（Esc）" aria-label="关闭">✕</button>
   </div>
-  <div class="lb-hint">滚动查看完整长图 · ← / → 在本类目内切换下一个物体 · 双击放大/复位 · Esc 关闭</div>
+  <div class="lb-hint">滚动查看原尺寸长图 · ← / → 在同类目内切换物体 · 双击放大 / 复位 · Esc 关闭</div>
   <button class="lb-edge lb-edge-prev" id="lb-prev-edge" title="上一个物体（←）" aria-label="上一个物体">‹</button>
   <button class="lb-edge lb-edge-next" id="lb-next-edge" title="下一个物体（→）" aria-label="下一个物体">›</button>
   <div class="lb-stage"><img id="lightbox-img" src="" alt=""></div>
@@ -1481,13 +1719,25 @@
 <script>
   document.documentElement.classList.add('js');
 
-  // 滚动渐显
-  const rvObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('rv-in'); rvObs.unobserve(e.target); }
-    });
-  }, {rootMargin: '0px 0px -6% 0px', threshold: 0.02});
-  document.querySelectorAll('.card, .abstract, table.spec, .ov-carousel').forEach(el => rvObs.observe(el));
+  // 滚动渐显（含兜底：观察器不可用时内容必须照常可见）
+  const rvTargets = document.querySelectorAll('.card, .abstract, .ov-carousel');
+  const rvRevealAll = () => rvTargets.forEach(el => el.classList.add('rv-in'));
+  if (!('IntersectionObserver' in window)) {
+    rvRevealAll();
+  } else {
+    let rvFired = false;
+    const rvObs = new IntersectionObserver(entries => {
+      rvFired = true;
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('rv-in'); rvObs.unobserve(e.target); }
+      });
+    }, {rootMargin: '0px 0px -6% 0px', threshold: 0.02});
+    rvTargets.forEach(el => rvObs.observe(el));
+    // 若 1.5s 内回调一次都没到达，判定观察器未生效，直接全部显示
+    setTimeout(() => { if (!rvFired) rvRevealAll(); }, 1500);
+    // 打印 / 导出 PDF 前同样全部显示
+    window.addEventListener('beforeprint', rvRevealAll);
+  }
 
   // 阅读进度条
   const prog = document.getElementById('progress');
