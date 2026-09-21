@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GPT6 ASTRA 直出——物体外观及交互 3D 重建</title>
+<title>Real2Sim 重建——GPT6-ASTRA 直出物体外观与交互 3D 资产</title>
 <meta name="description" content="34 项可交互 USD 重建资产与实物的一对一对照：34 张逐视角外观对比图（严格 5:5、图内无文字），34 支交互对比视频（实物录像 ↔ Newton 重建录制）。">
 <meta name="author" content="林嘉豪 · Jiahao Lin">
 <meta property="og:type" content="website">
-<meta property="og:title" content="GPT6 ASTRA 直出——物体外观及交互 3D 重建">
+<meta property="og:title" content="Real2Sim 重建——GPT6-ASTRA 直出物体外观与交互 3D 资产">
 <meta property="og:description" content="34 项 USD 可交互资产：外观逐视角对照（5:5、无文字）+ Newton 交互录制与实物录像并置对比（34 支）。">
 <meta property="og:image" content="外观对比/banner_collage.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -76,6 +76,7 @@
   .site-back:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; transform: translateX(-2px); }
   @media (max-width: 640px) { .site-back { position: static; display: inline-block; margin-bottom: 14px; } }
   header.hero h1 { font-size: clamp(1.8rem, 4.4vw, 2.65rem); margin: 16px 0 6px; font-weight: 700; letter-spacing: .02em; }
+  header.hero h1 .nw { white-space: nowrap; }
   header.hero .rule { width: 74px; height: 2px; background: var(--accent); margin: 18px auto 16px; position: relative; }
   header.hero .rule::before, header.hero .rule::after {
     content: ""; position: absolute; top: -3px; width: 8px; height: 8px; border-radius: 50%;
@@ -607,12 +608,12 @@
 <header class="hero">
   <a class="site-back" href="https://linbornrain.github.io/projects/3d-reconstruction/">← 返回项目页 · 林嘉豪</a>
   <div class="kicker">USD Interactive Assets · Newton Reconstruction</div>
-  <h1>GPT6 ASTRA 直出——物体外观及交互 3D 重建</h1>
+  <h1>Real2Sim 重建——<span class="nw">GPT6-ASTRA</span> 直出物体外观与交互 <span class="nw">3D 资产</span></h1>
   <div class="rule"></div>
   <p class="sub">34 项可交互 USD 重建资产，逐项与实物对照：<b>外观</b>逐视角 5:5 并排（实物录像帧 ↔ 重建渲染），
   <b>交互</b>同屏上下并置（实物录像 ↔ Newton 重建录制）。</p>
   <div class="meta-row">
-    <span class="chip">✦ 报告日期 <b>2026-09-11</b></span>
+    <span class="chip">✦ 报告日期 <b>2026-09-21</b></span>
     <span class="chip">✦ 覆盖 <b>34 项资产</b></span>
     <span class="chip">▦ 外观对比图 <b>34</b> 张</span>
     <span class="chip">▶ 交互对比视频 <b>34</b> 支</span>
@@ -688,7 +689,7 @@
   <!-- ================= ❖ 架构与工作链路 ================= -->
   <section id="sec-architecture">
     <h2><span class="sec-no">❖</span>架构与工作链路<span class="sec-en">Architecture</span></h2>
-    <p class="lead">链路分工一句话：<b>GPT-6 Astra 通过代码硬编码决定「长什么样、怎么动」，PhysX-Omni / 多模态模型（也可以是 GPT-6）判断「多重量级、这看起来像什么材质」，规范给定「摩擦与恢复是多少」。</b></p>
+    <p class="lead">链路分工一句话：<b>GPT6-ASTRA 通过代码硬编码决定「长什么样、怎么动」，PhysX-Omni / 多模态模型（也可以是 GPT6-ASTRA）判断「多重量级、这看起来像什么材质」，规范给定「摩擦与恢复是多少」。</b></p>
 
     <!-- 图 1 · Real2Sim 链路 -->
     <div class="abstract-fig">
@@ -1693,7 +1694,7 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
   </section>
 
   <footer>
-    交付对比 20260911 · 重建资产 ↔ 实物对比报告 · 生成于 2026-09-11<br>
+    重建资产 ↔ 实物对比报告 · 生成于 2026-09-21<br>
     外观对比 34 张 · 交互对比 34 支 · 合成脚本与清单见同目录 <code>README.md</code><br>
     <a href="https://linbornrain.github.io/projects/3d-reconstruction/">← 返回项目页</a> ·
     <a href="https://linbornrain.github.io/projects/">全部项目</a> ·
