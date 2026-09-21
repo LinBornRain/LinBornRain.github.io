@@ -6,20 +6,20 @@ permalink: /projects/
 
 # 项目经历
 
-## GPT6 ASTRA直出——物体外观及交互3D重建
+## Real2Sim 重建——GPT6-ASTRA 直出物体外观与交互 3D 资产
 
 **个人项目** · 2026.09
 
-以手机实拍的外观/交互视频为唯一依据，对 32 个日常物体（收纳柜与桌几、家具与家居用品、厨房电器、数码外设、包装与容器、厨房餐具与用具 共 6 类）进行外观与交互的一对一重建。
+以手机实拍的外观/交互视频为唯一依据，对 34 项资产（收纳柜与桌几、家具与家居用品、厨房电器、数码外设、包装与容器、厨房餐具与用具 共 6 个物体类目，以及茶水间、办公室 2 处室内环境，合为 7 个类目）进行外观与交互的一对一重建。
 
 - 每项构建带原生 USD Physics 关节的可仿真 USD/USDZ 资产，在 Newton（SolverMuJoCo）中复现真实交互动作
 - 外观对比：按类目分块、每屏并排 4 个物体，每个展示 1×N 纵向多视角对比图（左实物｜右重建，严格 5:5）
-- 交互对比：31 支**上下对比**视频（上实物录像 / 下 Newton 重建），1280×1440，等比填充不裁不拉伸
+- 交互对比：34 支**上下对比**视频（上实物录像 / 下 Newton 重建），1280×1440，等比填充不裁不拉伸
 - 累计 240+ 项 Newton 物理检查通过
 
 **技术栈**: `USD / USDZ` `Newton` `SolverMuJoCo` `Blender` `FFmpeg` `Python` `Real2Sim`
 
-→ [打开完整对比报告（32 图 + 31 视频）](/assets/projects/3d-reconstruction/index.html) · [项目页](/projects/3d-reconstruction/)
+→ [打开完整对比报告（34 图 + 34 视频）](/assets/projects/3d-reconstruction/index.html) · [项目页](/projects/3d-reconstruction/)
 
 ---
 

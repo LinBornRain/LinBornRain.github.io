@@ -1,22 +1,22 @@
 ---
 layout: default
-title: "GPT6 ASTRA直出——物体外观及交互3D重建"
-description: "基于实拍视频的外观与交互一对一重建：32 项可交互 USD 资产 × Newton 物理仿真"
+title: "Real2Sim 重建——GPT6-ASTRA 直出物体外观与交互 3D 资产"
+description: "基于实拍视频的外观与交互一对一重建：34 项可交互 USD 资产 × Newton 物理仿真"
 ---
 
-# GPT6 ASTRA直出——物体外观及交互3D重建
+# Real2Sim 重建——GPT6-ASTRA 直出物体外观与交互 3D 资产
 
 **个人项目** · 2026.09
 
 ## 项目概述
 
-以手机实拍的外观/交互视频为唯一依据，对 32 个日常物体（收纳柜与桌几、家具与家居用品、厨房电器、数码外设、包装与容器、厨房餐具与用具 共 6 类）进行**外观与交互的一对一重建**：为每项构建带原生 USD Physics 关节的可仿真 USD 资产，在 Newton（SolverMuJoCo）中复现真实交互动作，并产出逐视角的外观对照图与上下对比的交互对比视频。
+以手机实拍的外观/交互视频为唯一依据，对 34 项资产（收纳柜与桌几、家具与家居用品、厨房电器、数码外设、包装与容器、厨房餐具与用具 共 6 个物体类目，以及茶水间、办公室 2 处室内环境，合为 7 个类目）进行**外观与交互的一对一重建**：为每项构建带原生 USD Physics 关节的可仿真 USD 资产，在 Newton（SolverMuJoCo）中复现真实交互动作，并产出逐视角的外观对照图与上下对比的交互对比视频。
 
 ## 关键数字
 
-- 覆盖物品: **32** 项（6 类）
-- 外观一对一对比图: **32** 张（每项 3~4 视角，严格 5:5、图内无文字）
-- 交互对比视频: **31** 支（上实物 / 下 Newton 重建，1280×1440）
+- 覆盖资产: **34** 项（7 个类目：6 个物体类目 + 2 处室内环境）
+- 外观一对一对比图: **34** 张（每项 3~4 视角，严格 5:5、图内无文字）
+- 交互对比视频: **34** 支（上实物 / 下 Newton 重建，1280×1440）
 - 全部资产通过 Newton 物理检查（累计 240+ 项主检查）
 
 ## 技术栈
@@ -31,7 +31,7 @@ description: "基于实拍视频的外观与交互一对一重建：32 项可交
 <a href="/assets/projects/3d-reconstruction/index.html" target="_blank" rel="noopener"
    style="display:inline-block;margin:.6rem 0 1.2rem;padding:.7rem 1.4rem;border-radius:10px;
           background:linear-gradient(135deg,#1a6fb5 0%,#0d9488 100%);color:#fff;font-weight:600;
-          text-decoration:none">▶ 打开完整对比报告（32 组外观图 + 31 支交互视频）</a>
+          text-decoration:none">▶ 打开完整对比报告（34 组外观图 + 34 支交互视频）</a>
 
 ## 预览
 
