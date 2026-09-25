@@ -493,6 +493,8 @@
   .comp-grid .mv-item img { width: 100%; height: auto; display: block; }
   /* 榜单截图较宽、表内文字小：整幅跨两列以保证可读 */
   .comp-grid .mv-item.wide { grid-column: 1 / -1; }
+  .comp-grid .mv-item.cert { grid-column: 1 / -1; display: flex; justify-content: center; }
+  .comp-grid .mv-item.cert img { width: auto; max-width: 460px; border: 1px solid var(--line); border-radius: 8px; }
   @media (max-width: 640px) { .comp-grid { grid-template-columns: 1fr; } }
 
   /* ===== 关键点提示框（与「摘要」同一视觉语言，用金色区分） ===== */
@@ -861,9 +863,14 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             <img decoding="async" src="挑战赛/参赛信息.png?v=1790332000"
                  alt="2026-具身仿真合成挑战赛参赛信息：2026-08-30 以 lin 参加，初赛 A 榜 6 / 254、初赛 B 榜 1 / 254，进行中" width="894" height="217">
           </a>
+          <a class="mv-item cert" href="挑战赛/证书.png?v=1790332000" data-lightbox data-name="Clouder 证书 · 2026-具身仿真合成挑战赛 · 初赛 A 排名第 6"
+             aria-label="Clouder 证书：2026-具身仿真合成挑战赛，参赛队伍 lin、参赛成员 林嘉豪，全球 254 支队伍，初赛 A 排名第 6 名，天池大数据竞赛组委会 2026.09.21">
+            <img decoding="async" src="挑战赛/证书.png?v=1790332000"
+                 alt="Clouder 证书：2026-具身仿真合成挑战赛，参赛队伍 lin、参赛成员 林嘉豪，初赛 A 排名第 6 名（全球 254 支队伍），天池大数据竞赛组委会 2026.09.21" width="866" height="1205">
+          </a>
         </div>
       </div>
-      <p class="abstract-fig-cap"><a href="https://tianchi.aliyun.com/competition/entrance/532506?spm=5176.12281973.J_rt7ppEcsZBa044MP17qQJ.19.26d33b74oLvnqa" target="_blank" rel="noopener" title="2026-具身仿真合成挑战赛 · 初赛 A 榜第 6（77.98 分）· 初赛 B 榜第 1（79.21 分）"><b>↗ 2026-具身仿真合成挑战赛</b></a><b> · 初赛 A 榜第 6（77.98 分）· 初赛 B 榜第 1（79.21 分，领先第 2 名 5.87 分），榜单每小时整点更新。</b></p>
+      <p class="abstract-fig-cap"><a href="https://tianchi.aliyun.com/competition/entrance/532506?spm=5176.12281973.J_rt7ppEcsZBa044MP17qQJ.19.26d33b74oLvnqa" target="_blank" rel="noopener" title="2026-具身仿真合成挑战赛 · 初赛 A 榜第 6（77.98 分）· 初赛 B 榜第 1（79.21 分）"><b>↗ 2026-具身仿真合成挑战赛</b></a><b> · 初赛 A 榜第 6（77.98 分）· 初赛 B 榜第 1（79.21 分，领先第 2 名 5.87 分）；组委会颁发 Clouder 证书（2026.09.21，全球 254 支队伍，初赛 A 排名第 6）。榜单每小时整点更新。</b></p>
     </div>
   </section>
 
