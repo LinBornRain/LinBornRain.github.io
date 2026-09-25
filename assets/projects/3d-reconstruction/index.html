@@ -486,16 +486,27 @@
   .abstract-fig-cap b { font-family: var(--font-sans); color: var(--accent); }
 
   /* ===== 架构节末：挑战赛佐证（并排一行，灯箱可放大） ===== */
-  .comp-fig { margin: 34px 0 0; }
+  .comp-fig {
+    margin: 34px 0 0;
+    width: min(96vw, 1500px);            /* 与架构图、页首横幅同宽：破栏到 min(96vw,1500px) */
+    position: relative; left: 50%; transform: translateX(-50%);
+  }
   .comp-fig .cat-block { margin-top: 0; }
-  .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .comp-grid .mv-item { display: block; }
-  .comp-grid .mv-item img { width: 100%; height: auto; display: block; }
-  /* 榜单截图较宽、表内文字小：整幅跨两列以保证可读 */
-  .comp-grid .mv-item.wide { grid-column: 1 / -1; }
-  .comp-grid .mv-item.cert { grid-column: 1 / -1; display: flex; justify-content: center; }
-  .comp-grid .mv-item.cert img { width: auto; max-width: 460px; border: 1px solid var(--line); border-radius: 8px; }
-  @media (max-width: 640px) { .comp-grid { grid-template-columns: 1fr; } }
+  .comp-grid { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 12px; }
+  .comp-grid .mv-item {
+    flex: 1 1 0; min-width: 0; display: block;
+    border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+    background: var(--soft); box-shadow: 0 1px 4px rgba(60,50,30,.05);
+    transition: transform .18s var(--ease), box-shadow .18s var(--ease);
+  }
+  .comp-grid .mv-item:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(60,45,20,.12); }
+  .comp-grid .mv-item img { display: block; width: 100%; height: auto; }
+  /* 每项 flex-grow 写在各 <a> 行内（= 该图原始长宽比）→ 一行内自动等高、不裁不拉 */
+  @media (max-width: 760px) {
+    .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .comp-grid .mv-item { border-radius: 6px; }
+  }
+  @media (max-width: 460px) { .comp-grid { grid-template-columns: 1fr; } }
 
   /* ===== 关键点提示框（与「摘要」同一视觉语言，用金色区分） ===== */
   .arch-key {
@@ -848,22 +859,22 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
     <div class="comp-fig" id="sec-competition">
       <div class="cat-block" data-cat="competition">
         <div class="comp-grid">
-          <a class="mv-item" href="挑战赛/初赛A榜.png?v=1790332000" data-lightbox data-name="2026-具身仿真合成挑战赛 · 初赛 A 榜第 6（77.98 分）"
+          <a class="mv-item" style="flex-grow:1.82" href="挑战赛/初赛A榜.png?v=1790332000" data-lightbox data-name="2026-具身仿真合成挑战赛 · 初赛 A 榜第 6（77.98 分）"
              aria-label="初赛 A 榜：lin 第 6 名，77.98 分">
             <img decoding="async" src="挑战赛/初赛A榜.png?v=1790332000"
                  alt="2026-具身仿真合成挑战赛初赛 A 榜：lin 以 77.98 分位列第 6（该榜截图内共 252 支）" width="1251" height="687">
           </a>
-          <a class="mv-item" href="挑战赛/初赛B榜.png?v=1790332000" data-lightbox data-name="2026-具身仿真合成挑战赛 · 初赛 B 榜第 1（79.21 分）"
+          <a class="mv-item" style="flex-grow:1.95" href="挑战赛/初赛B榜.png?v=1790332000" data-lightbox data-name="2026-具身仿真合成挑战赛 · 初赛 B 榜第 1（79.21 分）"
              aria-label="初赛 B 榜：lin 第 1 名，79.21 分，领先第 2 名 5.87 分">
             <img decoding="async" src="挑战赛/初赛B榜.png?v=1790332000"
                  alt="2026-具身仿真合成挑战赛初赛 B 榜：lin 以 79.21 分位列第 1（第 2 名 73.34 分）" width="1387" height="710">
           </a>
-          <a class="mv-item wide" href="挑战赛/参赛信息.png?v=1790332000" data-lightbox data-name="参赛信息 · 初赛 A 6 / 254 · 初赛 B 1 / 254 · 进行中"
+          <a class="mv-item" style="flex-grow:4.12" href="挑战赛/参赛信息.png?v=1790332000" data-lightbox data-name="参赛信息 · 初赛 A 6 / 254 · 初赛 B 1 / 254 · 进行中"
              aria-label="参赛信息：2026-08-30 以 lin 参加，初赛 A 榜 6 / 254、初赛 B 榜 1 / 254，进行中">
             <img decoding="async" src="挑战赛/参赛信息.png?v=1790332000"
                  alt="2026-具身仿真合成挑战赛参赛信息：2026-08-30 以 lin 参加，初赛 A 榜 6 / 254、初赛 B 榜 1 / 254，进行中" width="894" height="217">
           </a>
-          <a class="mv-item cert" href="挑战赛/证书.png?v=1790332000" data-lightbox data-name="Clouder 证书 · 2026-具身仿真合成挑战赛 · 初赛 A 排名第 6"
+          <a class="mv-item" style="flex-grow:0.72" href="挑战赛/证书.png?v=1790332000" data-lightbox data-name="Clouder 证书 · 2026-具身仿真合成挑战赛 · 初赛 A 排名第 6"
              aria-label="Clouder 证书：2026-具身仿真合成挑战赛，参赛队伍 lin、参赛成员 林嘉豪，全球 254 支队伍，初赛 A 排名第 6 名，天池大数据竞赛组委会 2026.09.21">
             <img decoding="async" src="挑战赛/证书.png?v=1790332000"
                  alt="Clouder 证书：2026-具身仿真合成挑战赛，参赛队伍 lin、参赛成员 林嘉豪，初赛 A 排名第 6 名（全球 254 支队伍），天池大数据竞赛组委会 2026.09.21" width="866" height="1205">
