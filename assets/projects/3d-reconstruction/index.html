@@ -161,7 +161,7 @@
   .abstract li b { margin-right: .45em; }
 
   /* ===== 类目分块与类目导航 ===== */
-  .cat-block { margin-top: 40px; scroll-margin-top: 84px; }
+  .cat-block { margin-top: 34px; scroll-margin-top: 84px; }
   .cat-head {
     display: flex; align-items: center; gap: 11px;
     font-size: 1.12rem; font-weight: 700; margin: 0 0 14px;
@@ -173,6 +173,7 @@
     font-size: 12px; font-weight: 500; color: var(--muted); font-family: inherit;
     border: 1px solid var(--line); border-radius: 999px; padding: 1px 10px; background: var(--soft);
   }
+  .sec-count { font-size: 13px; font-weight: 400; color: var(--muted); margin-left: 10px; letter-spacing: .01em; }
   .cat-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 4px; }
   .cat-nav a {
     display: inline-flex; align-items: center; gap: 7px; height: 2.1em; padding: 0 .85em;
@@ -224,22 +225,24 @@
   /* ===== 总揽分页轮播 ===== */
   .ov-carousel { position: relative; padding: 0 6px; }
   .ov-track {
+    --per: 4;
     display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
-    padding: 4px 0 12px; scrollbar-width: thin; scroll-behavior: smooth;
+    padding: 4px 0 8px; scrollbar-width: thin; scroll-behavior: smooth;
     overscroll-behavior-x: contain;
   }
   .ov-track .ov-card {
-    flex: 0 0 calc((100% - 2 * 18px) / 3); scroll-snap-align: start;
+    flex: 0 0 calc((100% - (var(--per) - 1) * 18px) / var(--per)); scroll-snap-align: start;
   }
-  @media (max-width: 900px)  { .ov-track .ov-card { flex-basis: calc((100% - 18px) / 2); } }
-  @media (max-width: 600px)  { .ov-track .ov-card { flex-basis: 100%; } }
+  @media (max-width: 1100px) { .ov-track { --per: 3; } }
+  @media (max-width: 900px)  { .ov-track { --per: 2; } }
+  @media (max-width: 600px)  { .ov-track { --per: 1; } }
   /* 总揽箭头：垂直居中于卡片区、内外各半，保证左右对称可见 */
   .ov-carousel .car-btn { top: 50%; transform: translateY(-50%); opacity: 1; }
   .ov-carousel .car-btn:hover { transform: translateY(-50%) scale(1.08); }
   .ov-carousel .car-btn:active { transform: translateY(-50%) scale(.96); }
   .ov-carousel .car-prev { left: -20px; }
   .ov-carousel .car-next { right: -20px; }
-  .ov-carousel .car-bar { margin-top: 6px; }
+  .ov-carousel .car-bar { margin-top: 2px; }
   @media (max-width: 760px) {
     .ov-carousel .car-prev { left: 2px; }
     .ov-carousel .car-next { right: 2px; }
@@ -571,7 +574,16 @@
       opacity: 1 !important; transform: none !important; transition: none !important;
     }
 
-    .ov-track .ov-card { display: block !important; }
+    /* 打印时把各节轮播压成规整网格，避免每屏只落一张卡片 */
+    .ov-track, .mv-track, .vid-track {
+      display: grid !important; overflow: visible !important;
+      grid-template-columns: repeat(4, 1fr); gap: 10px;
+    }
+    .vid-track { grid-template-columns: repeat(2, 1fr); }
+    .ov-track .ov-card, .mv-track .mv-item, .vid-track .vid-item {
+      flex: none !important; break-inside: avoid;
+    }
+    .vid-shell video { max-height: 320px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -611,7 +623,7 @@
   <div class="kicker">USD Interactive Assets · Newton Reconstruction</div>
   <h1>Real2Sim 重建——<span class="nw">GPT6-ASTRA</span> 直出物体外观与交互 <span class="nw">3D 资产</span></h1>
   <div class="rule"></div>
-  <p class="sub">49 项可交互 USD 重建资产（两套赛题合并呈现：34 项 + 15 项），逐项与实物对照：<b>外观</b>逐视角 5:5 并排（实物录像帧 ↔ 重建渲染），
+  <p class="sub">49 项可交互 USD 重建资产，逐项与实物对照：<b>外观</b>逐视角 5:5 并排（实物录像帧 ↔ 重建渲染），
   <b>交互</b>同屏上下并置（实物录像 ↔ Newton 重建录制）。</p>
   <div class="meta-row">
     <span class="chip">✦ 报告日期 <b>2026-09-21</b></span>
@@ -682,7 +694,7 @@
     以及茶水间、办公室、卧室、书房四处室内环境。每项资产均附有与实物的一对一证据：
     <ul>
       <li><b>外观对比 · 49 张</b>实物录像帧 ↔ 重建模型渲染，逐视角并排，严格 5:5、图内无文字；</li>
-      <li><b>交互对比 · 49 支</b>实物交互录像 ↔ Newton 重建交互录制，同屏上下并置。</li>
+      <li><b>交互对比 · 49 支</b>实物交互录像 ↔ Newton 重建交互录制，同屏上下并置（其中 3 支原题只提供外观录像，已在标题注明）。</li>
     </ul>
     <p>第 <a href="#sec-architecture">❖ 架构与工作链路</a> 节说明这套结果如何产出：Real2Sim 链路架构（图 1），以及工作链路各环节的输入与输出。</p>
   </div>
@@ -813,9 +825,9 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
 
   <!-- ================= 总揽 ================= -->
   <section id="sec-overview-grid">
-    <h2><span class="sec-no">✦</span>总揽 · 49 项资产<span class="sec-en">Gallery</span></h2>
-    <p class="lead">按 <b>8 个类目</b>分组；每张缩略图为该资产的单视角对比（左实物 ｜ 右重建），点击卡片直达第 Ⅰ 节对应的多视角对照。可按类目筛选，或按名称 / 编号搜索。</p>
-    <div class="legend"><span>左实物 ｜ 右重建</span><span>每格 5:5 对半</span><span>图内无文字</span></div>
+    <h2><span class="sec-no">✦</span>总揽 · 49 项资产<span class="sec-en">Gallery</span><span class="sec-count">8 个类目 · A 套 34 + B 套 15</span></h2>
+    <p class="lead">按 <b>8 个类目</b>分组，类目内按子类型相邻排列（如座椅 → 灯具 → 日用）。每张缩略图是该资产的单视角对比（<b>左实物 ｜ 右重建</b>），点击卡片直达第 Ⅰ 节对应的多视角对照；可按类目筛选，或按名称 / 编号搜索。</p>
+    <div class="legend"><span>左实物 ｜ 右重建</span><span>每格 5:5 对半</span><span>图内无文字</span><span>A 套 34 项（001–034）· B 套 15 项（035–049）</span></div>
     <div class="ov-toolbar">
       <div class="filter-bar"><button class="flt active" data-cat="all">全部 <b>49</b></button><button class="flt" data-cat="cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>6</b></button><button class="flt" data-cat="seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>11</b></button><button class="flt" data-cat="appliance"><i style="background:#a1741f"></i>厨房电器 <b>6</b></button><button class="flt" data-cat="digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></button><button class="flt" data-cat="package"><i style="background:#7d4a86"></i>包装与容器 <b>7</b></button><button class="flt" data-cat="kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>9</b></button><button class="flt" data-cat="tools"><i style="background:#5f6b2e"></i>工具与器件 <b>3</b></button><button class="flt" data-cat="environment"><i style="background:#4a6f7a"></i>室内环境 <b>4</b></button></div>
       <div class="ov-search">
@@ -838,6 +850,11 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_003.jpg?v=1789893335" alt="储物边柜"></a>
           <div class="ov-body"><div class="ov-name">储物边柜</div></div>
         </div>
+        <div class="ov-card" data-cat="cabinet" data-search="item_012 六斗抽屉柜">
+          <a href="#app-012" class="ov-thumb" data-name="六斗抽屉柜">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_012.jpg?v=1789893336" alt="六斗抽屉柜"></a>
+          <div class="ov-body"><div class="ov-name">六斗抽屉柜</div></div>
+        </div>
         <div class="ov-card" data-cat="cabinet" data-search="item_009 边桌">
           <a href="#app-009" class="ov-thumb" data-name="边桌">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_009.jpg?v=1789893336" alt="边桌"></a>
@@ -848,16 +865,12 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_011.jpg?v=1789893336" alt="床头桌"></a>
           <div class="ov-body"><div class="ov-name">床头桌</div></div>
         </div>
-        <div class="ov-card" data-cat="cabinet" data-search="item_012 六斗抽屉柜">
-          <a href="#app-012" class="ov-thumb" data-name="六斗抽屉柜">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_012.jpg?v=1789893336" alt="六斗抽屉柜"></a>
-          <div class="ov-body"><div class="ov-name">六斗抽屉柜</div></div>
         <div class="ov-card" data-cat="cabinet" data-search="item_035 书桌">
           <a href="#app-035" class="ov-thumb" data-name="书桌">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_035.jpg?v=1790325000" alt="书桌"></a>
           <div class="ov-body"><div class="ov-name">书桌</div></div>
         </div>
-        </div></div>
+        </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
         <button class="car-btn car-next ov-next" type="button" aria-label="下一页" title="下一页">›</button>
         <div class="car-bar">
@@ -874,56 +887,57 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_004.jpg?v=1789893335" alt="升降办公椅"></a>
           <div class="ov-body"><div class="ov-name">升降办公椅</div></div>
         </div>
-        <div class="ov-card" data-cat="seating" data-search="item_005 落地灯">
-          <a href="#app-005" class="ov-thumb" data-name="落地灯">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_005.jpg?v=1789893335" alt="落地灯"></a>
-          <div class="ov-body"><div class="ov-name">落地灯</div></div>
-        </div>
-        <div class="ov-card" data-cat="seating" data-search="item_006 l形靠背沙发">
-          <a href="#app-006" class="ov-thumb" data-name="L形靠背沙发">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_006.jpg?v=1789893335" alt="L形靠背沙发"></a>
-          <div class="ov-body"><div class="ov-name">L形靠背沙发</div></div>
-        </div>
         <div class="ov-card" data-cat="seating" data-search="item_007 单人椅">
           <a href="#app-007" class="ov-thumb" data-name="单人椅">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_007.jpg?v=1789893335" alt="单人椅"></a>
           <div class="ov-body"><div class="ov-name">单人椅</div></div>
-        </div>
-        <div class="ov-card" data-cat="seating" data-search="item_008 脚凳">
-          <a href="#app-008" class="ov-thumb" data-name="脚凳">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_008.jpg?v=1789893335" alt="脚凳"></a>
-          <div class="ov-body"><div class="ov-name">脚凳</div></div>
-        </div>
-        <div class="ov-card" data-cat="seating" data-search="item_024 黄色小熊垃圾桶">
-          <a href="#app-024" class="ov-thumb" data-name="黄色小熊垃圾桶">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_024.jpg?v=1789893338" alt="黄色小熊垃圾桶"></a>
-          <div class="ov-body"><div class="ov-name">黄色小熊垃圾桶</div></div>
-        <div class="ov-card" data-cat="seating" data-search="item_036 脚踏垃圾桶">
-          <a href="#app-036" class="ov-thumb" data-name="脚踏垃圾桶">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_036.jpg?v=1790325000" alt="脚踏垃圾桶"></a>
-          <div class="ov-body"><div class="ov-name">脚踏垃圾桶</div></div>
-        </div>
-        <div class="ov-card" data-cat="seating" data-search="item_037 工作灯">
-          <a href="#app-037" class="ov-thumb" data-name="工作灯">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_037.jpg?v=1790325000" alt="工作灯"></a>
-          <div class="ov-body"><div class="ov-name">工作灯</div></div>
-        </div>
-        <div class="ov-card" data-cat="seating" data-search="item_038 滑门储物式长凳">
-          <a href="#app-038" class="ov-thumb" data-name="滑门储物式长凳">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_038.jpg?v=1790325000" alt="滑门储物式长凳"></a>
-          <div class="ov-body"><div class="ov-name">滑门储物式长凳</div></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_039 吧台凳">
           <a href="#app-039" class="ov-thumb" data-name="吧台凳">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_039.jpg?v=1790325000" alt="吧台凳"></a>
           <div class="ov-body"><div class="ov-name">吧台凳</div></div>
         </div>
+        <div class="ov-card" data-cat="seating" data-search="item_006 l形靠背沙发">
+          <a href="#app-006" class="ov-thumb" data-name="L形靠背沙发">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_006.jpg?v=1789893335" alt="L形靠背沙发"></a>
+          <div class="ov-body"><div class="ov-name">L形靠背沙发</div></div>
+        </div>
+        <div class="ov-card" data-cat="seating" data-search="item_008 脚凳">
+          <a href="#app-008" class="ov-thumb" data-name="脚凳">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_008.jpg?v=1789893335" alt="脚凳"></a>
+          <div class="ov-body"><div class="ov-name">脚凳</div></div>
+        </div>
+        <div class="ov-card" data-cat="seating" data-search="item_038 滑门储物式长凳">
+          <a href="#app-038" class="ov-thumb" data-name="滑门储物式长凳">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_038.jpg?v=1790325000" alt="滑门储物式长凳"></a>
+          <div class="ov-body"><div class="ov-name">滑门储物式长凳</div></div>
+        </div>
+        <div class="ov-card" data-cat="seating" data-search="item_005 落地灯">
+          <a href="#app-005" class="ov-thumb" data-name="落地灯">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_005.jpg?v=1789893335" alt="落地灯"></a>
+          <div class="ov-body"><div class="ov-name">落地灯</div></div>
+        </div>
+        <div class="ov-card" data-cat="seating" data-search="item_037 工作灯">
+          <a href="#app-037" class="ov-thumb" data-name="工作灯">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_037.jpg?v=1790325000" alt="工作灯"></a>
+          <div class="ov-body"><div class="ov-name">工作灯</div></div>
+        </div>
+        <div class="ov-card" data-cat="seating" data-search="item_024 黄色小熊垃圾桶">
+          <a href="#app-024" class="ov-thumb" data-name="黄色小熊垃圾桶">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_024.jpg?v=1789893338" alt="黄色小熊垃圾桶"></a>
+          <div class="ov-body"><div class="ov-name">黄色小熊垃圾桶</div></div>
+        </div>
+        <div class="ov-card" data-cat="seating" data-search="item_036 脚踏垃圾桶">
+          <a href="#app-036" class="ov-thumb" data-name="脚踏垃圾桶">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_036.jpg?v=1790325000" alt="脚踏垃圾桶"></a>
+          <div class="ov-body"><div class="ov-name">脚踏垃圾桶</div></div>
+        </div>
         <div class="ov-card" data-cat="seating" data-search="item_040 纯色枕头">
           <a href="#app-040" class="ov-thumb" data-name="纯色枕头">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_040.jpg?v=1790325000" alt="纯色枕头"></a>
           <div class="ov-body"><div class="ov-name">纯色枕头</div></div>
         </div>
-        </div></div>
+        </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
         <button class="car-btn car-next ov-next" type="button" aria-label="下一页" title="下一页">›</button>
         <div class="car-bar">
@@ -959,12 +973,13 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
           <a href="#app-017" class="ov-thumb" data-name="电热水壶">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_017.jpg?v=1789893337" alt="电热水壶"></a>
           <div class="ov-body"><div class="ov-name">电热水壶</div></div>
+        </div>
         <div class="ov-card" data-cat="appliance" data-search="item_041 绞肉机">
           <a href="#app-041" class="ov-thumb" data-name="绞肉机">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_041.jpg?v=1790325000" alt="绞肉机"></a>
           <div class="ov-body"><div class="ov-name">绞肉机</div></div>
         </div>
-        </div></div>
+        </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
         <button class="car-btn car-next ov-next" type="button" aria-label="下一页" title="下一页">›</button>
         <div class="car-bar">
@@ -1031,12 +1046,13 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
           <a href="#app-027" class="ov-thumb" data-name="酸菜鱼调味料">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_027.jpg?v=1789893339" alt="酸菜鱼调味料"></a>
           <div class="ov-body"><div class="ov-name">酸菜鱼调味料</div></div>
+        </div>
         <div class="ov-card" data-cat="package" data-search="item_042 特仑苏牛奶">
           <a href="#app-042" class="ov-thumb" data-name="特仑苏牛奶">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_042.jpg?v=1790325000" alt="特仑苏牛奶"></a>
           <div class="ov-body"><div class="ov-name">特仑苏牛奶</div></div>
         </div>
-        </div></div>
+        </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
         <button class="car-btn car-next ov-next" type="button" aria-label="下一页" title="下一页">›</button>
         <div class="car-bar">
@@ -1053,15 +1069,20 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_010.jpg?v=1789893336" alt="水果刀与刀鞘"></a>
           <div class="ov-body"><div class="ov-name">水果刀与刀鞘</div></div>
         </div>
-        <div class="ov-card" data-cat="kitchen" data-search="item_023 深灰陶瓷马克杯">
-          <a href="#app-023" class="ov-thumb" data-name="深灰陶瓷马克杯">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_023.jpg?v=1789893338" alt="深灰陶瓷马克杯"></a>
-          <div class="ov-body"><div class="ov-name">深灰陶瓷马克杯</div></div>
-        </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_028 锅铲">
           <a href="#app-028" class="ov-thumb" data-name="锅铲">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_028.jpg?v=1789893339" alt="锅铲"></a>
           <div class="ov-body"><div class="ov-name">锅铲</div></div>
+        </div>
+        <div class="ov-card" data-cat="kitchen" data-search="item_031 砧板">
+          <a href="#app-031" class="ov-thumb" data-name="砧板">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_031.jpg?v=1789893340" alt="砧板"></a>
+          <div class="ov-body"><div class="ov-name">砧板</div></div>
+        </div>
+        <div class="ov-card" data-cat="kitchen" data-search="item_023 深灰陶瓷马克杯">
+          <a href="#app-023" class="ov-thumb" data-name="深灰陶瓷马克杯">
+            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_023.jpg?v=1789893338" alt="深灰陶瓷马克杯"></a>
+          <div class="ov-body"><div class="ov-name">深灰陶瓷马克杯</div></div>
         </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_029 木碗">
           <a href="#app-029" class="ov-thumb" data-name="木碗">
@@ -1073,15 +1094,11 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_030.jpg?v=1789893339" alt="木质兔子盘子"></a>
           <div class="ov-body"><div class="ov-name">木质兔子盘子</div></div>
         </div>
-        <div class="ov-card" data-cat="kitchen" data-search="item_031 砧板">
-          <a href="#app-031" class="ov-thumb" data-name="砧板">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_031.jpg?v=1789893340" alt="砧板"></a>
-          <div class="ov-body"><div class="ov-name">砧板</div></div>
-        </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_032 炒锅与玻璃锅盖">
           <a href="#app-032" class="ov-thumb" data-name="炒锅与玻璃锅盖">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_032.jpg?v=1789893340" alt="炒锅与玻璃锅盖"></a>
           <div class="ov-body"><div class="ov-name">炒锅与玻璃锅盖</div></div>
+        </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_043 黑蓝色铸铝锅">
           <a href="#app-043" class="ov-thumb" data-name="黑蓝色铸铝锅">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_043.jpg?v=1790325000" alt="黑蓝色铸铝锅"></a>
@@ -1092,7 +1109,7 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_044.jpg?v=1790325000" alt="长柄勺"></a>
           <div class="ov-body"><div class="ov-name">长柄勺</div></div>
         </div>
-        </div></div>
+        </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
         <button class="car-btn car-next ov-next" type="button" aria-label="下一页" title="下一页">›</button>
         <div class="car-bar">
@@ -1138,6 +1155,7 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
           <a href="#app-034" class="ov-thumb" data-name="办公室">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_034.jpg?v=1789893340" alt="办公室"></a>
           <div class="ov-body"><div class="ov-name">办公室</div></div>
+        </div>
         <div class="ov-card" data-cat="environment" data-search="item_048 卧室">
           <a href="#app-048" class="ov-thumb" data-name="卧室">
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_048.jpg?v=1790325000" alt="卧室"></a>
@@ -1148,7 +1166,7 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             <img loading="lazy" decoding="async" src="外观对比/thumbs/item_049.jpg?v=1790325000" alt="书房"></a>
           <div class="ov-body"><div class="ov-name">书房</div></div>
         </div>
-        </div></div>
+        </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
         <button class="car-btn car-next ov-next" type="button" aria-label="下一页" title="下一页">›</button>
         <div class="car-bar">
@@ -1161,8 +1179,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
 
   <!-- ================= Ⅰ 外观对比 ================= -->
   <section id="sec-appearance">
-    <h2><span class="sec-no">Ⅰ</span>外观对比<span class="sec-en">Appearance</span></h2>
-    <p class="lead">逐项、逐视角的一对一对照：每行为一个视角，<b>左实物 ｜ 右重建</b>，严格 5:5，图内无文字。点击图片进入灯箱——滚动查看原尺寸长图，← / → 在同类目内切换物体，双击缩放，Esc 关闭。</p>
+    <h2><span class="sec-no">Ⅰ</span>外观对比<span class="sec-en">Appearance</span><span class="sec-count">49 张 · 8 个类目</span></h2>
+    <p class="lead">逐项、逐视角的一对一对照：每行为一个视角（每项 3–4 个视角；048 卧室 / 049 书房为整间室内），<b>左实物 ｜ 右重建</b>，严格 5:5，图内无文字。点击图片进入灯箱——滚动查看原尺寸长图，← / → 在同类目内切换物体，双击缩放，Esc 关闭。</p>
     <div class="cat-nav"><a href="#app-cat-cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>6</b></a><a href="#app-cat-seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>11</b></a><a href="#app-cat-appliance"><i style="background:#a1741f"></i>厨房电器 <b>6</b></a><a href="#app-cat-digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></a><a href="#app-cat-package"><i style="background:#7d4a86"></i>包装与容器 <b>7</b></a><a href="#app-cat-kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>9</b></a><a href="#app-cat-tools"><i style="background:#5f6b2e"></i>工具与器件 <b>3</b></a><a href="#app-cat-environment"><i style="background:#4a6f7a"></i>室内环境 <b>4</b></a></div>
     
     <div class="cat-block" id="app-cat-cabinet" data-cat="cabinet">
@@ -1179,6 +1197,11 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
               <img loading="lazy" decoding="async" src="外观对比/mv/item_003_外观对比.jpg?v=1789893340" alt="储物边柜 多视角对比">
               <span class="mv-name">储物边柜</span>
             </a>
+            <a class="mv-item" id="app-012" href="外观对比/item_012_外观对比.jpg?v=1789893336" data-lightbox data-name="六斗抽屉柜"
+               aria-label="六斗抽屉柜">
+              <img loading="lazy" decoding="async" src="外观对比/mv/item_012_外观对比.jpg?v=1789893341" alt="六斗抽屉柜 多视角对比">
+              <span class="mv-name">六斗抽屉柜</span>
+            </a>
             <a class="mv-item" id="app-009" href="外观对比/item_009_外观对比.jpg?v=1789893336" data-lightbox data-name="边桌"
                aria-label="边桌">
               <img loading="lazy" decoding="async" src="外观对比/mv/item_009_外观对比.jpg?v=1789893341" alt="边桌 多视角对比">
@@ -1188,11 +1211,6 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
                aria-label="床头桌">
               <img loading="lazy" decoding="async" src="外观对比/mv/item_011_外观对比.jpg?v=1789893341" alt="床头桌 多视角对比">
               <span class="mv-name">床头桌</span>
-            </a>
-            <a class="mv-item" id="app-012" href="外观对比/item_012_外观对比.jpg?v=1789893336" data-lightbox data-name="六斗抽屉柜"
-               aria-label="六斗抽屉柜">
-              <img loading="lazy" decoding="async" src="外观对比/mv/item_012_外观对比.jpg?v=1789893341" alt="六斗抽屉柜 多视角对比">
-              <span class="mv-name">六斗抽屉柜</span>
             </a>
             <a class="mv-item" id="app-035" href="外观对比/item_035_外观对比.jpg?v=1790325000" data-lightbox data-name="书桌"
                aria-label="书桌">
@@ -1214,25 +1232,40 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
               <img loading="lazy" decoding="async" src="外观对比/mv/item_004_外观对比.jpg?v=1789893340" alt="升降办公椅 多视角对比">
               <span class="mv-name">升降办公椅</span>
             </a>
-            <a class="mv-item" id="app-005" href="外观对比/item_005_外观对比.jpg?v=1789893335" data-lightbox data-name="落地灯"
-               aria-label="落地灯">
-              <img loading="lazy" decoding="async" src="外观对比/mv/item_005_外观对比.jpg?v=1789893340" alt="落地灯 多视角对比">
-              <span class="mv-name">落地灯</span>
+            <a class="mv-item" id="app-007" href="外观对比/item_007_外观对比.jpg?v=1789893335" data-lightbox data-name="单人椅"
+               aria-label="单人椅">
+              <img loading="lazy" decoding="async" src="外观对比/mv/item_007_外观对比.jpg?v=1789893341" alt="单人椅 多视角对比">
+              <span class="mv-name">单人椅</span>
+            </a>
+            <a class="mv-item" id="app-039" href="外观对比/item_039_外观对比.jpg?v=1790325000" data-lightbox data-name="吧台凳"
+               aria-label="吧台凳">
+              <img loading="lazy" decoding="async" src="外观对比/mv/item_039_外观对比.jpg?v=1790325000" alt="吧台凳 多视角对比">
+              <span class="mv-name">吧台凳</span>
             </a>
             <a class="mv-item" id="app-006" href="外观对比/item_006_外观对比.jpg?v=1789893335" data-lightbox data-name="L形靠背沙发"
                aria-label="L形靠背沙发">
               <img loading="lazy" decoding="async" src="外观对比/mv/item_006_外观对比.jpg?v=1789893341" alt="L形靠背沙发 多视角对比">
               <span class="mv-name">L形靠背沙发</span>
             </a>
-            <a class="mv-item" id="app-007" href="外观对比/item_007_外观对比.jpg?v=1789893335" data-lightbox data-name="单人椅"
-               aria-label="单人椅">
-              <img loading="lazy" decoding="async" src="外观对比/mv/item_007_外观对比.jpg?v=1789893341" alt="单人椅 多视角对比">
-              <span class="mv-name">单人椅</span>
-            </a>
             <a class="mv-item" id="app-008" href="外观对比/item_008_外观对比.jpg?v=1789893335" data-lightbox data-name="脚凳"
                aria-label="脚凳">
               <img loading="lazy" decoding="async" src="外观对比/mv/item_008_外观对比.jpg?v=1789893341" alt="脚凳 多视角对比">
               <span class="mv-name">脚凳</span>
+            </a>
+            <a class="mv-item" id="app-038" href="外观对比/item_038_外观对比.jpg?v=1790325000" data-lightbox data-name="滑门储物式长凳"
+               aria-label="滑门储物式长凳">
+              <img loading="lazy" decoding="async" src="外观对比/mv/item_038_外观对比.jpg?v=1790325000" alt="滑门储物式长凳 多视角对比">
+              <span class="mv-name">滑门储物式长凳</span>
+            </a>
+            <a class="mv-item" id="app-005" href="外观对比/item_005_外观对比.jpg?v=1789893335" data-lightbox data-name="落地灯"
+               aria-label="落地灯">
+              <img loading="lazy" decoding="async" src="外观对比/mv/item_005_外观对比.jpg?v=1789893340" alt="落地灯 多视角对比">
+              <span class="mv-name">落地灯</span>
+            </a>
+            <a class="mv-item" id="app-037" href="外观对比/item_037_外观对比.jpg?v=1790325000" data-lightbox data-name="工作灯"
+               aria-label="工作灯">
+              <img loading="lazy" decoding="async" src="外观对比/mv/item_037_外观对比.jpg?v=1790325000" alt="工作灯 多视角对比">
+              <span class="mv-name">工作灯</span>
             </a>
             <a class="mv-item" id="app-024" href="外观对比/item_024_外观对比.jpg?v=1789893338" data-lightbox data-name="黄色小熊垃圾桶"
                aria-label="黄色小熊垃圾桶">
@@ -1243,21 +1276,6 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
                aria-label="脚踏垃圾桶">
               <img loading="lazy" decoding="async" src="外观对比/mv/item_036_外观对比.jpg?v=1790325000" alt="脚踏垃圾桶 多视角对比">
               <span class="mv-name">脚踏垃圾桶</span>
-            </a>
-            <a class="mv-item" id="app-037" href="外观对比/item_037_外观对比.jpg?v=1790325000" data-lightbox data-name="工作灯"
-               aria-label="工作灯">
-              <img loading="lazy" decoding="async" src="外观对比/mv/item_037_外观对比.jpg?v=1790325000" alt="工作灯 多视角对比">
-              <span class="mv-name">工作灯</span>
-            </a>
-            <a class="mv-item" id="app-038" href="外观对比/item_038_外观对比.jpg?v=1790325000" data-lightbox data-name="滑门储物式长凳"
-               aria-label="滑门储物式长凳">
-              <img loading="lazy" decoding="async" src="外观对比/mv/item_038_外观对比.jpg?v=1790325000" alt="滑门储物式长凳 多视角对比">
-              <span class="mv-name">滑门储物式长凳</span>
-            </a>
-            <a class="mv-item" id="app-039" href="外观对比/item_039_外观对比.jpg?v=1790325000" data-lightbox data-name="吧台凳"
-               aria-label="吧台凳">
-              <img loading="lazy" decoding="async" src="外观对比/mv/item_039_外观对比.jpg?v=1790325000" alt="吧台凳 多视角对比">
-              <span class="mv-name">吧台凳</span>
             </a>
             <a class="mv-item" id="app-040" href="外观对比/item_040_外观对比.jpg?v=1790325000" data-lightbox data-name="纯色枕头"
                aria-label="纯色枕头">
@@ -1389,15 +1407,20 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
               <img loading="lazy" decoding="async" src="外观对比/mv/item_010_外观对比.jpg?v=1789893341" alt="水果刀与刀鞘 多视角对比">
               <span class="mv-name">水果刀与刀鞘</span>
             </a>
-            <a class="mv-item" id="app-023" href="外观对比/item_023_外观对比.jpg?v=1789893338" data-lightbox data-name="深灰陶瓷马克杯"
-               aria-label="深灰陶瓷马克杯">
-              <img loading="lazy" decoding="async" src="外观对比/mv/item_023_外观对比.jpg?v=1789893341" alt="深灰陶瓷马克杯 多视角对比">
-              <span class="mv-name">深灰陶瓷马克杯</span>
-            </a>
             <a class="mv-item" id="app-028" href="外观对比/item_028_外观对比.jpg?v=1789893339" data-lightbox data-name="锅铲"
                aria-label="锅铲">
               <img loading="lazy" decoding="async" src="外观对比/mv/item_028_外观对比.jpg?v=1789893341" alt="锅铲 多视角对比">
               <span class="mv-name">锅铲</span>
+            </a>
+            <a class="mv-item" id="app-031" href="外观对比/item_031_外观对比.jpg?v=1789893340" data-lightbox data-name="砧板"
+               aria-label="砧板">
+              <img loading="lazy" decoding="async" src="外观对比/mv/item_031_外观对比.jpg?v=1789893342" alt="砧板 多视角对比">
+              <span class="mv-name">砧板</span>
+            </a>
+            <a class="mv-item" id="app-023" href="外观对比/item_023_外观对比.jpg?v=1789893338" data-lightbox data-name="深灰陶瓷马克杯"
+               aria-label="深灰陶瓷马克杯">
+              <img loading="lazy" decoding="async" src="外观对比/mv/item_023_外观对比.jpg?v=1789893341" alt="深灰陶瓷马克杯 多视角对比">
+              <span class="mv-name">深灰陶瓷马克杯</span>
             </a>
             <a class="mv-item" id="app-029" href="外观对比/item_029_外观对比.jpg?v=1789893339" data-lightbox data-name="木碗"
                aria-label="木碗">
@@ -1408,11 +1431,6 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
                aria-label="木质兔子盘子">
               <img loading="lazy" decoding="async" src="外观对比/mv/item_030_外观对比.jpg?v=1789893342" alt="木质兔子盘子 多视角对比">
               <span class="mv-name">木质兔子盘子</span>
-            </a>
-            <a class="mv-item" id="app-031" href="外观对比/item_031_外观对比.jpg?v=1789893340" data-lightbox data-name="砧板"
-               aria-label="砧板">
-              <img loading="lazy" decoding="async" src="外观对比/mv/item_031_外观对比.jpg?v=1789893342" alt="砧板 多视角对比">
-              <span class="mv-name">砧板</span>
             </a>
             <a class="mv-item" id="app-032" href="外观对比/item_032_外观对比.jpg?v=1789893340" data-lightbox data-name="炒锅与玻璃锅盖"
                aria-label="炒锅与玻璃锅盖">
@@ -1495,8 +1513,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
 
   <!-- ================= Ⅱ 交互对比视频 ================= -->
   <section id="sec-video">
-    <h2><span class="sec-no">Ⅱ</span>交互对比视频<span class="sec-en">Interaction</span></h2>
-    <p class="lead">同一段交互的两种记录：<b>上为实物交互录像，下为 Newton 重建交互录制</b>（720p，等比填充）。逐项对照，点击播放。B 套中的牛奶、长柄勺、黑色螺钉原题只提供外观录像，其上方为实物外观录像、下方为重建的补充交互测试，已在标题处注明。</p>
+    <h2><span class="sec-no">Ⅱ</span>交互对比视频<span class="sec-en">Interaction</span><span class="sec-count">49 支 · 8 个类目</span></h2>
+    <p class="lead">同一段交互的两种记录：<b>上为实物交互录像，下为 Newton 重建交互录制</b>（720p，等比填充）。逐项对照，点击播放。其中 B 套的牛奶、长柄勺、黑色螺钉原题只提供外观录像：这三支的上方是实物外观录像、下方是重建的补充交互测试，已在标题处注明。</p>
     <div class="cat-nav"><a href="#vid-cat-cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>6</b></a><a href="#vid-cat-seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>11</b></a><a href="#vid-cat-appliance"><i style="background:#a1741f"></i>厨房电器 <b>6</b></a><a href="#vid-cat-digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></a><a href="#vid-cat-package"><i style="background:#7d4a86"></i>包装与容器 <b>7</b></a><a href="#vid-cat-kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>9</b></a><a href="#vid-cat-tools"><i style="background:#5f6b2e"></i>工具与器件 <b>3</b></a><a href="#vid-cat-environment"><i style="background:#4a6f7a"></i>室内环境 <b>4</b></a></div>
     
     <div class="cat-block" id="vid-cat-cabinet" data-cat="cabinet">
@@ -1521,6 +1539,15 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
               </div>
               <figcaption class="vid-name">储物边柜</figcaption>
             </figure>
+            <figure class="vid-item" id="vid-012">
+              <div class="vid-shell">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_012_交互对比_Newton_vs_实物.jpg?v=1789889205">
+                  <source src="交互对比/item_012_交互对比_Newton_vs_实物.mp4?v=1789889205" type="video/mp4">
+                </video>
+                <button class="play-btn" type="button" aria-label="播放「六斗抽屉柜」交互对比视频">▶</button>
+              </div>
+              <figcaption class="vid-name">六斗抽屉柜</figcaption>
+            </figure>
             <figure class="vid-item" id="vid-009">
               <div class="vid-shell">
                 <video controls preload="none" playsinline poster="交互对比/posters/item_009_交互对比_Newton_vs_实物.jpg?v=1789232382">
@@ -1538,15 +1565,6 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
                 <button class="play-btn" type="button" aria-label="播放「床头桌」交互对比视频">▶</button>
               </div>
               <figcaption class="vid-name">床头桌</figcaption>
-            </figure>
-            <figure class="vid-item" id="vid-012">
-              <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_012_交互对比_Newton_vs_实物.jpg?v=1789889205">
-                  <source src="交互对比/item_012_交互对比_Newton_vs_实物.mp4?v=1789889205" type="video/mp4">
-                </video>
-                <button class="play-btn" type="button" aria-label="播放「六斗抽屉柜」交互对比视频">▶</button>
-              </div>
-              <figcaption class="vid-name">六斗抽屉柜</figcaption>
             </figure>
             <figure class="vid-item" id="vid-035">
               <div class="vid-shell">
@@ -1576,14 +1594,23 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
               </div>
               <figcaption class="vid-name">升降办公椅</figcaption>
             </figure>
-            <figure class="vid-item" id="vid-005">
+            <figure class="vid-item" id="vid-007">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_005_交互对比_Newton_vs_实物.jpg?v=1789232381">
-                  <source src="交互对比/item_005_交互对比_Newton_vs_实物.mp4?v=1789232256" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_007_交互对比_Newton_vs_实物.jpg?v=1789232381">
+                  <source src="交互对比/item_007_交互对比_Newton_vs_实物.mp4?v=1789232261" type="video/mp4">
                 </video>
-                <button class="play-btn" type="button" aria-label="播放「落地灯」交互对比视频">▶</button>
+                <button class="play-btn" type="button" aria-label="播放「单人椅」交互对比视频">▶</button>
               </div>
-              <figcaption class="vid-name">落地灯</figcaption>
+              <figcaption class="vid-name">单人椅</figcaption>
+            </figure>
+            <figure class="vid-item" id="vid-039">
+              <div class="vid-shell">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_039_交互对比_Newton_vs_实物.jpg?v=1790325000">
+                  <source src="交互对比/item_039_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                </video>
+                <button class="play-btn" type="button" aria-label="播放「吧台凳」交互对比视频">▶</button>
+              </div>
+              <figcaption class="vid-name">吧台凳</figcaption>
             </figure>
             <figure class="vid-item" id="vid-006">
               <div class="vid-shell">
@@ -1594,15 +1621,6 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
               </div>
               <figcaption class="vid-name">L形靠背沙发</figcaption>
             </figure>
-            <figure class="vid-item" id="vid-007">
-              <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_007_交互对比_Newton_vs_实物.jpg?v=1789232381">
-                  <source src="交互对比/item_007_交互对比_Newton_vs_实物.mp4?v=1789232261" type="video/mp4">
-                </video>
-                <button class="play-btn" type="button" aria-label="播放「单人椅」交互对比视频">▶</button>
-              </div>
-              <figcaption class="vid-name">单人椅</figcaption>
-            </figure>
             <figure class="vid-item" id="vid-008">
               <div class="vid-shell">
                 <video controls preload="none" playsinline poster="交互对比/posters/item_008_交互对比_Newton_vs_实物.jpg?v=1789232382">
@@ -1611,6 +1629,33 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
                 <button class="play-btn" type="button" aria-label="播放「脚凳」交互对比视频">▶</button>
               </div>
               <figcaption class="vid-name">脚凳</figcaption>
+            </figure>
+            <figure class="vid-item" id="vid-038">
+              <div class="vid-shell">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_038_交互对比_Newton_vs_实物.jpg?v=1790325000">
+                  <source src="交互对比/item_038_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                </video>
+                <button class="play-btn" type="button" aria-label="播放「滑门储物式长凳」交互对比视频">▶</button>
+              </div>
+              <figcaption class="vid-name">滑门储物式长凳</figcaption>
+            </figure>
+            <figure class="vid-item" id="vid-005">
+              <div class="vid-shell">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_005_交互对比_Newton_vs_实物.jpg?v=1789232381">
+                  <source src="交互对比/item_005_交互对比_Newton_vs_实物.mp4?v=1789232256" type="video/mp4">
+                </video>
+                <button class="play-btn" type="button" aria-label="播放「落地灯」交互对比视频">▶</button>
+              </div>
+              <figcaption class="vid-name">落地灯</figcaption>
+            </figure>
+            <figure class="vid-item" id="vid-037">
+              <div class="vid-shell">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_037_交互对比_Newton_vs_实物.jpg?v=1790325000">
+                  <source src="交互对比/item_037_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                </video>
+                <button class="play-btn" type="button" aria-label="播放「工作灯」交互对比视频">▶</button>
+              </div>
+              <figcaption class="vid-name">工作灯</figcaption>
             </figure>
             <figure class="vid-item" id="vid-024">
               <div class="vid-shell">
@@ -1629,33 +1674,6 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
                 <button class="play-btn" type="button" aria-label="播放「脚踏垃圾桶」交互对比视频">▶</button>
               </div>
               <figcaption class="vid-name">脚踏垃圾桶</figcaption>
-            </figure>
-            <figure class="vid-item" id="vid-037">
-              <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_037_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_037_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
-                </video>
-                <button class="play-btn" type="button" aria-label="播放「工作灯」交互对比视频">▶</button>
-              </div>
-              <figcaption class="vid-name">工作灯</figcaption>
-            </figure>
-            <figure class="vid-item" id="vid-038">
-              <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_038_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_038_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
-                </video>
-                <button class="play-btn" type="button" aria-label="播放「滑门储物式长凳」交互对比视频">▶</button>
-              </div>
-              <figcaption class="vid-name">滑门储物式长凳</figcaption>
-            </figure>
-            <figure class="vid-item" id="vid-039">
-              <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_039_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_039_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
-                </video>
-                <button class="play-btn" type="button" aria-label="播放「吧台凳」交互对比视频">▶</button>
-              </div>
-              <figcaption class="vid-name">吧台凳</figcaption>
             </figure>
             <figure class="vid-item" id="vid-040">
               <div class="vid-shell">
@@ -1859,15 +1877,6 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
               </div>
               <figcaption class="vid-name">水果刀与刀鞘</figcaption>
             </figure>
-            <figure class="vid-item" id="vid-023">
-              <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_023_交互对比_Newton_vs_实物.jpg?v=1789232385">
-                  <source src="交互对比/item_023_交互对比_Newton_vs_实物.mp4?v=1789232334" type="video/mp4">
-                </video>
-                <button class="play-btn" type="button" aria-label="播放「深灰陶瓷马克杯」交互对比视频">▶</button>
-              </div>
-              <figcaption class="vid-name">深灰陶瓷马克杯</figcaption>
-            </figure>
             <figure class="vid-item" id="vid-028">
               <div class="vid-shell">
                 <video controls preload="none" playsinline poster="交互对比/posters/item_028_交互对比_Newton_vs_实物.jpg?v=1789232387">
@@ -1876,6 +1885,24 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
                 <button class="play-btn" type="button" aria-label="播放「锅铲」交互对比视频">▶</button>
               </div>
               <figcaption class="vid-name">锅铲</figcaption>
+            </figure>
+            <figure class="vid-item" id="vid-031">
+              <div class="vid-shell">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_031_交互对比_Newton_vs_实物.jpg?v=1789232387">
+                  <source src="交互对比/item_031_交互对比_Newton_vs_实物.mp4?v=1789232370" type="video/mp4">
+                </video>
+                <button class="play-btn" type="button" aria-label="播放「砧板」交互对比视频">▶</button>
+              </div>
+              <figcaption class="vid-name">砧板</figcaption>
+            </figure>
+            <figure class="vid-item" id="vid-023">
+              <div class="vid-shell">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_023_交互对比_Newton_vs_实物.jpg?v=1789232385">
+                  <source src="交互对比/item_023_交互对比_Newton_vs_实物.mp4?v=1789232334" type="video/mp4">
+                </video>
+                <button class="play-btn" type="button" aria-label="播放「深灰陶瓷马克杯」交互对比视频">▶</button>
+              </div>
+              <figcaption class="vid-name">深灰陶瓷马克杯</figcaption>
             </figure>
             <figure class="vid-item" id="vid-029">
               <div class="vid-shell">
@@ -1894,15 +1921,6 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
                 <button class="play-btn" type="button" aria-label="播放「木质兔子盘子」交互对比视频">▶</button>
               </div>
               <figcaption class="vid-name">木质兔子盘子</figcaption>
-            </figure>
-            <figure class="vid-item" id="vid-031">
-              <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_031_交互对比_Newton_vs_实物.jpg?v=1789232387">
-                  <source src="交互对比/item_031_交互对比_Newton_vs_实物.mp4?v=1789232370" type="video/mp4">
-                </video>
-                <button class="play-btn" type="button" aria-label="播放「砧板」交互对比视频">▶</button>
-              </div>
-              <figcaption class="vid-name">砧板</figcaption>
             </figure>
             <figure class="vid-item" id="vid-032">
               <div class="vid-shell">
@@ -2023,6 +2041,7 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
     <span class="back-top-link"><a href="#sec-overview-grid">↑ 返回总揽</a></span>
   </section>
 
+  <!-- reordered-49 -->
   <footer>
     重建资产 ↔ 实物对比报告 · 生成于 2026-09-21<br>
     外观对比 49 张 · 交互对比 49 支 · 合成脚本与清单见同目录 <code>README.md</code><br>
