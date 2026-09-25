@@ -491,6 +491,8 @@
   .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .comp-grid .mv-item { display: block; }
   .comp-grid .mv-item img { width: 100%; height: auto; display: block; }
+  /* 榜单截图较宽、表内文字小：整幅跨两列以保证可读 */
+  .comp-grid .mv-item.wide { grid-column: 1 / -1; }
   @media (max-width: 640px) { .comp-grid { grid-template-columns: 1fr; } }
 
   /* ===== 关键点提示框（与「摘要」同一视觉语言，用金色区分） ===== */
@@ -636,7 +638,7 @@
     <div class="header-banner">
       <img src="外观对比/banner_collage.jpg?v=1790331000" alt="49 项实物 ↔ 重建对比缩略图拼贴（每格左实物 ｜ 右重建）">
     </div>
-    <!-- 同一张卡片内、横幅正下方：4 段 Newton 重建交互录像（1×4，中间无分隔线） -->
+    <!-- 同一张卡片内、横幅正下方：8 段 Newton 重建交互录像（2×4，中间无分隔线） -->
     <section id="sec-featured" class="featured-strip">
       <div class="feat-grid">
       <figure class="feat-item">
@@ -674,6 +676,43 @@
           <button class="play-btn" type="button" aria-label="播放「炒锅与玻璃锅盖」重建交互录像">▶</button>
         </div>
         <figcaption class="vid-name">炒锅与玻璃锅盖</figcaption>
+      </figure>
+      <!-- 第二行：另 4 段 Newton 重建交互录像 -->
+      <figure class="feat-item">
+        <div class="vid-shell">
+          <video controls preload="none" playsinline poster="精选视频/posters/牛顿摆.jpg?v=1790340000">
+            <source src="精选视频/牛顿摆.mp4?v=1790340000" type="video/mp4">
+          </video>
+          <button class="play-btn" type="button" aria-label="播放「牛顿摆」重建交互录像">▶</button>
+        </div>
+        <figcaption class="vid-name">牛顿摆</figcaption>
+      </figure>
+      <figure class="feat-item">
+        <div class="vid-shell">
+          <video controls preload="none" playsinline poster="精选视频/posters/绞肉机.jpg?v=1790340000">
+            <source src="精选视频/绞肉机.mp4?v=1790340000" type="video/mp4">
+          </video>
+          <button class="play-btn" type="button" aria-label="播放「绞肉机」重建交互录像">▶</button>
+        </div>
+        <figcaption class="vid-name">绞肉机</figcaption>
+      </figure>
+      <figure class="feat-item">
+        <div class="vid-shell">
+          <video controls preload="none" playsinline poster="精选视频/posters/卧室.jpg?v=1790332000">
+            <source src="精选视频/卧室.mp4?v=1790332000" type="video/mp4">
+          </video>
+          <button class="play-btn" type="button" aria-label="播放「卧室」重建交互录像">▶</button>
+        </div>
+        <figcaption class="vid-name">卧室</figcaption>
+      </figure>
+      <figure class="feat-item">
+        <div class="vid-shell">
+          <video controls preload="none" playsinline poster="精选视频/posters/书房.jpg?v=1790332000">
+            <source src="精选视频/书房.mp4?v=1790332000" type="video/mp4">
+          </video>
+          <button class="play-btn" type="button" aria-label="播放「书房」重建交互录像">▶</button>
+        </div>
+        <figcaption class="vid-name">书房</figcaption>
       </figure></div>
     </section>
   </div>
@@ -803,23 +842,28 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
     <p class="arch-note"><b>融合层</b>由 Agent AI（多模态）参与审计与匹配融合——物性先验按语义部件挂接到物理刚体，属性<b>只增不改</b>；
     <b>验收</b>以 USD / MJCF / blend 三格式收口，物理侧 Newton 与 MuJoCo 交叉断言、渲染侧三路互校，复审不通过则回流主链。</p>
 
-    <!-- 挑战赛佐证：初赛 A 榜第 6 -->
-    <div class="comp-fig">
+    <!-- 挑战赛佐证：初赛 A 榜第 6 · 初赛 B 榜第 1 · 参赛信息 -->
+    <div class="comp-fig" id="sec-competition">
       <div class="cat-block" data-cat="competition">
         <div class="comp-grid">
-          <a class="mv-item" href="挑战赛/初赛A榜.png" data-lightbox data-name="2026-具身仿真合成挑战赛 · 初赛 A 榜第 6（77.98 分）"
+          <a class="mv-item" href="挑战赛/初赛A榜.png?v=1790332000" data-lightbox data-name="2026-具身仿真合成挑战赛 · 初赛 A 榜第 6（77.98 分）"
              aria-label="初赛 A 榜：lin 第 6 名，77.98 分">
-            <img decoding="async" src="挑战赛/初赛A榜.png"
-                 alt="2026-具身仿真合成挑战赛初赛 A 榜：lin 以 77.98 分位列第 6（6 / 252）" width="1251" height="687">
+            <img decoding="async" src="挑战赛/初赛A榜.png?v=1790332000"
+                 alt="2026-具身仿真合成挑战赛初赛 A 榜：lin 以 77.98 分位列第 6（该榜截图内共 252 支）" width="1251" height="687">
           </a>
-          <a class="mv-item" href="挑战赛/参赛信息.png" data-lightbox data-name="参赛信息 · 初赛 A 榜 6 / 252 · 进行中"
-             aria-label="参赛信息：初赛 A 榜 6 / 252，进行中">
-            <img decoding="async" src="挑战赛/参赛信息.png"
-                 alt="2026-具身仿真合成挑战赛参赛信息：2026-08-30 参加，初赛 A 榜 6 / 252，进行中" width="990" height="544">
+          <a class="mv-item" href="挑战赛/初赛B榜.png?v=1790332000" data-lightbox data-name="2026-具身仿真合成挑战赛 · 初赛 B 榜第 1（79.21 分）"
+             aria-label="初赛 B 榜：lin 第 1 名，79.21 分，领先第 2 名 5.87 分">
+            <img decoding="async" src="挑战赛/初赛B榜.png?v=1790332000"
+                 alt="2026-具身仿真合成挑战赛初赛 B 榜：lin 以 79.21 分位列第 1（第 2 名 73.34 分）" width="1387" height="710">
+          </a>
+          <a class="mv-item wide" href="挑战赛/参赛信息.png?v=1790332000" data-lightbox data-name="参赛信息 · 初赛 A 6 / 254 · 初赛 B 1 / 254 · 进行中"
+             aria-label="参赛信息：2026-08-30 以 lin 参加，初赛 A 榜 6 / 254、初赛 B 榜 1 / 254，进行中">
+            <img decoding="async" src="挑战赛/参赛信息.png?v=1790332000"
+                 alt="2026-具身仿真合成挑战赛参赛信息：2026-08-30 以 lin 参加，初赛 A 榜 6 / 254、初赛 B 榜 1 / 254，进行中" width="894" height="217">
           </a>
         </div>
       </div>
-      <p class="abstract-fig-cap"><a href="https://tianchi.aliyun.com/competition/entrance/532506?spm=5176.12281973.J_rt7ppEcsZBa044MP17qQJ.19.26d33b74oLvnqa" target="_blank" rel="noopener"><b>↗ 2026-具身仿真合成挑战赛</b></a><b> · 初赛 A 榜 6 / 252（77.98 分，榜单每小时整点更新）。</b></p>
+      <p class="abstract-fig-cap"><a href="https://tianchi.aliyun.com/competition/entrance/532506?spm=5176.12281973.J_rt7ppEcsZBa044MP17qQJ.19.26d33b74oLvnqa" target="_blank" rel="noopener" title="2026-具身仿真合成挑战赛 · 初赛 A 榜第 6（77.98 分）· 初赛 B 榜第 1（79.21 分）"><b>↗ 2026-具身仿真合成挑战赛</b></a><b> · 初赛 A 榜第 6（77.98 分）· 初赛 B 榜第 1（79.21 分，领先第 2 名 5.87 分），榜单每小时整点更新。</b></p>
     </div>
   </section>
 
@@ -1568,8 +1612,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-035">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_035_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_035_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_035_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_035_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「书桌」交互对比视频">▶</button>
               </div>
@@ -1605,8 +1649,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-039">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_039_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_039_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_039_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_039_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「吧台凳」交互对比视频">▶</button>
               </div>
@@ -1632,8 +1676,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-038">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_038_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_038_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_038_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_038_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「滑门储物式长凳」交互对比视频">▶</button>
               </div>
@@ -1650,8 +1694,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-037">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_037_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_037_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_037_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_037_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「工作灯」交互对比视频">▶</button>
               </div>
@@ -1668,8 +1712,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-036">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_036_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_036_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_036_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_036_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「脚踏垃圾桶」交互对比视频">▶</button>
               </div>
@@ -1677,8 +1721,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-040">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_040_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_040_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_040_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_040_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「纯色枕头」交互对比视频">▶</button>
               </div>
@@ -1741,8 +1785,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-041">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_041_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_041_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_041_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_041_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「绞肉机」交互对比视频">▶</button>
               </div>
@@ -1851,8 +1895,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-042">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_042_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_042_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_042_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_042_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「特仑苏牛奶」交互对比视频">▶</button>
               </div>
@@ -1933,8 +1977,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-043">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_043_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_043_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_043_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_043_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「黑蓝色铸铝锅」交互对比视频">▶</button>
               </div>
@@ -1942,8 +1986,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-044">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_044_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_044_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_044_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_044_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「长柄勺」交互对比视频">▶</button>
               </div>
@@ -1961,8 +2005,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
         <div class="ov-track vid-track">
             <figure class="vid-item" id="vid-045">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_045_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_045_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_045_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_045_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「黑色螺钉」交互对比视频">▶</button>
               </div>
@@ -1970,8 +2014,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-046">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_046_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_046_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_046_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_046_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「牛顿摆」交互对比视频">▶</button>
               </div>
@@ -1979,8 +2023,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
             </figure>
             <figure class="vid-item" id="vid-047">
               <div class="vid-shell">
-                <video controls preload="none" playsinline poster="交互对比/posters/item_047_交互对比_Newton_vs_实物.jpg?v=1790325000">
-                  <source src="交互对比/item_047_交互对比_Newton_vs_实物.mp4?v=1790325000" type="video/mp4">
+                <video controls preload="none" playsinline poster="交互对比/posters/item_047_交互对比_Newton_vs_实物.jpg?v=1790340000">
+                  <source src="交互对比/item_047_交互对比_Newton_vs_实物.mp4?v=1790340000" type="video/mp4">
                 </video>
                 <button class="play-btn" type="button" aria-label="播放「防静电小推车」交互对比视频">▶</button>
               </div>
