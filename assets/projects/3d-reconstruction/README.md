@@ -170,3 +170,12 @@ item_001（储物柜）早期由外部管线（PhysX-Anything）补入，只有�
 - **页脚**：渐变分隔线 + 描边大字标「3D-GEN」。
 - 摘要卡从色块升级为带左边框的卡片；挑战赛图注加左 accent 竖线。
 - 实现脚本：`~/文档/ChatGPT/New project/blog_questionB_merge_20260925/tools/design_refresh.py`（亮色）与 `design_refresh_dark.py`（深色），可复现。
+
+## 八、2026-09-26 总览改为「建模拖动对照」
+
+参考本地 4D-GEN 博客的拖动对照组件，把「总揽 · 49 项资产」里每张卡片的对比缩略图改成可拖动对照：
+
+- 每张卡片是同幅方形的双层图（下＝重建渲染，上＝实物帧按 `clip-path` 裁到分割线左侧），拖动中间圆形手柄在「实物 ↔ 重建」间擦除切换；初始 50%，与旧的左右静态缩略图视觉一致。
+- 素材：`外观对比/split/item_NNN_real.jpg` 与 `…_render.jpg`，由对应 `thumbs/item_NNN.jpg`（1280×640）按 640×640 左右半幅拆分而来（质量与缩略图一致）。
+- 原来「点缩略图直达第 Ⅰ 节」改为「点名称（带 ↗）直达」；图像区域专责拖动（`touch-action:none`，避免与卡片横向滑动冲突），并支持键盘 ←/→ 微调与读屏（`role="slider"`）。
+- 实现脚本：`~/文档/ChatGPT/New project/blog_questionB_merge_20260925/tools/build_compare_gallery.py`，可复现。

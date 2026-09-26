@@ -835,6 +835,39 @@
       :root:not([data-theme="light"]) .tbtn .ic-moon { opacity: 1; transform: none; }
   }
 
+  /* ===== 总览：建模拖动对照（参考 4D-GEN compare） ===== */
+  .ov-compare {
+    --x: 50%; position: relative; display: block; width: 100%; aspect-ratio: 1/1;
+    overflow: hidden; background: var(--soft); cursor: ew-resize;
+    touch-action: none; user-select: none; -webkit-user-select: none;
+  }
+  .ov-compare img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .ov-compare .c-top { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--x)) 0 0); will-change: clip-path; }
+  .ov-compare .c-bar {
+    position: absolute; top: 0; bottom: 0; left: var(--x); width: 2px;
+    background: #fff; box-shadow: 0 0 14px rgba(0,0,0,.5); transform: translateX(-1px);
+  }
+  .ov-compare .c-knob {
+    position: absolute; top: 50%; left: var(--x); width: 38px; height: 38px; transform: translate(-50%,-50%);
+    border-radius: 50%; background: rgba(255,255,255,.92); border: 1px solid rgba(0,0,0,.14);
+    display: grid; place-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.32);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); color: #1a1a1a;
+  }
+  .ov-compare .c-knob svg { width: 17px; height: 17px; }
+  .ov-compare .c-tag {
+    position: absolute; top: 10px; padding: 4px 10px; border-radius: 999px;
+    font-size: 11px; letter-spacing: .06em; font-weight: 600;
+    background: rgba(11,12,16,.6); color: #fff; border: 1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); pointer-events: none;
+  }
+  .ov-compare .c-tag.a { left: 10px; }
+  .ov-compare .c-tag.b { right: 10px; }
+  .ov-compare:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .ov-name-link { color: inherit; text-decoration: none; display: inline-block; }
+  .ov-name-link:hover { color: var(--accent); text-decoration: none; }
+  .ov-name-link::after { content: "↗"; font-size: .8em; color: var(--faint); margin-left: 4px; }
+  .ov-name-link:hover::after { color: var(--accent); }
+
   @media print {
     nav.toc, #progress, #top-btn, .car-btn, .car-bar, .flt, .ov-search, .site-back { display: none !important; }
     body { background: #fff; }
@@ -1149,8 +1182,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
   <!-- ================= 总揽 ================= -->
   <section id="sec-overview-grid">
     <h2><span class="sec-no">02</span>总揽 · 49 项资产<span class="sec-en">Gallery</span><span class="sec-count">8 个类目 · A 套 34 + B 套 15</span></h2>
-    <p class="lead">按 <b>8 个类目</b>分组，类目内按子类型相邻排列（如座椅 → 灯具 → 日用）。每张缩略图是该资产的单视角对比（<b>左实物 ｜ 右重建</b>），点击卡片直达第 Ⅰ 节对应的多视角对照；可按类目筛选，或按名称 / 编号搜索。</p>
-    <div class="legend"><span>左实物 ｜ 右重建</span><span>每格 5:5 对半</span><span>图内无文字</span><span>A 套 34 项（001–034）· B 套 15 项（035–049）</span></div>
+    <p class="lead">按 <b>8 个类目</b>分组，类目内按子类型相邻排列（如座椅 → 灯具 → 日用）。每张卡片是该资产单视角的<b>实物 ↔ 重建拖动对照</b>（拖动中间手柄在两侧间切换），点名称直达第 Ⅰ 节对应的多视角对照；可按类目筛选，或按名称 / 编号搜索。</p>
+    <div class="legend"><span>拖动 ⇔ 在 实物 ↔ 重建 间切换</span><span>初始 5:5 对半</span><span>图内无文字</span><span>A 套 34 项（001–034）· B 套 15 项（035–049）</span></div>
     <div class="ov-toolbar">
       <div class="filter-bar"><button class="flt active" data-cat="all">全部 <b>49</b></button><button class="flt" data-cat="cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>6</b></button><button class="flt" data-cat="seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>11</b></button><button class="flt" data-cat="appliance"><i style="background:#a1741f"></i>厨房电器 <b>6</b></button><button class="flt" data-cat="digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></button><button class="flt" data-cat="package"><i style="background:#7d4a86"></i>包装与容器 <b>7</b></button><button class="flt" data-cat="kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>9</b></button><button class="flt" data-cat="tools"><i style="background:#5f6b2e"></i>工具与器件 <b>3</b></button><button class="flt" data-cat="environment"><i style="background:#4a6f7a"></i>室内环境 <b>4</b></button></div>
       <div class="ov-search">
@@ -1164,34 +1197,70 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
       <div class="ov-carousel" data-cat="cabinet">
         <div class="ov-track">
         <div class="ov-card" data-cat="cabinet" data-search="item_001 储物柜">
-          <a href="#app-001" class="ov-thumb" data-name="储物柜">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_001.jpg?v=1789893334" alt="储物柜"></a>
-          <div class="ov-body"><div class="ov-name">储物柜</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="储物柜：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_001_render.jpg?v=1790340000" alt="储物柜 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_001_real.jpg?v=1790340000" alt="储物柜 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-001" class="ov-name ov-name-link" data-name="储物柜">储物柜</a></div>
         </div>
         <div class="ov-card" data-cat="cabinet" data-search="item_003 储物边柜">
-          <a href="#app-003" class="ov-thumb" data-name="储物边柜">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_003.jpg?v=1789893335" alt="储物边柜"></a>
-          <div class="ov-body"><div class="ov-name">储物边柜</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="储物边柜：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_003_render.jpg?v=1790340000" alt="储物边柜 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_003_real.jpg?v=1790340000" alt="储物边柜 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-003" class="ov-name ov-name-link" data-name="储物边柜">储物边柜</a></div>
         </div>
         <div class="ov-card" data-cat="cabinet" data-search="item_012 六斗抽屉柜">
-          <a href="#app-012" class="ov-thumb" data-name="六斗抽屉柜">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_012.jpg?v=1789893336" alt="六斗抽屉柜"></a>
-          <div class="ov-body"><div class="ov-name">六斗抽屉柜</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="六斗抽屉柜：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_012_render.jpg?v=1790340000" alt="六斗抽屉柜 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_012_real.jpg?v=1790340000" alt="六斗抽屉柜 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-012" class="ov-name ov-name-link" data-name="六斗抽屉柜">六斗抽屉柜</a></div>
         </div>
         <div class="ov-card" data-cat="cabinet" data-search="item_009 边桌">
-          <a href="#app-009" class="ov-thumb" data-name="边桌">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_009.jpg?v=1789893336" alt="边桌"></a>
-          <div class="ov-body"><div class="ov-name">边桌</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="边桌：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_009_render.jpg?v=1790340000" alt="边桌 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_009_real.jpg?v=1790340000" alt="边桌 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-009" class="ov-name ov-name-link" data-name="边桌">边桌</a></div>
         </div>
         <div class="ov-card" data-cat="cabinet" data-search="item_011 床头桌">
-          <a href="#app-011" class="ov-thumb" data-name="床头桌">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_011.jpg?v=1789893336" alt="床头桌"></a>
-          <div class="ov-body"><div class="ov-name">床头桌</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="床头桌：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_011_render.jpg?v=1790340000" alt="床头桌 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_011_real.jpg?v=1790340000" alt="床头桌 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-011" class="ov-name ov-name-link" data-name="床头桌">床头桌</a></div>
         </div>
         <div class="ov-card" data-cat="cabinet" data-search="item_035 书桌">
-          <a href="#app-035" class="ov-thumb" data-name="书桌">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_035.jpg?v=1790325000" alt="书桌"></a>
-          <div class="ov-body"><div class="ov-name">书桌</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="书桌：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_035_render.jpg?v=1790340000" alt="书桌 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_035_real.jpg?v=1790340000" alt="书桌 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-035" class="ov-name ov-name-link" data-name="书桌">书桌</a></div>
         </div>
         </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
@@ -1206,59 +1275,125 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
       <div class="ov-carousel" data-cat="seating">
         <div class="ov-track">
         <div class="ov-card" data-cat="seating" data-search="item_004 升降办公椅">
-          <a href="#app-004" class="ov-thumb" data-name="升降办公椅">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_004.jpg?v=1789893335" alt="升降办公椅"></a>
-          <div class="ov-body"><div class="ov-name">升降办公椅</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="升降办公椅：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_004_render.jpg?v=1790340000" alt="升降办公椅 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_004_real.jpg?v=1790340000" alt="升降办公椅 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-004" class="ov-name ov-name-link" data-name="升降办公椅">升降办公椅</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_007 单人椅">
-          <a href="#app-007" class="ov-thumb" data-name="单人椅">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_007.jpg?v=1789893335" alt="单人椅"></a>
-          <div class="ov-body"><div class="ov-name">单人椅</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="单人椅：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_007_render.jpg?v=1790340000" alt="单人椅 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_007_real.jpg?v=1790340000" alt="单人椅 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-007" class="ov-name ov-name-link" data-name="单人椅">单人椅</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_039 吧台凳">
-          <a href="#app-039" class="ov-thumb" data-name="吧台凳">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_039.jpg?v=1790325000" alt="吧台凳"></a>
-          <div class="ov-body"><div class="ov-name">吧台凳</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="吧台凳：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_039_render.jpg?v=1790340000" alt="吧台凳 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_039_real.jpg?v=1790340000" alt="吧台凳 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-039" class="ov-name ov-name-link" data-name="吧台凳">吧台凳</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_006 l形靠背沙发">
-          <a href="#app-006" class="ov-thumb" data-name="L形靠背沙发">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_006.jpg?v=1789893335" alt="L形靠背沙发"></a>
-          <div class="ov-body"><div class="ov-name">L形靠背沙发</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="l形靠背沙发：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_006_render.jpg?v=1790340000" alt="l形靠背沙发 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_006_real.jpg?v=1790340000" alt="l形靠背沙发 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-006" class="ov-name ov-name-link" data-name="l形靠背沙发">l形靠背沙发</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_008 脚凳">
-          <a href="#app-008" class="ov-thumb" data-name="脚凳">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_008.jpg?v=1789893335" alt="脚凳"></a>
-          <div class="ov-body"><div class="ov-name">脚凳</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="脚凳：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_008_render.jpg?v=1790340000" alt="脚凳 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_008_real.jpg?v=1790340000" alt="脚凳 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-008" class="ov-name ov-name-link" data-name="脚凳">脚凳</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_038 滑门储物式长凳">
-          <a href="#app-038" class="ov-thumb" data-name="滑门储物式长凳">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_038.jpg?v=1790325000" alt="滑门储物式长凳"></a>
-          <div class="ov-body"><div class="ov-name">滑门储物式长凳</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="滑门储物式长凳：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_038_render.jpg?v=1790340000" alt="滑门储物式长凳 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_038_real.jpg?v=1790340000" alt="滑门储物式长凳 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-038" class="ov-name ov-name-link" data-name="滑门储物式长凳">滑门储物式长凳</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_005 落地灯">
-          <a href="#app-005" class="ov-thumb" data-name="落地灯">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_005.jpg?v=1789893335" alt="落地灯"></a>
-          <div class="ov-body"><div class="ov-name">落地灯</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="落地灯：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_005_render.jpg?v=1790340000" alt="落地灯 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_005_real.jpg?v=1790340000" alt="落地灯 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-005" class="ov-name ov-name-link" data-name="落地灯">落地灯</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_037 工作灯">
-          <a href="#app-037" class="ov-thumb" data-name="工作灯">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_037.jpg?v=1790325000" alt="工作灯"></a>
-          <div class="ov-body"><div class="ov-name">工作灯</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="工作灯：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_037_render.jpg?v=1790340000" alt="工作灯 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_037_real.jpg?v=1790340000" alt="工作灯 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-037" class="ov-name ov-name-link" data-name="工作灯">工作灯</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_024 黄色小熊垃圾桶">
-          <a href="#app-024" class="ov-thumb" data-name="黄色小熊垃圾桶">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_024.jpg?v=1789893338" alt="黄色小熊垃圾桶"></a>
-          <div class="ov-body"><div class="ov-name">黄色小熊垃圾桶</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="黄色小熊垃圾桶：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_024_render.jpg?v=1790340000" alt="黄色小熊垃圾桶 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_024_real.jpg?v=1790340000" alt="黄色小熊垃圾桶 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-024" class="ov-name ov-name-link" data-name="黄色小熊垃圾桶">黄色小熊垃圾桶</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_036 脚踏垃圾桶">
-          <a href="#app-036" class="ov-thumb" data-name="脚踏垃圾桶">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_036.jpg?v=1790325000" alt="脚踏垃圾桶"></a>
-          <div class="ov-body"><div class="ov-name">脚踏垃圾桶</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="脚踏垃圾桶：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_036_render.jpg?v=1790340000" alt="脚踏垃圾桶 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_036_real.jpg?v=1790340000" alt="脚踏垃圾桶 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-036" class="ov-name ov-name-link" data-name="脚踏垃圾桶">脚踏垃圾桶</a></div>
         </div>
         <div class="ov-card" data-cat="seating" data-search="item_040 纯色枕头">
-          <a href="#app-040" class="ov-thumb" data-name="纯色枕头">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_040.jpg?v=1790325000" alt="纯色枕头"></a>
-          <div class="ov-body"><div class="ov-name">纯色枕头</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="纯色枕头：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_040_render.jpg?v=1790340000" alt="纯色枕头 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_040_real.jpg?v=1790340000" alt="纯色枕头 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-040" class="ov-name ov-name-link" data-name="纯色枕头">纯色枕头</a></div>
         </div>
         </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
@@ -1273,34 +1408,70 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
       <div class="ov-carousel" data-cat="appliance">
         <div class="ov-track">
         <div class="ov-card" data-cat="appliance" data-search="item_013 四槽面包机">
-          <a href="#app-013" class="ov-thumb" data-name="四槽面包机">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_013.jpg?v=1789893336" alt="四槽面包机"></a>
-          <div class="ov-body"><div class="ov-name">四槽面包机</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="四槽面包机：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_013_render.jpg?v=1790340000" alt="四槽面包机 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_013_real.jpg?v=1790340000" alt="四槽面包机 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-013" class="ov-name ov-name-link" data-name="四槽面包机">四槽面包机</a></div>
         </div>
         <div class="ov-card" data-cat="appliance" data-search="item_014 微波炉">
-          <a href="#app-014" class="ov-thumb" data-name="微波炉">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_014.jpg?v=1789893337" alt="微波炉"></a>
-          <div class="ov-body"><div class="ov-name">微波炉</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="微波炉：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_014_render.jpg?v=1790340000" alt="微波炉 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_014_real.jpg?v=1790340000" alt="微波炉 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-014" class="ov-name ov-name-link" data-name="微波炉">微波炉</a></div>
         </div>
         <div class="ov-card" data-cat="appliance" data-search="item_015 电饭煲">
-          <a href="#app-015" class="ov-thumb" data-name="电饭煲">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_015.jpg?v=1789893337" alt="电饭煲"></a>
-          <div class="ov-body"><div class="ov-name">电饭煲</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="电饭煲：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_015_render.jpg?v=1790340000" alt="电饭煲 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_015_real.jpg?v=1790340000" alt="电饭煲 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-015" class="ov-name ov-name-link" data-name="电饭煲">电饭煲</a></div>
         </div>
         <div class="ov-card" data-cat="appliance" data-search="item_016 空气炸锅">
-          <a href="#app-016" class="ov-thumb" data-name="空气炸锅">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_016.jpg?v=1789893337" alt="空气炸锅"></a>
-          <div class="ov-body"><div class="ov-name">空气炸锅</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="空气炸锅：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_016_render.jpg?v=1790340000" alt="空气炸锅 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_016_real.jpg?v=1790340000" alt="空气炸锅 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-016" class="ov-name ov-name-link" data-name="空气炸锅">空气炸锅</a></div>
         </div>
         <div class="ov-card" data-cat="appliance" data-search="item_017 电热水壶">
-          <a href="#app-017" class="ov-thumb" data-name="电热水壶">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_017.jpg?v=1789893337" alt="电热水壶"></a>
-          <div class="ov-body"><div class="ov-name">电热水壶</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="电热水壶：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_017_render.jpg?v=1790340000" alt="电热水壶 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_017_real.jpg?v=1790340000" alt="电热水壶 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-017" class="ov-name ov-name-link" data-name="电热水壶">电热水壶</a></div>
         </div>
         <div class="ov-card" data-cat="appliance" data-search="item_041 绞肉机">
-          <a href="#app-041" class="ov-thumb" data-name="绞肉机">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_041.jpg?v=1790325000" alt="绞肉机"></a>
-          <div class="ov-body"><div class="ov-name">绞肉机</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="绞肉机：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_041_render.jpg?v=1790340000" alt="绞肉机 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_041_real.jpg?v=1790340000" alt="绞肉机 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-041" class="ov-name ov-name-link" data-name="绞肉机">绞肉机</a></div>
         </div>
         </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
@@ -1315,19 +1486,37 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
       <div class="ov-carousel" data-cat="digital">
         <div class="ov-track">
         <div class="ov-card" data-cat="digital" data-search="item_018 thinkpad 笔记本电脑">
-          <a href="#app-018" class="ov-thumb" data-name="ThinkPad 笔记本电脑">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_018.jpg?v=1789893337" alt="ThinkPad 笔记本电脑"></a>
-          <div class="ov-body"><div class="ov-name">ThinkPad 笔记本电脑</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="thinkpad 笔记本电脑：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_018_render.jpg?v=1790340000" alt="thinkpad 笔记本电脑 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_018_real.jpg?v=1790340000" alt="thinkpad 笔记本电脑 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-018" class="ov-name ov-name-link" data-name="thinkpad 笔记本电脑">thinkpad 笔记本电脑</a></div>
         </div>
         <div class="ov-card" data-cat="digital" data-search="item_019 粉色无线鼠标">
-          <a href="#app-019" class="ov-thumb" data-name="粉色无线鼠标">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_019.jpg?v=1789893337" alt="粉色无线鼠标"></a>
-          <div class="ov-body"><div class="ov-name">粉色无线鼠标</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="粉色无线鼠标：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_019_render.jpg?v=1790340000" alt="粉色无线鼠标 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_019_real.jpg?v=1790340000" alt="粉色无线鼠标 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-019" class="ov-name ov-name-link" data-name="粉色无线鼠标">粉色无线鼠标</a></div>
         </div>
         <div class="ov-card" data-cat="digital" data-search="item_020 aoc 曲面显示器">
-          <a href="#app-020" class="ov-thumb" data-name="AOC 曲面显示器">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_020.jpg?v=1789893338" alt="AOC 曲面显示器"></a>
-          <div class="ov-body"><div class="ov-name">AOC 曲面显示器</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="aoc 曲面显示器：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_020_render.jpg?v=1790340000" alt="aoc 曲面显示器 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_020_real.jpg?v=1790340000" alt="aoc 曲面显示器 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-020" class="ov-name ov-name-link" data-name="aoc 曲面显示器">aoc 曲面显示器</a></div>
         </div></div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
         <button class="car-btn car-next ov-next" type="button" aria-label="下一页" title="下一页">›</button>
@@ -1341,39 +1530,81 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
       <div class="ov-carousel" data-cat="package">
         <div class="ov-track">
         <div class="ov-card" data-cat="package" data-search="item_002 果汁箱（含果汁饮料）">
-          <a href="#app-002" class="ov-thumb" data-name="果汁箱（含果汁饮料）">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_002.jpg?v=1789893334" alt="果汁箱（含果汁饮料）"></a>
-          <div class="ov-body"><div class="ov-name">果汁箱（含果汁饮料）</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="果汁箱（含果汁饮料）：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_002_render.jpg?v=1790340000" alt="果汁箱（含果汁饮料） · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_002_real.jpg?v=1790340000" alt="果汁箱（含果汁饮料） · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-002" class="ov-name ov-name-link" data-name="果汁箱（含果汁饮料）">果汁箱（含果汁饮料）</a></div>
         </div>
         <div class="ov-card" data-cat="package" data-search="item_021 蓝色悬挂抽纸包装">
-          <a href="#app-021" class="ov-thumb" data-name="蓝色悬挂抽纸包装">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_021.jpg?v=1789893338" alt="蓝色悬挂抽纸包装"></a>
-          <div class="ov-body"><div class="ov-name">蓝色悬挂抽纸包装</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="蓝色悬挂抽纸包装：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_021_render.jpg?v=1790340000" alt="蓝色悬挂抽纸包装 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_021_real.jpg?v=1790340000" alt="蓝色悬挂抽纸包装 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-021" class="ov-name ov-name-link" data-name="蓝色悬挂抽纸包装">蓝色悬挂抽纸包装</a></div>
         </div>
         <div class="ov-card" data-cat="package" data-search="item_022 绿色无芯卷纸包装">
-          <a href="#app-022" class="ov-thumb" data-name="绿色无芯卷纸包装">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_022.jpg?v=1789893338" alt="绿色无芯卷纸包装"></a>
-          <div class="ov-body"><div class="ov-name">绿色无芯卷纸包装</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="绿色无芯卷纸包装：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_022_render.jpg?v=1790340000" alt="绿色无芯卷纸包装 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_022_real.jpg?v=1790340000" alt="绿色无芯卷纸包装 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-022" class="ov-name ov-name-link" data-name="绿色无芯卷纸包装">绿色无芯卷纸包装</a></div>
         </div>
         <div class="ov-card" data-cat="package" data-search="item_025 薯片袋（闭口未开封）">
-          <a href="#app-025" class="ov-thumb" data-name="薯片袋（闭口未开封）">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_025.jpg?v=1789893339" alt="薯片袋（闭口未开封）"></a>
-          <div class="ov-body"><div class="ov-name">薯片袋（闭口未开封）</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="薯片袋（闭口未开封）：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_025_render.jpg?v=1790340000" alt="薯片袋（闭口未开封） · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_025_real.jpg?v=1790340000" alt="薯片袋（闭口未开封） · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-025" class="ov-name ov-name-link" data-name="薯片袋（闭口未开封）">薯片袋（闭口未开封）</a></div>
         </div>
         <div class="ov-card" data-cat="package" data-search="item_026 罐装薯片">
-          <a href="#app-026" class="ov-thumb" data-name="罐装薯片">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_026.jpg?v=1789893339" alt="罐装薯片"></a>
-          <div class="ov-body"><div class="ov-name">罐装薯片</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="罐装薯片：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_026_render.jpg?v=1790340000" alt="罐装薯片 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_026_real.jpg?v=1790340000" alt="罐装薯片 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-026" class="ov-name ov-name-link" data-name="罐装薯片">罐装薯片</a></div>
         </div>
         <div class="ov-card" data-cat="package" data-search="item_027 酸菜鱼调味料">
-          <a href="#app-027" class="ov-thumb" data-name="酸菜鱼调味料">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_027.jpg?v=1789893339" alt="酸菜鱼调味料"></a>
-          <div class="ov-body"><div class="ov-name">酸菜鱼调味料</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="酸菜鱼调味料：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_027_render.jpg?v=1790340000" alt="酸菜鱼调味料 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_027_real.jpg?v=1790340000" alt="酸菜鱼调味料 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-027" class="ov-name ov-name-link" data-name="酸菜鱼调味料">酸菜鱼调味料</a></div>
         </div>
         <div class="ov-card" data-cat="package" data-search="item_042 特仑苏牛奶">
-          <a href="#app-042" class="ov-thumb" data-name="特仑苏牛奶">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_042.jpg?v=1790325000" alt="特仑苏牛奶"></a>
-          <div class="ov-body"><div class="ov-name">特仑苏牛奶</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="特仑苏牛奶：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_042_render.jpg?v=1790340000" alt="特仑苏牛奶 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_042_real.jpg?v=1790340000" alt="特仑苏牛奶 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-042" class="ov-name ov-name-link" data-name="特仑苏牛奶">特仑苏牛奶</a></div>
         </div>
         </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
@@ -1388,49 +1619,103 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
       <div class="ov-carousel" data-cat="kitchen">
         <div class="ov-track">
         <div class="ov-card" data-cat="kitchen" data-search="item_010 水果刀与刀鞘">
-          <a href="#app-010" class="ov-thumb" data-name="水果刀与刀鞘">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_010.jpg?v=1789893336" alt="水果刀与刀鞘"></a>
-          <div class="ov-body"><div class="ov-name">水果刀与刀鞘</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="水果刀与刀鞘：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_010_render.jpg?v=1790340000" alt="水果刀与刀鞘 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_010_real.jpg?v=1790340000" alt="水果刀与刀鞘 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-010" class="ov-name ov-name-link" data-name="水果刀与刀鞘">水果刀与刀鞘</a></div>
         </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_028 锅铲">
-          <a href="#app-028" class="ov-thumb" data-name="锅铲">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_028.jpg?v=1789893339" alt="锅铲"></a>
-          <div class="ov-body"><div class="ov-name">锅铲</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="锅铲：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_028_render.jpg?v=1790340000" alt="锅铲 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_028_real.jpg?v=1790340000" alt="锅铲 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-028" class="ov-name ov-name-link" data-name="锅铲">锅铲</a></div>
         </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_031 砧板">
-          <a href="#app-031" class="ov-thumb" data-name="砧板">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_031.jpg?v=1789893340" alt="砧板"></a>
-          <div class="ov-body"><div class="ov-name">砧板</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="砧板：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_031_render.jpg?v=1790340000" alt="砧板 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_031_real.jpg?v=1790340000" alt="砧板 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-031" class="ov-name ov-name-link" data-name="砧板">砧板</a></div>
         </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_023 深灰陶瓷马克杯">
-          <a href="#app-023" class="ov-thumb" data-name="深灰陶瓷马克杯">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_023.jpg?v=1789893338" alt="深灰陶瓷马克杯"></a>
-          <div class="ov-body"><div class="ov-name">深灰陶瓷马克杯</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="深灰陶瓷马克杯：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_023_render.jpg?v=1790340000" alt="深灰陶瓷马克杯 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_023_real.jpg?v=1790340000" alt="深灰陶瓷马克杯 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-023" class="ov-name ov-name-link" data-name="深灰陶瓷马克杯">深灰陶瓷马克杯</a></div>
         </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_029 木碗">
-          <a href="#app-029" class="ov-thumb" data-name="木碗">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_029.jpg?v=1789893339" alt="木碗"></a>
-          <div class="ov-body"><div class="ov-name">木碗</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="木碗：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_029_render.jpg?v=1790340000" alt="木碗 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_029_real.jpg?v=1790340000" alt="木碗 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-029" class="ov-name ov-name-link" data-name="木碗">木碗</a></div>
         </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_030 木质兔子盘子">
-          <a href="#app-030" class="ov-thumb" data-name="木质兔子盘子">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_030.jpg?v=1789893339" alt="木质兔子盘子"></a>
-          <div class="ov-body"><div class="ov-name">木质兔子盘子</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="木质兔子盘子：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_030_render.jpg?v=1790340000" alt="木质兔子盘子 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_030_real.jpg?v=1790340000" alt="木质兔子盘子 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-030" class="ov-name ov-name-link" data-name="木质兔子盘子">木质兔子盘子</a></div>
         </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_032 炒锅与玻璃锅盖">
-          <a href="#app-032" class="ov-thumb" data-name="炒锅与玻璃锅盖">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_032.jpg?v=1789893340" alt="炒锅与玻璃锅盖"></a>
-          <div class="ov-body"><div class="ov-name">炒锅与玻璃锅盖</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="炒锅与玻璃锅盖：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_032_render.jpg?v=1790340000" alt="炒锅与玻璃锅盖 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_032_real.jpg?v=1790340000" alt="炒锅与玻璃锅盖 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-032" class="ov-name ov-name-link" data-name="炒锅与玻璃锅盖">炒锅与玻璃锅盖</a></div>
         </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_043 黑蓝色铸铝锅">
-          <a href="#app-043" class="ov-thumb" data-name="黑蓝色铸铝锅">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_043.jpg?v=1790325000" alt="黑蓝色铸铝锅"></a>
-          <div class="ov-body"><div class="ov-name">黑蓝色铸铝锅</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="黑蓝色铸铝锅：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_043_render.jpg?v=1790340000" alt="黑蓝色铸铝锅 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_043_real.jpg?v=1790340000" alt="黑蓝色铸铝锅 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-043" class="ov-name ov-name-link" data-name="黑蓝色铸铝锅">黑蓝色铸铝锅</a></div>
         </div>
         <div class="ov-card" data-cat="kitchen" data-search="item_044 长柄勺">
-          <a href="#app-044" class="ov-thumb" data-name="长柄勺">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_044.jpg?v=1790325000" alt="长柄勺"></a>
-          <div class="ov-body"><div class="ov-name">长柄勺</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="长柄勺：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_044_render.jpg?v=1790340000" alt="长柄勺 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_044_real.jpg?v=1790340000" alt="长柄勺 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-044" class="ov-name ov-name-link" data-name="长柄勺">长柄勺</a></div>
         </div>
         </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
@@ -1445,19 +1730,37 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
       <div class="ov-carousel" data-cat="tools">
         <div class="ov-track">
         <div class="ov-card" data-cat="tools" data-search="item_045 黑色螺钉">
-          <a href="#app-045" class="ov-thumb" data-name="黑色螺钉">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_045.jpg?v=1790325000" alt="黑色螺钉"></a>
-          <div class="ov-body"><div class="ov-name">黑色螺钉</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="黑色螺钉：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_045_render.jpg?v=1790340000" alt="黑色螺钉 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_045_real.jpg?v=1790340000" alt="黑色螺钉 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-045" class="ov-name ov-name-link" data-name="黑色螺钉">黑色螺钉</a></div>
         </div>
         <div class="ov-card" data-cat="tools" data-search="item_046 牛顿摆">
-          <a href="#app-046" class="ov-thumb" data-name="牛顿摆">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_046.jpg?v=1790325000" alt="牛顿摆"></a>
-          <div class="ov-body"><div class="ov-name">牛顿摆</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="牛顿摆：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_046_render.jpg?v=1790340000" alt="牛顿摆 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_046_real.jpg?v=1790340000" alt="牛顿摆 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-046" class="ov-name ov-name-link" data-name="牛顿摆">牛顿摆</a></div>
         </div>
         <div class="ov-card" data-cat="tools" data-search="item_047 防静电小推车">
-          <a href="#app-047" class="ov-thumb" data-name="防静电小推车">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_047.jpg?v=1790325000" alt="防静电小推车"></a>
-          <div class="ov-body"><div class="ov-name">防静电小推车</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="防静电小推车：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_047_render.jpg?v=1790340000" alt="防静电小推车 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_047_real.jpg?v=1790340000" alt="防静电小推车 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-047" class="ov-name ov-name-link" data-name="防静电小推车">防静电小推车</a></div>
         </div>
         </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
@@ -1470,24 +1773,48 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
       <div class="ov-carousel" data-cat="environment">
         <div class="ov-track">
         <div class="ov-card" data-cat="environment" data-search="item_033 茶水间">
-          <a href="#app-033" class="ov-thumb" data-name="茶水间">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_033.jpg?v=1789893340" alt="茶水间"></a>
-          <div class="ov-body"><div class="ov-name">茶水间</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="茶水间：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_033_render.jpg?v=1790340000" alt="茶水间 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_033_real.jpg?v=1790340000" alt="茶水间 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-033" class="ov-name ov-name-link" data-name="茶水间">茶水间</a></div>
         </div>
         <div class="ov-card" data-cat="environment" data-search="item_034 办公室">
-          <a href="#app-034" class="ov-thumb" data-name="办公室">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_034.jpg?v=1789893340" alt="办公室"></a>
-          <div class="ov-body"><div class="ov-name">办公室</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="办公室：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_034_render.jpg?v=1790340000" alt="办公室 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_034_real.jpg?v=1790340000" alt="办公室 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-034" class="ov-name ov-name-link" data-name="办公室">办公室</a></div>
         </div>
         <div class="ov-card" data-cat="environment" data-search="item_048 卧室">
-          <a href="#app-048" class="ov-thumb" data-name="卧室">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_048.jpg?v=1790325000" alt="卧室"></a>
-          <div class="ov-body"><div class="ov-name">卧室</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="卧室：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_048_render.jpg?v=1790340000" alt="卧室 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_048_real.jpg?v=1790340000" alt="卧室 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-048" class="ov-name ov-name-link" data-name="卧室">卧室</a></div>
         </div>
         <div class="ov-card" data-cat="environment" data-search="item_049 书房">
-          <a href="#app-049" class="ov-thumb" data-name="书房">
-            <img loading="lazy" decoding="async" src="外观对比/thumbs/item_049.jpg?v=1790325000" alt="书房"></a>
-          <div class="ov-body"><div class="ov-name">书房</div></div>
+          <div class="compare ov-compare" tabindex="0" role="slider" style="--x:50%"
+               aria-label="书房：实物与重建拖动对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <img class="c-under" loading="lazy" decoding="async" src="外观对比/split/item_049_render.jpg?v=1790340000" alt="书房 · 重建渲染">
+            <div class="c-top"><img loading="lazy" decoding="async" src="外观对比/split/item_049_real.jpg?v=1790340000" alt="书房 · 实物帧"></div>
+            <span class="c-tag a">实物</span><span class="c-tag b">重建</span>
+            <div class="c-bar"></div>
+            <div class="c-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          </div>
+          <div class="ov-body"><a href="#app-049" class="ov-name ov-name-link" data-name="书房">书房</a></div>
         </div>
         </div>
         <button class="car-btn car-prev ov-prev" type="button" aria-label="上一页" title="上一页">‹</button>
@@ -2693,6 +3020,37 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
       hero.style.setProperty('--px', 0); hero.style.setProperty('--py', 0);
     });
   }
+})();
+</script>
+
+<script>
+(function () {
+  /* 总览卡片：实物 ↔ 重建 拖动对照（参考 4D-GEN 的 compare 组件） */
+  document.querySelectorAll('.ov-compare').forEach(function (c) {
+    var dragging = false;
+    function set(clientX) {
+      var r = c.getBoundingClientRect();
+      var pct = Math.max(2, Math.min(98, (clientX - r.left) / r.width * 100));
+      c.style.setProperty('--x', pct + '%');
+      c.setAttribute('aria-valuenow', Math.round(pct));
+    }
+    c.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      try { c.setPointerCapture(e.pointerId); } catch (_) {}
+      set(e.clientX);
+    });
+    c.addEventListener('pointermove', function (e) { if (dragging) set(e.clientX); });
+    ['pointerup', 'pointercancel'].forEach(function (t) {
+      c.addEventListener(t, function () { dragging = false; });
+    });
+    c.addEventListener('keydown', function (e) {
+      var cur = parseFloat(getComputedStyle(c).getPropertyValue('--x')) || 50;
+      var next = cur;
+      if (e.key === 'ArrowLeft') next = Math.max(2, cur - 4);
+      if (e.key === 'ArrowRight') next = Math.min(98, cur + 4);
+      if (next !== cur) { c.style.setProperty('--x', next + '%'); c.setAttribute('aria-valuenow', Math.round(next)); e.preventDefault(); }
+    });
+  });
 })();
 </script>
 
