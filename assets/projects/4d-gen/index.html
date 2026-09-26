@@ -1018,9 +1018,9 @@ footer{padding-top:clamp(52px,7vw,88px)}
       <figcaption>第 170 帧（约 5.67 s）静态对照：杯子被抬离桌面，两侧使用同一套网格与相机内外参。</figcaption>
     </figure>
     <figure>
-      <p class="mq-label">4D · 特征点轨迹</p>
-      <div class="frm"><video src="outputs/4d_v5/features/feature_tracks.mp4" poster="assets/posters/v5-features.jpg" controls muted loop playsinline preload="none"></video></div>
-      <figcaption>223 帧特征点叠加：绿色／橙色为静态拟合点与留出点，粉色为杯口跟踪点，蓝色为模型杯口采样；尾迹 1 秒，观测缺口不伪造。</figcaption>
+      <p class="mq-label">4D · 杯口内缘损失</p>
+      <div class="frm"><video src="outputs/4d_v5/features/cup_rim_loss_points_all_frames.mp4" poster="assets/posters/v5-rim-loss.jpg" controls muted loop playsinline preload="none"></video></div>
+      <figcaption>223 帧逐帧显示两侧：左为原片、右为 Newton 回放。<b>黄色实心</b>是人工标注的杯口内缘锚点，<b>洋红空心</b>是 LK 跟踪到的杯口观测点，<b>绿色</b>是静态纹理点（相机约束）；右图的<b>红线</b>就是每个观测点到模型圆环最近点的距离——即内缘损失项本身。</figcaption>
     </figure>
     <figure>
       <p class="mq-label">3D · 点云与相机轨迹</p>
