@@ -1182,8 +1182,8 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
   <!-- ================= 总揽 ================= -->
   <section id="sec-overview-grid">
     <h2><span class="sec-no">02</span>总揽 · 49 项资产<span class="sec-en">Gallery</span><span class="sec-count">8 个类目 · A 套 34 + B 套 15</span></h2>
-    <p class="lead">按 <b>8 个类目</b>分组，类目内按子类型相邻排列（如座椅 → 灯具 → 日用）。每张卡片是该资产单视角的<b>实物 ↔ 重建拖动对照</b>（拖动中间手柄在两侧间切换），点名称直达第 Ⅰ 节对应的多视角对照；可按类目筛选，或按名称 / 编号搜索。</p>
-    <div class="legend"><span>拖动 ⇔ 在 实物 ↔ 重建 间切换</span><span>初始 5:5 对半</span><span>图内无文字</span><span>A 套 34 项（001–034）· B 套 15 项（035–049）</span></div>
+    <p class="lead">按 <b>8 个类目</b>分组，类目内按子类型相邻排列（如座椅 → 灯具 → 日用）。每张卡片是该资产单视角的<b>实物 ↔ 重建拖动对照</b>（鼠标移入卡片即随光标左右切换，触摸屏按住拖动），点名称直达第 Ⅰ 节对应的多视角对照；可按类目筛选，或按名称 / 编号搜索。</p>
+    <div class="legend"><span>鼠标移入即跟随 ⇔ 实物 ↔ 重建</span><span>初始 5:5 对半</span><span>图内无文字</span><span>A 套 34 项（001–034）· B 套 15 项（035–049）</span></div>
     <div class="ov-toolbar">
       <div class="filter-bar"><button class="flt active" data-cat="all">全部 <b>49</b></button><button class="flt" data-cat="cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>6</b></button><button class="flt" data-cat="seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>11</b></button><button class="flt" data-cat="appliance"><i style="background:#a1741f"></i>厨房电器 <b>6</b></button><button class="flt" data-cat="digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></button><button class="flt" data-cat="package"><i style="background:#7d4a86"></i>包装与容器 <b>7</b></button><button class="flt" data-cat="kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>9</b></button><button class="flt" data-cat="tools"><i style="background:#5f6b2e"></i>工具与器件 <b>3</b></button><button class="flt" data-cat="environment"><i style="background:#4a6f7a"></i>室内环境 <b>4</b></button></div>
       <div class="ov-search">
@@ -3028,18 +3028,22 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
   /* 总览卡片：实物 ↔ 重建 拖动对照（参考 4D-GEN 的 compare 组件） */
   document.querySelectorAll('.ov-compare').forEach(function (c) {
     var dragging = false;
-    function set(clientX) {
+    function apply(clientX) {
       var r = c.getBoundingClientRect();
       var pct = Math.max(2, Math.min(98, (clientX - r.left) / r.width * 100));
       c.style.setProperty('--x', pct + '%');
       c.setAttribute('aria-valuenow', Math.round(pct));
     }
+    function set(clientX) { apply(clientX); }    /* pointermove 已按帧合并，直接应用最跟手 */
     c.addEventListener('pointerdown', function (e) {
       dragging = true;
       try { c.setPointerCapture(e.pointerId); } catch (_) {}
-      set(e.clientX);
+      apply(e.clientX);
     });
-    c.addEventListener('pointermove', function (e) { if (dragging) set(e.clientX); });
+    c.addEventListener('pointermove', function (e) {
+      if (e.pointerType === 'mouse') { set(e.clientX); return; }   /* 鼠标：悬停即跟随 */
+      if (dragging) set(e.clientX);                                /* 触摸/笔：按住才跟随 */
+    });
     ['pointerup', 'pointercancel'].forEach(function (t) {
       c.addEventListener(t, function () { dragging = false; });
     });
