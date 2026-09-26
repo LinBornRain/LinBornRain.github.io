@@ -1623,7 +1623,12 @@ footer{padding-top:clamp(52px,7vw,88px)}
   });
 
   /* ── scroll spy ────────────────────────────────────────── */
-  var links = $$('#navlinks a');
+  /* 只把页内锚点（#…）纳入滚动高亮：导航里可能还有站外/站内非锚点链接，
+     直接拿 href 当选择器会抛 SyntaxError 并中断整段脚本 */
+  var links = $$('#navlinks a').filter(function(a){
+    var h = a.getAttribute('href') || '';
+    return h.charAt(0) === '#' && h.length > 1;
+  });
   var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
   if (secs.length && 'IntersectionObserver' in window){
     var sio = new IntersectionObserver(function(entries){
