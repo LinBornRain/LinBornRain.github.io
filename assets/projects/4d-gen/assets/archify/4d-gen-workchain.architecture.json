@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "4D Reconstruction Workchain",
+    "locale": "zh-CN",
+    "subtitle": "从单目视频与既有资产，到可检查的 3D / 4D 重建；桌面物体与储物柜为两条独立实例",
+    "output": "4d-gen-workchain.html",
+    "visual_preset": "signal-flow",
+    "animation": "none",
+    "quality_profile": "showcase",
+    "views": [
+      { "id": "shared-chain", "label": "共享重建骨架", "focus": ["inputs", "prepare", "observations", "projection", "trajectory", "replay", "verify"], "note": "从视频/资产输入，经几何投影与时序拟合，到回放验证。" },
+      { "id": "desktop-branch", "label": "桌面物体 V5", "focus": ["inputs", "observations", "geometry", "projection", "trajectory", "replay", "verify"], "note": "水瓶、水杯、盒子及近似手部；Newton 为运动学回放。" },
+      { "id": "cabinet-branch", "label": "储物柜 item_001", "focus": ["inputs", "prepare", "observations", "geometry", "projection", "trajectory", "replay", "verify"], "note": "复用已有柜体 USD，仅拟合左门铰链运动；不是 SAM3 或稠密深度重建。" },
+      { "id": "outputs", "label": "诊断与交付", "focus": ["replay", "verify", "outputs"], "note": "投影叠帧、特征轨迹、相机位姿、点云采样和可视化产物。" }
+    ]
+  },
+  "components": [
+    { "id": "inputs", "type": "external", "label": "视频 / 资产", "sublabel": "原视频 + 既有模型", "tag": "双分支", "pos": [40, 130], "size": [170, 76] },
+    { "id": "prepare", "type": "backend", "label": "帧准备", "sublabel": "裁切、旋转、抽帧", "tag": "数据", "pos": [265, 130], "size": [170, 76] },
+    { "id": "observations", "type": "backend", "label": "2D 观测", "sublabel": "SAM3、特征、稀疏跟踪", "tag": "监督", "pos": [490, 130], "size": [180, 76] },
+    { "id": "geometry", "type": "database", "label": "几何 / 模型", "sublabel": "参数化物体或柜体 USD", "tag": "先验", "pos": [725, 130], "size": [185, 76] },
+    { "id": "projection", "type": "backend", "label": "可微投影拟合", "sublabel": "相机、形状、位姿匹配图像", "tag": "优化", "pos": [40, 300], "size": [195, 76] },
+    { "id": "trajectory", "type": "backend", "label": "连续 4D 轨迹", "sublabel": "C² 样条、静止段、铰链", "tag": "时序", "pos": [290, 300], "size": [190, 76] },
+    { "id": "replay", "type": "backend", "label": "Newton / Blender", "sublabel": "USD 运动学回放，非物理解算", "tag": "渲染", "pos": [540, 300], "size": [205, 76] },
+    { "id": "verify", "type": "security", "label": "对照与诊断", "sublabel": "轮廓 IoU、留出点、叠帧", "tag": "迭代", "pos": [805, 300], "size": [190, 76] },
+    { "id": "outputs", "type": "external", "label": "可视化交付", "sublabel": "视频、点云采样、相机位姿", "tag": "结果", "pos": [805, 470], "size": [190, 76] }
+  ],
+  "connections": [
+    { "from": "inputs", "to": "prepare", "variant": "emphasis" },
+    { "from": "prepare", "to": "observations", "variant": "emphasis" },
+    { "from": "observations", "to": "geometry" },
+    { "from": "geometry", "to": "projection", "route": "orthogonal-v", "fromSide": "bottom", "toSide": "left", "via": [[817.5, 250], [20, 250], [20, 338]] },
+    { "from": "projection", "to": "trajectory", "variant": "emphasis" },
+    { "from": "trajectory", "to": "replay" },
+    { "from": "replay", "to": "verify" },
+    { "from": "verify", "to": "outputs", "route": "straight" }
+  ]
+}

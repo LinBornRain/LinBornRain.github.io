@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1,1 L11,6 L1,11 Z" fill="#2563eb"/></marker>
+    <marker id="axis" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1,1 L9,5 L1,9 Z" fill="#64748b"/></marker>
+    <style>
+      text{font-family:"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#172033}
+      .title{font-size:30px;font-weight:700}.head{font-size:21px;font-weight:700}.label{font-size:18px}.small{font-size:15px;fill:#475569}.coord{font-size:16px;font-weight:600}
+    </style>
+  </defs>
+  <rect width="1400" height="780" rx="24" fill="#f8fafc"/>
+  <text x="54" y="58" class="title">相机参数里的“目标点”是什么？</text>
+  <text x="56" y="91" class="small">示例：第 110 帧；世界坐标单位为米，Z 向上。目标点是相机朝向参照，不是检测到的特征点。</text>
+  <rect x="45" y="120" width="630" height="515" rx="18" fill="#fff" stroke="#dbe3ee"/>
+  <rect x="695" y="120" width="660" height="515" rx="18" fill="#fff" stroke="#dbe3ee"/>
+  <text x="75" y="160" class="head">侧视图（X–Z）</text>
+  <text x="725" y="160" class="head">俯视图（X–Y）</text>
+  <!-- Side view: target x=.056,z=0; eye x=-.603,z=.589 -->
+  <line x1="105" y1="525" x2="600" y2="525" stroke="#94a3b8" stroke-width="2" marker-end="url(#axis)"/>
+  <line x1="145" y1="560" x2="145" y2="210" stroke="#94a3b8" stroke-width="2" marker-end="url(#axis)"/>
+  <text x="605" y="532" class="label">X</text><text x="128" y="200" class="label">Z</text>
+  <text x="155" y="552" class="small">地面基准 Z = 0</text>
+  <line x1="240" y1="300" x2="475" y2="525" stroke="#2563eb" stroke-width="5" marker-end="url(#arrow)"/>
+  <circle cx="475" cy="525" r="11" fill="#f59e0b" stroke="#fff" stroke-width="3"/>
+  <circle cx="240" cy="300" r="13" fill="#ef4444" stroke="#fff" stroke-width="3"/>
+  <path d="M385 525 A90 90 0 0 1 406 467" fill="none" stroke="#7c3aed" stroke-width="3"/>
+  <text x="315" y="476" class="coord" fill="#7c3aed">俯仰 θ = 41.75°</text>
+  <text x="420" y="572" class="coord" fill="#b45309">目标 T = (0.056, 0.034, 0) m</text>
+  <text x="158" y="276" class="coord" fill="#b91c1c">相机中心 C</text>
+  <text x="276" y="385" class="label" fill="#1d4ed8">光轴指向目标</text>
+  <text x="104" y="600" class="small">相机在目标上方约 0.589 m；与目标直线距离 0.884 m</text>
+  <!-- Top view: y values deliberately mildly offset for visibility -->
+  <line x1="760" y1="430" x2="1285" y2="430" stroke="#94a3b8" stroke-width="2" marker-end="url(#axis)"/>
+  <line x1="855" y1="570" x2="855" y2="210" stroke="#94a3b8" stroke-width="2" marker-end="url(#axis)"/>
+  <text x="1292" y="438" class="label">X</text><text x="838" y="202" class="label">Y</text>
+  <line x1="915" y1="405" x2="1175" y2="419" stroke="#2563eb" stroke-width="5" marker-end="url(#arrow)"/>
+  <circle cx="915" cy="405" r="13" fill="#ef4444" stroke="#fff" stroke-width="3"/>
+  <circle cx="1175" cy="419" r="11" fill="#f59e0b" stroke="#fff" stroke-width="3"/>
+  <text x="920" y="376" class="coord" fill="#b91c1c">相机中心 C</text>
+  <text x="1120" y="460" class="coord" fill="#b45309">目标 T</text>
+  <text x="1030" y="390" class="small">方位角 az = 2.40°</text>
+  <text x="760" y="600" class="small">目标的平面坐标 Txy = (0.056, 0.034) m；图中相机与目标略作错位标注</text>
+  <rect x="45" y="660" width="1310" height="82" rx="16" fill="#eaf2ff" stroke="#bfdbfe"/>
+  <text x="70" y="694" class="label" font-weight="700">参数 → 位姿：</text>
+  <text x="220" y="694" class="label">[俯仰 θ, 距离 d, 目标 tx, ty, 方位 az, 滚转 roll]</text>
+  <text x="70" y="724" class="small">代码先设 T=(tx,ty,0)，再按俯仰/方位/距离算相机中心 C；镜头朝向 T，roll 再绕光轴旋转画面。</text>
+</svg>
