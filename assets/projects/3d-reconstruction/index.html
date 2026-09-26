@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="auto">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf8f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171310" media="(prefers-color-scheme: dark)">
 <title>Real2Sim 重建——GPT6-ASTRA 直出物体外观与交互 3D 资产</title>
 <meta name="description" content="49 项可交互 USD 重建资产与实物的一对一对照：49 张逐视角外观对比图（严格 5:5、图内无文字），49 支交互对比视频（实物录像 ↔ Newton 重建录制）。">
 <meta name="author" content="林嘉豪 · Jiahao Lin">
@@ -29,6 +32,7 @@
     --b-size-small: .75rem; --b-size-normal: 1rem;
     --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
     --font-sans: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 64px; -webkit-text-size-adjust: 100%; }
@@ -580,6 +584,257 @@
     opacity: 1; transform: none;
     transition: opacity .55s ease, transform .55s ease, box-shadow .2s ease;
   }
+  /* ══════════════════════════════════════════════════════════════
+     设计焕新 · 参考 4D-GEN 设计系统（2026-09-26）
+     ══════════════════════════════════════════════════════════════ */
+  /* CJK 排版引擎 */
+  body { letter-spacing: .006em; text-spacing-trim: space-first; text-autospace: normal;
+    font-feature-settings: "palt" 1, "kern" 1; }
+  code, pre, .mono { text-spacing-trim: none; font-feature-settings: "kern" 1; }
+  /* 滚动条 */
+  ::-webkit-scrollbar { width: 11px; height: 11px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--faint) 46%, transparent);
+    border-radius: 9px; border: 3px solid var(--bg); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--faint); }
+  /* 进度条：三色渐变 */
+  #progress { background: linear-gradient(90deg, var(--accent), var(--accent-2) 55%, var(--gold));
+    box-shadow: none; }
+  /* 正文/图注/页脚链接的渐变下划线 */
+  .abstract a, .abstract-fig-cap a, footer a {
+    text-decoration: none; padding-bottom: 1px;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat;
+    transition: background-size .3s var(--ease), color .25s;
+  }
+  .abstract a:hover, .abstract-fig-cap a:hover, footer a:hover {
+    background-size: 100% 1px; text-decoration: none; }
+
+  /* —— 首屏：aurora 柔光（暖色系、低透明度） —— */
+  header.hero { background: linear-gradient(180deg, #f4efe3 0%, var(--bg) 92%); }
+  header.hero > .aurora { animation: none; }
+  header.hero > *:not(.site-back):not(.aurora) { position: relative; z-index: 1; }
+  .aurora {
+    position: absolute; inset: -12% -8% auto -8%; height: 76%; pointer-events: none;
+    filter: blur(72px); opacity: .55;
+    transform: translate3d(calc(var(--px, 0) * 22px), calc(var(--py, 0) * 15px), 0);
+  }
+  .aurora .blob { position: absolute; border-radius: 50%; display: block;
+    animation: blobDrift 26s var(--ease) infinite alternate; }
+  .aurora .b1 { width: 44vw; height: 44vw; left: -7vw; top: -6%; background: rgba(194,87,31,.16); }
+  .aurora .b2 { width: 36vw; height: 36vw; right: -5vw; top: -10%; background: rgba(161,116,31,.15);
+    animation-duration: 33s; animation-delay: -7s; }
+  .aurora .b3 { width: 30vw; height: 30vw; left: 30%; top: 16%; background: rgba(154,43,43,.12);
+    animation-duration: 39s; animation-delay: -15s; }
+  .aurora .b4 { width: 24vw; height: 24vw; right: 16%; top: 40%; background: rgba(46,107,79,.10);
+    animation-duration: 29s; animation-delay: -10s; }
+  @keyframes blobDrift {
+    0% { transform: translate3d(0,0,0) scale(1); }
+    50% { transform: translate3d(2.2vw,-1.8vw,0) scale(1.06); }
+    100% { transform: translate3d(-1.8vw,2.2vw,0) scale(.96); }
+  }
+
+  /* kicker → 胶囊 + 脉冲点 */
+  .kicker {
+    display: inline-flex; align-items: center; gap: 11px;
+    letter-spacing: .3em; font-size: 11.5px; font-weight: 600; color: var(--accent);
+    background: rgba(154,43,43,.06); border: 1px solid rgba(154,43,43,.24);
+    padding: 8px 18px 8px 14px; border-radius: 999px;
+  }
+  .kicker .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none;
+    box-shadow: 0 0 0 0 rgba(154,43,43,.32); animation: kickPulse 2.6s infinite; }
+  @keyframes kickPulse {
+    0% { box-shadow: 0 0 0 0 rgba(154,43,43,.32); }
+    70% { box-shadow: 0 0 0 9px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+  /* 标题关键词渐变 */
+  header.hero h1 .grad {
+    background: linear-gradient(96deg, var(--accent) 0%, var(--accent-2) 52%, var(--gold) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  /* meta 条 → 玻璃条（chips 变为分段文本） */
+  .meta-row {
+    display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 2px 0;
+    margin: 30px auto 0; padding: 9px 8px; max-width: 880px;
+    border: 1px solid var(--line); border-radius: 16px;
+    background: rgba(255,255,255,.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 1px 2px rgba(60,50,30,.04), 0 12px 34px -20px rgba(60,45,20,.24);
+  }
+  .meta-row .chip { background: transparent; border: 0; box-shadow: none; border-radius: 0;
+    padding: 5px 14px; font-size: 12.5px; }
+  .meta-row .chip + .chip { border-left: 1px solid var(--line); }
+  /* 横幅 + 视频条大卡：更立体的阴影与圆角 */
+  .hero-media { border-radius: 18px; border-color: var(--line-strong);
+    box-shadow: 0 2px 6px rgba(60,50,30,.06), 0 34px 68px -34px rgba(60,45,20,.34); }
+
+  /* —— 章节层级：mono 序号 + 左 accent 边框（替代原下划线） —— */
+  section > h2 {
+    display: block; border-bottom: 0; padding-bottom: 0; padding-left: 18px; margin-bottom: 10px;
+    border-left: 3px solid color-mix(in srgb, var(--accent) 52%, transparent);
+    font-size: clamp(1.45rem, 3vw, 1.85rem); letter-spacing: -.012em; line-height: 1.3;
+  }
+  section > h2::after { display: none; }
+  section > h2 .sec-no {
+    display: block; font-family: var(--font-mono); font-size: .7rem; font-weight: 500;
+    letter-spacing: .24em; color: var(--accent); margin-bottom: 9px;
+  }
+  section > h2 .sec-en { margin-left: 12px; letter-spacing: .26em; }
+  section > p.lead { font-size: 15.5px; line-height: 1.92; margin-top: 14px; }
+
+  /* 摘要卡：从色块升级为带左边框的卡片 */
+  .abstract {
+    background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    border-radius: 14px; box-shadow: var(--sh-1); padding: 26px 30px;
+  }
+  /* 图注：左 accent 竖线 */
+  .abstract-fig-cap { padding-left: 14px; border-left: 2px solid rgba(154,43,43,.34);
+    border-radius: 0 6px 6px 0; }
+
+  /* 目录导航：玻璃拟态 + 滚动阴影 */
+  nav.toc {
+    background: rgba(250,248,242,.7);
+    backdrop-filter: blur(16px) saturate(170%); -webkit-backdrop-filter: blur(16px) saturate(170%);
+    border-bottom-color: transparent; transition: border-color .4s, box-shadow .4s, background .4s;
+  }
+  nav.toc.stuck { border-bottom-color: var(--line); box-shadow: 0 14px 34px -24px rgba(60,45,20,.5); }
+
+  /* 回到顶部：毛玻璃 */
+  #top-btn { background: rgba(255,255,255,.82); backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); color: var(--muted); box-shadow: var(--sh-2);
+    transition: transform .2s var(--ease), color .25s; }
+  #top-btn:hover { color: var(--accent); }
+
+  /* 页脚：渐变分隔线 + 描边大字标 */
+  footer { border-top: 0; position: relative; padding-top: 46px; margin-top: 110px; }
+  footer::before {
+    content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    height: 1px; width: min(1240px, 92%);
+    background: linear-gradient(90deg, transparent, var(--line) 18%, rgba(154,43,43,.4) 50%, var(--line) 82%, transparent);
+  }
+  .f-mark {
+    margin-top: 44px; user-select: none;
+    font-family: var(--font-serif); font-weight: 700; line-height: .9; letter-spacing: -.03em;
+    font-size: clamp(4rem, 15vw, 11rem);
+    color: transparent; -webkit-text-stroke: 1.5px var(--line-strong);
+    transition: color .6s, -webkit-text-stroke-color .6s;
+  }
+  .f-mark:hover { color: rgba(154,43,43,.08); -webkit-text-stroke-color: rgba(154,43,43,.42); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora .blob, .kicker .pulse { animation: none; }
+    .aurora { transform: none; }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     深色主题（导航右侧切换钮循环 自动 → 浅色 → 深色，localStorage 记忆）
+     ══════════════════════════════════════════════════════════════ */
+  /* 切换钮 */
+  .tbtn {
+    position: absolute; top: 50%; right: 14px; transform: translateY(-50%);
+    width: 36px; height: 36px; border-radius: 50%; z-index: 5;
+    border: 1px solid var(--line); background: var(--card); color: var(--muted);
+    cursor: pointer; display: grid; place-items: center;
+    transition: color .25s, border-color .25s, transform .3s var(--ease);
+  }
+  .tbtn:hover { color: var(--ink); border-color: var(--line-strong); transform: translateY(-50%) rotate(-18deg); }
+  .tbtn svg { width: 16px; height: 16px; position: absolute; inset: 0; margin: auto;
+    transition: opacity .3s, transform .5s var(--ease); }
+  .tbtn .ic-moon { opacity: 0; transform: rotate(100deg) scale(.5); }
+  @media (max-width: 700px) { .tbtn { right: 8px; width: 32px; height: 32px; } }
+
+  /* 手动深色 */
+  :root[data-theme="dark"] {    --ink:#ece5d8; --ink-2:#cfc5b3; --muted:#9d9484; --faint:#6f675b;
+    --line:rgba(244,232,214,.13); --line-strong:rgba(244,232,214,.22);
+    --bg:#171310; --card:#221c16; --soft:#261f18;
+    --accent:#e0665a; --accent-2:#ef9351; --gold:#d8a94e;
+    --accent-soft:rgba(224,102,90,.14);
+    --sh-1:0 1px 2px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.4);
+    --sh-2:0 6px 22px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
+    --sh-3:0 18px 50px rgba(0,0,0,.6);
+    --b-border:rgba(244,232,214,.16); --b-border-hover:rgba(244,232,214,.34);
+    --b-text:#e8e0d2; --b-text-light:#9d9484;
+    --b-bg-light:#261f18; --b-bg-white:#221c16;
+    --b-focus:0 0 0 .125em rgba(224,102,90,.42);
+  }
+
+  :root[data-theme="dark"] header.hero { background: linear-gradient(180deg, #1c1712 0%, var(--bg) 92%); }
+  :root[data-theme="dark"] .aurora { opacity: .62; }
+  :root[data-theme="dark"] .aurora .b1 { background: rgba(239,147,81,.16); }
+  :root[data-theme="dark"] .aurora .b2 { background: rgba(216,169,78,.14); }
+  :root[data-theme="dark"] .aurora .b3 { background: rgba(224,102,90,.13); }
+  :root[data-theme="dark"] .aurora .b4 { background: rgba(94,180,160,.09); }
+  :root[data-theme="dark"] .kicker { background: rgba(224,102,90,.10); border-color: rgba(224,102,90,.30); }
+  :root[data-theme="dark"] .meta-row { background: rgba(34,27,21,.55); box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 34px -20px rgba(0,0,0,.6); }
+  :root[data-theme="dark"] nav.toc { background: rgba(23,19,15,.70); }
+  :root[data-theme="dark"] nav.toc a:hover { background: rgba(224,102,90,.09); }
+  :root[data-theme="dark"] nav.toc a.active { background: rgba(224,102,90,.12); }
+  :root[data-theme="dark"] nav.toc.stuck { box-shadow: 0 14px 34px -24px rgba(0,0,0,.7); }
+  :root[data-theme="dark"] .site-back { background: rgba(34,27,21,.72); }
+  :root[data-theme="dark"] .car-btn { background: rgba(34,27,21,.92); color: var(--ink); }
+  :root[data-theme="dark"] .car-dot { background: var(--card); border-color: var(--b-border); }
+  :root[data-theme="dark"] .car-dot:hover { background: rgba(244,232,214,.08); }
+  :root[data-theme="dark"] .cat-nav a:hover, :root[data-theme="dark"] .flt:hover { background: rgba(244,232,214,.05); }
+  :root[data-theme="dark"] .flt.active { background: rgba(224,102,90,.16); border-color: var(--accent); color: var(--accent); }
+  :root[data-theme="dark"] .flt.active b { color: var(--accent); }
+  :root[data-theme="dark"] .flt.active i { box-shadow: 0 0 0 2px rgba(224,102,90,.28); }
+  :root[data-theme="dark"] .chain li::before, :root[data-theme="dark"] .dim-chip.fill { color: #221a13; }
+  :root[data-theme="dark"] .chain-io span.out { background: #2c241b; }
+  :root[data-theme="dark"] pre.spec-code[data-title]::before { background: rgba(244,232,214,.05); }
+  :root[data-theme="dark"] #top-btn { background: rgba(34,27,21,.85); color: var(--muted); }
+  :root[data-theme="dark"] .back-top-link a { border-bottom-color: var(--faint); }
+  :root[data-theme="dark"] ::selection { background: rgba(224,102,90,.30); }
+  /* 切换钮的太阳/月亮图标互换 */
+  :root[data-theme="dark"] .tbtn .ic-sun { opacity: 0; transform: rotate(-100deg) scale(.5); }
+  :root[data-theme="dark"] .tbtn .ic-moon { opacity: 1; transform: none; }
+
+  /* 跟随系统（未手动指定浅色/深色时）——screen 限定，打印不受影响 */
+  @media screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {    --ink:#ece5d8; --ink-2:#cfc5b3; --muted:#9d9484; --faint:#6f675b;
+    --line:rgba(244,232,214,.13); --line-strong:rgba(244,232,214,.22);
+    --bg:#171310; --card:#221c16; --soft:#261f18;
+    --accent:#e0665a; --accent-2:#ef9351; --gold:#d8a94e;
+    --accent-soft:rgba(224,102,90,.14);
+    --sh-1:0 1px 2px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.4);
+    --sh-2:0 6px 22px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
+    --sh-3:0 18px 50px rgba(0,0,0,.6);
+    --b-border:rgba(244,232,214,.16); --b-border-hover:rgba(244,232,214,.34);
+    --b-text:#e8e0d2; --b-text-light:#9d9484;
+    --b-bg-light:#261f18; --b-bg-white:#221c16;
+    --b-focus:0 0 0 .125em rgba(224,102,90,.42);
+    }
+  
+      :root:not([data-theme="light"]) header.hero { background: linear-gradient(180deg, #1c1712 0%, var(--bg) 92%); }
+      :root:not([data-theme="light"]) .aurora { opacity: .62; }
+      :root:not([data-theme="light"]) .aurora .b1 { background: rgba(239,147,81,.16); }
+      :root:not([data-theme="light"]) .aurora .b2 { background: rgba(216,169,78,.14); }
+      :root:not([data-theme="light"]) .aurora .b3 { background: rgba(224,102,90,.13); }
+      :root:not([data-theme="light"]) .aurora .b4 { background: rgba(94,180,160,.09); }
+      :root:not([data-theme="light"]) .kicker { background: rgba(224,102,90,.10); border-color: rgba(224,102,90,.30); }
+      :root:not([data-theme="light"]) .meta-row { background: rgba(34,27,21,.55); box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 34px -20px rgba(0,0,0,.6); }
+      :root:not([data-theme="light"]) nav.toc { background: rgba(23,19,15,.70); }
+      :root:not([data-theme="light"]) nav.toc a:hover { background: rgba(224,102,90,.09); }
+      :root:not([data-theme="light"]) nav.toc a.active { background: rgba(224,102,90,.12); }
+      :root:not([data-theme="light"]) nav.toc.stuck { box-shadow: 0 14px 34px -24px rgba(0,0,0,.7); }
+      :root:not([data-theme="light"]) .site-back { background: rgba(34,27,21,.72); }
+      :root:not([data-theme="light"]) .car-btn { background: rgba(34,27,21,.92); color: var(--ink); }
+      :root:not([data-theme="light"]) .car-dot { background: var(--card); border-color: var(--b-border); }
+      :root:not([data-theme="light"]) .car-dot:hover { background: rgba(244,232,214,.08); }
+      :root:not([data-theme="light"]) .cat-nav a:hover, :root:not([data-theme="light"]) .flt:hover { background: rgba(244,232,214,.05); }
+      :root:not([data-theme="light"]) .flt.active { background: rgba(224,102,90,.16); border-color: var(--accent); color: var(--accent); }
+      :root:not([data-theme="light"]) .flt.active b { color: var(--accent); }
+      :root:not([data-theme="light"]) .flt.active i { box-shadow: 0 0 0 2px rgba(224,102,90,.28); }
+      :root:not([data-theme="light"]) .chain li::before, :root:not([data-theme="light"]) .dim-chip.fill { color: #221a13; }
+      :root:not([data-theme="light"]) .chain-io span.out { background: #2c241b; }
+      :root:not([data-theme="light"]) pre.spec-code[data-title]::before { background: rgba(244,232,214,.05); }
+      :root:not([data-theme="light"]) #top-btn { background: rgba(34,27,21,.85); color: var(--muted); }
+      :root:not([data-theme="light"]) .back-top-link a { border-bottom-color: var(--faint); }
+      :root:not([data-theme="light"]) ::selection { background: rgba(224,102,90,.30); }
+      /* 切换钮的太阳/月亮图标互换 */
+      :root:not([data-theme="light"]) .tbtn .ic-sun { opacity: 0; transform: rotate(-100deg) scale(.5); }
+      :root:not([data-theme="light"]) .tbtn .ic-moon { opacity: 1; transform: none; }
+  }
+
   @media print {
     nav.toc, #progress, #top-btn, .car-btn, .car-bar, .flt, .ov-search, .site-back { display: none !important; }
     body { background: #fff; }
@@ -628,15 +883,17 @@
     .ov-thumb { height: 110px; }
   }
 </style>
+<script>(function(){try{var t=localStorage.getItem('dsh3dgen-theme');if(t==='light'||t==='dark'||t==='auto'){document.documentElement.dataset.theme=t;}}catch(e){}})();</script>
 </head>
 <body>
 
 <div id="progress"></div>
 
 <header class="hero">
+  <div class="aurora" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
   <a class="site-back" href="https://linbornrain.github.io/projects/">← 返回项目页 · 林嘉豪</a>
-  <div class="kicker">USD Interactive Assets · Newton Reconstruction</div>
-  <h1>Real2Sim 重建——<span class="nw">GPT6-ASTRA</span> 直出物体外观与交互 <span class="nw">3D 资产</span></h1>
+  <div class="kicker"><i class="pulse" aria-hidden="true"></i>USD Interactive Assets · Newton Reconstruction</div>
+  <h1>Real2Sim 重建——<span class="nw grad">GPT6-ASTRA</span> 直出物体外观与交互 <span class="nw">3D 资产</span></h1>
   <div class="rule"></div>
   <p class="sub">49 项可交互 USD 重建资产，逐项与实物对照：<b>外观</b>逐视角 5:5 并排（实物录像帧 ↔ 重建渲染），
   <b>交互</b>同屏上下并置（实物录像 ↔ Newton 重建录制）。</p>
@@ -733,10 +990,14 @@
 
 <nav class="toc" id="toc">
   <a href="#abstract" data-sec="abstract">摘要</a>
-  <a href="#sec-architecture" data-sec="sec-architecture">❖ · 架构与工作链路</a>
-  <a href="#sec-overview-grid" data-sec="sec-overview-grid">总揽</a>
-  <a href="#sec-appearance" data-sec="sec-appearance">Ⅰ · 外观对比</a>
-  <a href="#sec-video" data-sec="sec-video">Ⅱ · 交互对比视频</a>
+  <a href="#sec-architecture" data-sec="sec-architecture">01 · 架构与链路</a>
+  <a href="#sec-overview-grid" data-sec="sec-overview-grid">02 · 总揽</a>
+  <a href="#sec-appearance" data-sec="sec-appearance">03 · 外观对比</a>
+  <a href="#sec-video" data-sec="sec-video">04 · 交互对比</a>
+  <button class="tbtn" id="theme-toggle" type="button" aria-label="切换深浅主题" title="切换深浅主题">
+    <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3 19 19M19 5l-1.7 1.7M6.7 17.3 5 19"/></svg>
+    <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg>
+  </button>
 </nav>
 
 <div class="wrap">
@@ -753,7 +1014,7 @@
 
   <!-- ================= ❖ 架构与工作链路 ================= -->
   <section id="sec-architecture">
-    <h2><span class="sec-no">❖</span>架构与工作链路<span class="sec-en">Architecture</span></h2>
+    <h2><span class="sec-no">01</span>架构与工作链路<span class="sec-en">Architecture</span></h2>
     <p class="lead">链路分工一句话：<b>GPT6-ASTRA 通过代码硬编码决定「长什么样、怎么动」，PhysX-Omni / 多模态模型（也可以是 GPT6-ASTRA）判断「多重量级、这看起来像什么材质」，规范给定「摩擦与恢复是多少」。</b></p>
 
     <!-- 图 1 · Real2Sim 链路 -->
@@ -887,7 +1148,7 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
 
   <!-- ================= 总揽 ================= -->
   <section id="sec-overview-grid">
-    <h2><span class="sec-no">✦</span>总揽 · 49 项资产<span class="sec-en">Gallery</span><span class="sec-count">8 个类目 · A 套 34 + B 套 15</span></h2>
+    <h2><span class="sec-no">02</span>总揽 · 49 项资产<span class="sec-en">Gallery</span><span class="sec-count">8 个类目 · A 套 34 + B 套 15</span></h2>
     <p class="lead">按 <b>8 个类目</b>分组，类目内按子类型相邻排列（如座椅 → 灯具 → 日用）。每张缩略图是该资产的单视角对比（<b>左实物 ｜ 右重建</b>），点击卡片直达第 Ⅰ 节对应的多视角对照；可按类目筛选，或按名称 / 编号搜索。</p>
     <div class="legend"><span>左实物 ｜ 右重建</span><span>每格 5:5 对半</span><span>图内无文字</span><span>A 套 34 项（001–034）· B 套 15 项（035–049）</span></div>
     <div class="ov-toolbar">
@@ -1241,7 +1502,7 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
 
   <!-- ================= Ⅰ 外观对比 ================= -->
   <section id="sec-appearance">
-    <h2><span class="sec-no">Ⅰ</span>外观对比<span class="sec-en">Appearance</span><span class="sec-count">49 张 · 8 个类目</span></h2>
+    <h2><span class="sec-no">03</span>外观对比<span class="sec-en">Appearance</span><span class="sec-count">49 张 · 8 个类目</span></h2>
     <p class="lead">逐项、逐视角的一对一对照：每行为一个视角（每项 3–4 个视角；048 卧室 / 049 书房为整间室内），<b>左实物 ｜ 右重建</b>，严格 5:5，图内无文字。点击图片进入灯箱——滚动查看原尺寸长图，← / → 在同类目内切换物体，双击缩放，Esc 关闭。</p>
     <div class="cat-nav"><a href="#app-cat-cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>6</b></a><a href="#app-cat-seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>11</b></a><a href="#app-cat-appliance"><i style="background:#a1741f"></i>厨房电器 <b>6</b></a><a href="#app-cat-digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></a><a href="#app-cat-package"><i style="background:#7d4a86"></i>包装与容器 <b>7</b></a><a href="#app-cat-kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>9</b></a><a href="#app-cat-tools"><i style="background:#5f6b2e"></i>工具与器件 <b>3</b></a><a href="#app-cat-environment"><i style="background:#4a6f7a"></i>室内环境 <b>4</b></a></div>
     
@@ -1575,7 +1836,7 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
 
   <!-- ================= Ⅱ 交互对比视频 ================= -->
   <section id="sec-video">
-    <h2><span class="sec-no">Ⅱ</span>交互对比视频<span class="sec-en">Interaction</span><span class="sec-count">49 支 · 8 个类目</span></h2>
+    <h2><span class="sec-no">04</span>交互对比视频<span class="sec-en">Interaction</span><span class="sec-count">49 支 · 8 个类目</span></h2>
     <p class="lead">同一段交互的两种记录：<b>上为实物交互录像，下为 Newton 重建交互录制</b>（720p，等比填充）。逐项对照，点击播放。其中 B 套的牛奶、长柄勺、黑色螺钉原题只提供外观录像：这三支的上方是实物外观录像、下方是重建的补充交互测试，已在标题处注明。</p>
     <div class="cat-nav"><a href="#vid-cat-cabinet"><i style="background:#7a5c2e"></i>收纳柜与桌几 <b>6</b></a><a href="#vid-cat-seating"><i style="background:#2e6b4f"></i>家具与家居用品 <b>11</b></a><a href="#vid-cat-appliance"><i style="background:#a1741f"></i>厨房电器 <b>6</b></a><a href="#vid-cat-digital"><i style="background:#2f5d8a"></i>数码外设 <b>3</b></a><a href="#vid-cat-package"><i style="background:#7d4a86"></i>包装与容器 <b>7</b></a><a href="#vid-cat-kitchen"><i style="background:#9a2b2b"></i>厨房餐具与用具 <b>9</b></a><a href="#vid-cat-tools"><i style="background:#5f6b2e"></i>工具与器件 <b>3</b></a><a href="#vid-cat-environment"><i style="background:#4a6f7a"></i>室内环境 <b>4</b></a></div>
     
@@ -2110,6 +2371,7 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
     <a href="https://linbornrain.github.io/projects/3d-reconstruction/">← 返回项目页</a> ·
     <a href="https://linbornrain.github.io/projects/">全部项目</a> ·
     <a href="https://linbornrain.github.io/">个人主页</a>
+    <div class="f-mark" aria-hidden="true">3D-GEN</div>
   </footer>
 </div>
 
@@ -2384,5 +2646,55 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
   window.addEventListener('scroll', () => { btn.style.display = window.scrollY > 600 ? 'block' : 'none'; }, {passive: true});
   btn.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
 </script>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'dsh3dgen-theme';
+  function cur() { return root.dataset.theme || 'auto'; }
+  function eff() {
+    var m = cur();
+    if (m === 'light' || m === 'dark') return m;
+    return (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  function syncBtn() {
+    var b = document.getElementById('theme-toggle'); if (!b) return;
+    var t = eff() === 'dark' ? '当前为深色主题，点击切换' : '当前为浅色主题，点击切换';
+    b.title = t; b.setAttribute('aria-label', t);
+  }
+  function apply(mode) { root.dataset.theme = mode; try { localStorage.setItem(KEY, mode); } catch (e) {} syncBtn(); }
+  var btn = document.getElementById('theme-toggle');
+  if (btn) btn.addEventListener('click', function () {
+    apply({ auto: 'light', light: 'dark', dark: 'auto' }[cur()] || 'auto');
+  });
+  syncBtn();
+  /* 打印固定浅色（图片为浅色底），打完恢复 */
+  window.addEventListener('beforeprint', function () {
+    if (cur() === 'dark') { root.dataset.theme = 'light'; root.dataset.printRestore = '1'; }
+  });
+  window.addEventListener('afterprint', function () {
+    if (root.dataset.printRestore) { root.dataset.theme = 'dark'; delete root.dataset.printRestore; }
+  });
+  /* 吸顶目录阴影 */
+  var toc = document.getElementById('toc');
+  function onScroll() { if (toc) toc.classList.toggle('stuck', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  /* 首屏柔光指针视差 */
+  var hero = document.querySelector('header.hero');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hoverable = window.matchMedia && matchMedia('(hover: hover)').matches;
+  if (hero && !reduce && hoverable) {
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty('--px', ((e.clientX - r.left) / r.width - .5).toFixed(3));
+      hero.style.setProperty('--py', ((e.clientY - r.top) / r.height - .5).toFixed(3));
+    });
+    hero.addEventListener('pointerleave', function () {
+      hero.style.setProperty('--px', 0); hero.style.setProperty('--py', 0);
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
