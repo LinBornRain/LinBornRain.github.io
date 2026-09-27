@@ -254,21 +254,23 @@ button{font:inherit;color:inherit}
    两块等宽（55 开）后，590:344 与 540:604 的画幅差就会变成高度差，
    故统一用 6:5 视窗 + object-fit:cover 各自裁剪对齐：桌面取中心（三个物体都在中段），
    储物柜取上部（避免切掉柜顶）。框内只留一道外描边，圆角与外框共心（26 − 14 = 12）。 */
+.stage.cover{width:min(1700px,calc(100vw - 56px));margin-inline:calc((100% - min(1700px,calc(100vw - 56px))) / 2)}
 .stage.cover .stage-in{padding:14px;--rx:0deg}   /* 交互式对照必须轴对齐，取消 3D 倾斜 */
 .stage.cover .stage-in::after{display:none}
-.cover-grid{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+.cover-grid{display:grid;gap:14px;grid-template-columns:repeat(4,1fr)}
 .cover-item{display:flex;flex-direction:column}
-.cover-grid .compare{--x:50%;border:0;border-radius:12px;box-shadow:none;aspect-ratio:5/4}
+.cover-grid .compare{--x:50%;border:0;border-radius:12px;box-shadow:none;aspect-ratio:16/9}
 .cover-grid .compare>video{height:100%;object-fit:cover;object-position:50% 50%}
 .cover-item.crop-top video{object-position:50% 8%}
+.batch-item.cabinet-card .mq figure:nth-child(1) .compare>*, .batch-item.cabinet-card .mq figure:nth-child(2) .compare>*{object-position:50% 42%}
+.batch-item.chair-card .mq figure:nth-child(1) .compare>*, .batch-item.chair-card .mq figure:nth-child(2) .compare>*{object-position:50% 46%}
 .cover-grid .compare:focus-visible{outline-offset:3px}
-.cover-label{
-  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;max-width:none;
-  margin:12px 2px 2px;font-size:.82rem;line-height:1.5
-}
+.cover-label{display:flex;flex-direction:column;gap:2px;margin:9px 0 0;max-width:none;line-height:1.35}
 .cover-label b{font-weight:600;color:var(--ink-2);letter-spacing:-.005em}
 .cover-label span{font-family:var(--mono);font-size:.68rem;color:var(--faint);letter-spacing:.02em}
-@media (max-width:820px){ .cover-grid{grid-template-columns:1fr;gap:18px} }
+@media (max-width:1024px){ .cover-grid{grid-template-columns:repeat(2,1fr);gap:14px} }
+@media (max-width:1080px){ .stage.cover{width:100%;margin-inline:0} }
+@media (max-width:620px){ .cover-grid{grid-template-columns:1fr;gap:18px} }
 
 /* hero entrance choreography (progressive: only once JS is confirmed) */
 .js .hero .lede{animation:heroIn 1s var(--ease-out) .16s both}
@@ -490,6 +492,72 @@ hr{border:0;border-top:1px solid var(--line);margin:52px 0}
 .lc-go{margin-left:auto;font-size:.78rem;color:var(--muted);white-space:nowrap;transition:color .3s}
 .linkcard:hover .lc-go{color:var(--accent)}
 
+/* ── 结果总览：实例卡片列表（实例 A/B ＋ 批量 11 项） ─────────── */
+.batch-list{margin:24px 0 30px;display:grid;gap:12px}
+.batch-item{border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);
+  box-shadow:var(--shadow-1);overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.batch-item:hover{border-color:color-mix(in srgb,var(--accent) 22%,var(--line))}
+.batch-head{display:flex;align-items:baseline;gap:13px;padding:13px 18px;border-bottom:1px solid var(--line-2);
+  background:color-mix(in srgb,var(--ink) 2%,transparent)}
+.bi-k{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;color:var(--accent);flex:none;min-width:54px}
+.batch-item b{font-size:.98rem;color:var(--ink);font-weight:600}
+.bi-note{font-size:.8rem;color:var(--muted)}
+.bi-meta{margin-left:auto;font-family:var(--mono);font-size:.68rem;color:var(--faint);white-space:nowrap}
+.bi-go{font-size:.74rem;color:var(--faint);white-space:nowrap;font-family:var(--mono);letter-spacing:.06em}
+.batch-item .mq{margin:16px 18px 20px}
+/* ── 结果总览：一页一物体的横向滑动分页（四格证据＝一页） ────── */
+.ev-carousel{
+  position:relative;
+  width:min(1700px,calc(100vw - 56px));
+  margin-inline:calc((100% - min(1700px,calc(100vw - 56px))) / 2);
+  margin-top:26px;margin-bottom:30px;
+}
+.batch-track{
+  --per:2;align-items:flex-start;
+  display:flex;gap:26px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  overscroll-behavior-x:contain;scrollbar-width:thin;padding:2px 2px 10px;
+}
+.batch-track>.batch-item{
+  flex:0 0 calc((100% - (var(--per) - 1) * 26px) / var(--per));
+  scroll-snap-align:start;margin:0;
+}
+@media (max-width:1100px){ .batch-track{--per:1} }
+.batch-track .compare{touch-action:pan-y}
+@media (max-width:1080px){ .ev-carousel{width:100%;margin-inline:0} }
+.car-bar{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:12px;flex-wrap:wrap}
+.car-dots{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.car-dot{
+  width:9px;height:9px;padding:0;border-radius:999px;cursor:pointer;
+  border:1px solid color-mix(in srgb,var(--ink) 26%,transparent);background:transparent;
+  transition:background .22s var(--ease),border-color .22s var(--ease),transform .22s var(--ease);
+}
+.car-dot:hover{border-color:var(--accent);transform:scale(1.22)}
+.car-dot.active{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent)}
+.car-count{font-family:var(--mono);font-size:.7rem;color:var(--faint);letter-spacing:.06em;white-space:nowrap}
+.car-btn{
+  position:absolute;top:calc(50% - 14px);transform:translateY(-50%);z-index:3;
+  width:44px;height:44px;border-radius:50%;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
+  font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-2);opacity:.86;
+  transition:opacity .22s var(--ease),transform .22s var(--ease),color .22s var(--ease),
+             border-color .22s var(--ease),background .22s var(--ease);
+}
+.ev-carousel:hover .car-btn{opacity:1}
+.car-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--bg-2);transform:translateY(-50%) scale(1.07)}
+.car-btn:active{transform:translateY(-50%) scale(.95)}
+.car-prev{left:-14px}
+.car-next{right:-14px}
+@media (hover:none){ .car-btn{opacity:1} }
+@media (max-width:860px){ .car-prev{left:2px} .car-next{right:2px} }
+figure.bfig{counter-increment:none}
+figure.bfig figcaption::before{content:none}
+.mq.batch figure:nth-child(1) .compare,.mq.batch figure:nth-child(2) .compare{
+  aspect-ratio:var(--b-ar,16/9);max-height:460px;background:#15171a}
+.mq.batch .compare>video,.mq.batch .compare>img{height:100%;object-fit:cover}
+.mq.batch .frm video{height:100%;object-fit:contain;background:#15171a}
+@media (max-width:900px){ .bi-note,.bi-meta{display:none} }
+
 /* ── 三部分导览 ─────────────────────────────────────────────── */
 .parts{display:grid;gap:14px;grid-template-columns:repeat(3,1fr);margin:28px 0 34px}
 @media (max-width:900px){ .parts{grid-template-columns:1fr} }
@@ -523,6 +591,8 @@ hr{border:0;border-top:1px solid var(--line);margin:52px 0}
 }
 .compare img{width:100%;display:block;pointer-events:none}
 .compare .c-top{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--x)) 0 0);will-change:clip-path}
+/* 拖动对照：两层媒体必须完全同框同缩放（否则 base/top 会各自按自然尺寸排布） */
+.compare>.c-base,.compare>.c-under,.compare .c-top>*{display:block;width:100%;height:100%;object-fit:cover}
 .compare .c-top img{height:100%;object-fit:cover}
 .c-bar{position:absolute;top:0;bottom:0;left:var(--x);width:2px;background:#fff;box-shadow:0 0 14px rgba(0,0,0,.5);transform:translateX(-1px)}
 .c-knob{
@@ -541,7 +611,7 @@ hr{border:0;border-top:1px solid var(--line);margin:52px 0}
 .compare.tall{max-width:540px;margin:0 auto}
 /* video variant: two frame-aligned videos under the same drag mechanics */
 .compare video{width:100%;display:block;pointer-events:none}
-.compare .c-top video{height:100%;object-fit:cover}
+.compare .c-top video{width:100%;height:100%;object-fit:cover}
 .c-play{
   position:absolute;right:13px;bottom:13px;z-index:2;width:42px;height:42px;border-radius:50%;
   display:grid;place-items:center;cursor:pointer;border:1px solid rgba(255,255,255,.22);
@@ -619,6 +689,16 @@ figure.tfig .tw{margin:0}
    统一取景框；多余部分用视频自身的近黑底 letterbox，不裁切内容。 */
 .mq.desk{--mq-ar-1:16/9;      --mq-ar-2:1360/900}
 .mq.cabinet{--mq-ar-1:540/604; --mq-ar-2:1440/900}
+/* 结果总览：所有实例的四格统一 16/9 —— ①② cover 裁切填满，③④ contain 深底 */
+.batch-item .mq{--mq-ar-1:16/9;--mq-ar-2:16/9;align-items:stretch}
+.batch-item .mq figure:nth-child(1) .compare,
+.batch-item .mq figure:nth-child(2) .compare{aspect-ratio:16/9;background:transparent}
+.batch-item .mq figure:nth-child(1) .compare>*,
+.batch-item .mq figure:nth-child(2) .compare>*{object-fit:cover}
+.batch-item .mq figure:nth-child(3) .frm,
+.batch-item .mq figure:nth-child(4) .frm{aspect-ratio:16/9;background:#15171a}
+.batch-item .mq figure:nth-child(3) .frm video,
+.batch-item .mq figure:nth-child(4) .frm video{height:100%;object-fit:contain;background:#15171a}
 .mq figure:nth-child(1) .compare,
 .mq figure:nth-child(2) .compare{aspect-ratio:var(--mq-ar-1)}
 .mq figure:nth-child(3) .frm,
@@ -958,10 +1038,10 @@ footer{padding-top:clamp(52px,7vw,88px)}
           </div>
             <p class="cover-label"><b>桌面三物体</b><span>223 帧 · 30 fps · 7.43 s</span></p>
           </div>
-          <div class="cover-item crop-top">
-          <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="储物柜：原片与 Newton 回放拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-            <video class="c-base" src="assets/compare/cabinet-video-newton.mp4" poster="assets/compare/cabinet-video-newton.jpg" width="540" height="604" muted loop playsinline preload="auto"></video>
-            <div class="c-top"><video src="assets/compare/cabinet-video-source.mp4" poster="assets/compare/cabinet-video-source.jpg" width="540" height="604" muted loop playsinline preload="auto"></video></div>
+                    <div class="cover-item">
+          <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="牛顿摆：原片与 Newton 回放拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <video class="c-base" src="assets/batch/b010/compare-video-newton.mp4" poster="assets/batch/b010/compare-newton.jpg" width="1920" height="1080" muted loop playsinline preload="auto"></video>
+            <div class="c-top"><video src="assets/batch/b010/compare-video-source.mp4" poster="assets/batch/b010/compare-source.jpg" width="1920" height="1080" muted loop playsinline preload="auto"></video></div>
             <span class="c-tag a">原片</span>
             <span class="c-tag b">Newton 回放</span>
             <div class="c-bar"></div>
@@ -969,7 +1049,33 @@ footer{padding-top:clamp(52px,7vw,88px)}
             <span class="c-live">playing</span>
             <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
           </div>
-            <p class="cover-label"><b>储物柜 item_001</b><span>221 帧 · 59.95 fps · 3.69 s</span></p>
+            <p class="cover-label"><b>牛顿摆</b><span>218 帧 · 30 fps · 7.27 s</span></p>
+          </div>
+          <div class="cover-item">
+          <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="果汁箱与果汁瓶：原片与 Newton 回放拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <video class="c-base" src="assets/batch/item002_juice/compare-video-newton.mp4" poster="assets/batch/item002_juice/compare-newton.jpg" width="960" height="562" muted loop playsinline preload="auto"></video>
+            <div class="c-top"><video src="assets/batch/item002_juice/compare-video-source.mp4" poster="assets/batch/item002_juice/compare-source.jpg" width="960" height="562" muted loop playsinline preload="auto"></video></div>
+            <span class="c-tag a">原片</span>
+            <span class="c-tag b">Newton 回放</span>
+            <div class="c-bar"></div>
+            <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+            <span class="c-live">playing</span>
+            <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+          </div>
+            <p class="cover-label"><b>果汁箱与果汁瓶</b><span>607 帧 · 59.97 fps · 10.12 s</span></p>
+          </div>
+          <div class="cover-item">
+          <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="绞肉机：原片与 Newton 回放拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <video class="c-base" src="assets/batch/b001/compare-video-newton.mp4" poster="assets/batch/b001/compare-newton.jpg" width="960" height="540" muted loop playsinline preload="auto"></video>
+            <div class="c-top"><video src="assets/batch/b001/compare-video-source.mp4" poster="assets/batch/b001/compare-source.jpg" width="960" height="540" muted loop playsinline preload="auto"></video></div>
+            <span class="c-tag a">原片</span>
+            <span class="c-tag b">Newton 回放</span>
+            <div class="c-bar"></div>
+            <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+            <span class="c-live">playing</span>
+            <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+          </div>
+            <p class="cover-label"><b>绞肉机</b><span>713 帧 · 30 fps · 23.77 s</span></p>
           </div>
         </div>
       </div>
@@ -985,12 +1091,22 @@ footer{padding-top:clamp(52px,7vw,88px)}
   <div class="s-head" data-reveal>
     <span class="s-num">01</span>
     <h2>结果总览</h2>
-    <p class="s-sub">先看结果，再看方法。两个实例、同一套四件套证据：<b>4D 视频拖动对照 · 3D 建模拖动对照 · 特征点轨迹 · 点云与相机轨迹</b>。</p>
+    <p class="s-sub">先看结果，再看方法。两个头部实例 ＋ 11 项批量交付，同一套四格证据：<b>4D 视频拖动对照 · 3D 建模拖动对照 · 特征点轨迹 · 点云与相机轨迹</b>。</p>
   </div>
 
-  <h3 data-reveal>1.1 桌面三物体</h3>
-  <p class="spec-line" data-reveal>223 帧 · 30 fps · 7.43 s ｜ 源面板 590×332 ｜ 相机 f = 850 源像素、主点 (295, 166) ｜ 杯形 8 参数<br>杯口内缘 1,637 观测 / 209 帧 ｜ 静态纹理 271 条 · 36,062 观测（留出 54 条，残差 0.180 源像素/帧）</p>
-  <div class="mq desk" data-reveal>
+  <p data-reveal class="lead">本节把 13 项结果并成一节：前两项（桌面三物体、储物柜 item_001）是逐格展开的头部实例，其余 11 项来自批量交付。每项都给出同一套四格证据——<b>4D 视频拖动对照 · 3D 建模拖动对照 · 实拍-仿真·特征及轨迹 · 点云与相机轨迹</b>；帧数、时长与逐项说明以各自交付目录为准。</p>
+
+  <div class="ev-carousel" data-carousel>
+    <div class="batch-track" data-track>
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">实例 A</span>
+      <b>桌面三物体</b>
+      <span class="bi-note">推文视频 · 瓶／杯／盒</span>
+      <span class="bi-meta">223 帧 · 30 fps · 7.43 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+  <div class="mq desk">
     <figure>
       <p class="mq-label">4D · 视频拖动对照</p>
       <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="桌面原片与 Newton 回放视频对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
@@ -1028,12 +1144,20 @@ footer{padding-top:clamp(52px,7vw,88px)}
       <figcaption>模型表面采样 7,200 点与稀疏特征 271 点分色显示，叠加相机中心轨迹与视锥；<a href="assets/v5-pointcloud-camera.html" target="_blank" rel="noopener">交互式三维视图 ↗</a></figcaption>
     </figure>
   </div>
+    
 
-  <h3 data-reveal>1.2 储物柜 item_001</h3>
-  <p class="spec-line" data-reveal>221 帧 · 59.95 fps · 3.69 s ｜ 1080×1920 竖屏 ｜ 相机做 SE(3) 三次样条修正 ｜ 静态点留出 20%<br>柜体 182 个封闭网格固定 ｜ 装配校正 +14.97 mm ｜ 关闭段源帧 0–99 / 204–220 ｜ 门角 C² 样条，最大拟合开角 73.153°</p>
-  <p data-reveal>一段 221 帧的竖屏交互视频（1080×1920，平均 59.95 fps，约 3.69 秒），记录左门<strong>关闭 → 打开 → 关闭</strong>的完整动作，配合一份已建好的柜体模型。解码处理了 MOV 的 −90° 显示旋转；尺度由 0.8 m 柜宽与焦距先验固定；建模目录里的旧力矩演示<strong>没有作为拟合观测</strong>。</p>
+    </div>
 
-  <div class="mq cabinet" data-reveal>
+  <div class="batch-item cabinet-card">
+    <div class="batch-head">
+      <span class="bi-k">实例 B</span>
+      <b>储物柜 item_001</b>
+      <span class="bi-note">竖屏交互视频 · 双门柜</span>
+      <span class="bi-meta">221 帧 · 59.95 fps · 3.69 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+  
+  <div class="mq cabinet">
     <figure>
       <p class="mq-label">4D · 视频拖动对照</p>
       <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="储物柜原片与 Newton 回放视频对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
@@ -1051,8 +1175,8 @@ footer{padding-top:clamp(52px,7vw,88px)}
     <figure>
       <p class="mq-label">3D · 建模拖动对照</p>
       <div class="compare" data-compare tabindex="0" role="slider" aria-label="储物柜第 147 帧原片与 Newton 建模对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-        <img class="c-base" src="assets/compare/cabinet-newton.png" width="540" height="605" alt="Newton 渲染">
-        <div class="c-top"><img src="assets/compare/cabinet-source.jpg" width="540" height="605" alt="原片"></div>
+        <img class="c-base" src="assets/compare/cabinet-newton.jpg" width="540" height="304" alt="Newton 渲染">
+        <div class="c-top"><img src="assets/compare/cabinet-source.jpg" width="540" height="304" alt="原片"></div>
         <span class="c-tag a">原片</span>
         <span class="c-tag b">Newton 渲染</span>
         <div class="c-bar"></div>
@@ -1070,6 +1194,545 @@ footer{padding-top:clamp(52px,7vw,88px)}
       <div class="frm"><video src="outputs/cabinet_item001/pointcloud_camera.mp4" poster="assets/posters/cabinet-pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
       <figcaption>11,500 个模型表面采样点随铰链运动，叠加相机中心轨迹与视锥。</figcaption>
     </figure>
+  </div>
+    
+
+    </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">q/002</span>
+      <b>果汁箱与果汁瓶</b>
+      <span class="bi-note">纸箱开合 · 瓶体位姿</span>
+      <span class="bi-meta">607 帧 · 59.97 fps · 10.12 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="果汁箱与果汁瓶：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/item002_juice/compare-video-newton.mp4" poster="assets/batch/item002_juice/compare-newton.jpg" width="960" height="562" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/item002_juice/compare-video-source.mp4" poster="assets/batch/item002_juice/compare-source.jpg" width="960" height="562" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>607 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="果汁箱与果汁瓶：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/item002_juice/compare-newton.jpg" width="960" height="562" alt="果汁箱与果汁瓶 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/item002_juice/compare-source.jpg" width="960" height="562" alt="果汁箱与果汁瓶 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 拟合模型的轮廓投影（红=模型轮廓、绿=观测点），两者使用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/item002_juice/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/item002_juice/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/item002_juice/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/item002_juice/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item chair-card">
+    <div class="batch-head">
+      <span class="bi-k">q/004</span>
+      <b>升降椅</b>
+      <span class="bi-note">坐人后椅壳遮挡</span>
+      <span class="bi-meta">326 帧 · 30.00 fps · 10.87 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="升降椅：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/q004/compare-video-newton.mp4" poster="assets/batch/q004/compare-newton.jpg" width="404" height="390" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/q004/compare-video-source.mp4" poster="assets/batch/q004/compare-source.jpg" width="404" height="390" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>326 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="升降椅：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/q004/compare-fit.jpg" width="540" height="304" alt="升降椅 在同一帧上的模型轮廓拟合叠加" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/q004/compare-source.jpg" width="540" height="304" alt="升降椅 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型轮廓</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 该帧上的模型轮廓拟合（红=模型轮廓、绿=观测点）——该实例的 Newton 回放渲染为特写视角，改用拟合叠加才能保证两侧同框同尺度。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="assets/batch/q004/feature169.mp4" poster="assets/batch/q004/feature169.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/q004/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/q004/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">q/010</span>
+      <b>刀与刀鞘</b>
+      <span class="bi-note">轴向点约束 · 接合先验</span>
+      <span class="bi-meta">258 帧 · 23.98 fps · 10.76 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="刀与刀鞘：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/q010/compare-video-newton.mp4" poster="assets/batch/q010/compare-newton.jpg" width="960" height="540" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/q010/compare-video-source.mp4" poster="assets/batch/q010/compare-source.jpg" width="960" height="540" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>258 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="刀与刀鞘：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/q010/compare-newton.jpg" width="960" height="540" alt="刀与刀鞘 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/q010/compare-source.jpg" width="960" height="540" alt="刀与刀鞘 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 模型渲染，用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/q010/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/q010/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/q010/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/q010/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">q/026</span>
+      <b>罐装薯片</b>
+      <span class="bi-note">罐身纹理 · 盖缘约束</span>
+      <span class="bi-meta">384 帧 · 23.98 fps · 16.01 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="罐装薯片：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/q026/compare-video-newton.mp4" poster="assets/batch/q026/compare-newton.jpg" width="960" height="540" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/q026/compare-video-source.mp4" poster="assets/batch/q026/compare-source.jpg" width="960" height="540" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>384 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="罐装薯片：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/q026/compare-newton.jpg" width="960" height="540" alt="罐装薯片 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/q026/compare-source.jpg" width="960" height="540" alt="罐装薯片 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 模型渲染，用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/q026/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/q026/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/q026/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/q026/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">q/032</span>
+      <b>炒锅与锅盖</b>
+      <span class="bi-note">锅体与盖独立运动</span>
+      <span class="bi-meta">342 帧 · 23.98 fps · 14.26 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="炒锅与锅盖：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/q032/compare-video-newton.mp4" poster="assets/batch/q032/compare-newton.jpg" width="960" height="540" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/q032/compare-video-source.mp4" poster="assets/batch/q032/compare-source.jpg" width="960" height="540" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>342 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="炒锅与锅盖：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/q032/compare-newton.jpg" width="960" height="540" alt="炒锅与锅盖 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/q032/compare-source.jpg" width="960" height="540" alt="炒锅与锅盖 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 模型渲染，用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/q032/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/q032/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/q032/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/q032/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">qB/001</span>
+      <b>绞肉机</b>
+      <span class="bi-note">电机/盖/刀轴拆装</span>
+      <span class="bi-meta">713 帧 · 30.00 fps · 23.77 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="绞肉机：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/b001/compare-video-newton.mp4" poster="assets/batch/b001/compare-newton.jpg" width="960" height="540" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/b001/compare-video-source.mp4" poster="assets/batch/b001/compare-source.jpg" width="960" height="540" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>713 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="绞肉机：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/b001/compare-newton.jpg" width="960" height="540" alt="绞肉机 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/b001/compare-source.jpg" width="960" height="540" alt="绞肉机 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 模型渲染，用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/b001/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/b001/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/b001/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/b001/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">qB/003</span>
+      <b>脚踏垃圾桶</b>
+      <span class="bi-note">桶盖/踏板/内桶</span>
+      <span class="bi-meta">903 帧 · 60.00 fps · 15.05 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="脚踏垃圾桶：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/b003/compare-video-newton.mp4" poster="assets/batch/b003/compare-newton.jpg" width="960" height="540" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/b003/compare-video-source.mp4" poster="assets/batch/b003/compare-source.jpg" width="960" height="540" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>903 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="脚踏垃圾桶：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/b003/compare-newton.jpg" width="960" height="540" alt="脚踏垃圾桶 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/b003/compare-source.jpg" width="960" height="540" alt="脚踏垃圾桶 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 模型渲染，用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/b003/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/b003/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/b003/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/b003/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">qB/011</span>
+      <b>防静电小推车</b>
+      <span class="bi-note">台面四角＋地面纹理</span>
+      <span class="bi-meta">261 帧 · 59.98 fps · 4.35 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="防静电小推车：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/b011/compare-video-newton.mp4" poster="assets/batch/b011/compare-newton.jpg" width="960" height="540" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/b011/compare-video-source.mp4" poster="assets/batch/b011/compare-source.jpg" width="960" height="540" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>261 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="防静电小推车：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/b011/compare-newton.jpg" width="960" height="540" alt="防静电小推车 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/b011/compare-source.jpg" width="960" height="540" alt="防静电小推车 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 模型渲染，用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/b011/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/b011/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l3_batch/b011/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/b011/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">q/025</span>
+      <b>薯片袋</b>
+      <span class="bi-note">非刚性 · 轮廓驱动 2.5D</span>
+      <span class="bi-meta">204 帧 · 23.98 fps · 8.51 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="薯片袋：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/q025/compare-video-newton.mp4" poster="assets/batch/q025/compare-newton.jpg" width="960" height="540" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/q025/compare-video-source.mp4" poster="assets/batch/q025/compare-source.jpg" width="960" height="540" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>204 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="薯片袋：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/q025/compare-newton.jpg" width="960" height="540" alt="薯片袋 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/q025/compare-source.jpg" width="960" height="540" alt="薯片袋 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 模型渲染，用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/l4_batch/q025/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/q025/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l4_batch/q025/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/q025/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">q/027</span>
+      <b>酸菜鱼调味料</b>
+      <span class="bi-note">软袋形变 ＋ 刚体</span>
+      <span class="bi-meta">348 帧 · 23.98 fps · 14.51 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="酸菜鱼调味料：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/q027/compare-video-newton.mp4" poster="assets/batch/q027/compare-newton.jpg" width="960" height="540" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/q027/compare-video-source.mp4" poster="assets/batch/q027/compare-source.jpg" width="960" height="540" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>348 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="酸菜鱼调味料：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/q027/compare-newton.jpg" width="960" height="540" alt="酸菜鱼调味料 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/q027/compare-source.jpg" width="960" height="540" alt="酸菜鱼调味料 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 模型渲染，用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/l4_batch/q027/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/q027/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l4_batch/q027/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/q027/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="batch-item">
+    <div class="batch-head">
+      <span class="bi-k">qB/010</span>
+      <b>牛顿摆</b>
+      <span class="bi-note">多刚体快速运动</span>
+      <span class="bi-meta">218 帧 · 30.00 fps · 7.27 s</span>
+      <span class="bi-go">四格证据</span>
+    </div>
+    <div class="mq batch">
+      <figure class="bfig">
+        <p class="mq-label">4D · 视频拖动对照</p>
+        <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="牛顿摆：实拍与 Newton 回放视频拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="c-base" src="assets/batch/b010/compare-video-newton.mp4" poster="assets/batch/b010/compare-newton.jpg" width="1920" height="1080" muted loop playsinline preload="none"></video>
+          <div class="c-top"><video src="assets/batch/b010/compare-video-source.mp4" poster="assets/batch/b010/compare-source.jpg" width="1920" height="1080" muted loop playsinline preload="none"></video></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">Newton 回放</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="c-live">playing</span>
+          <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+        </div>
+        <figcaption>218 帧逐帧拖动对照：左「实拍」右「Newton 回放」，两侧同序号、同高度，取自该实例的并排对照视频。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">3D · 建模拖动对照</p>
+        <div class="compare" data-compare tabindex="0" role="slider" aria-label="牛顿摆：实拍与模型静态拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img class="c-base" src="assets/batch/b010/compare-newton.jpg" width="1920" height="1080" alt="牛顿摆 的模型渲染静帧" loading="lazy" decoding="async">
+          <div class="c-top"><img src="assets/batch/b010/compare-source.jpg" width="1920" height="1080" alt="牛顿摆 的实拍静帧" loading="lazy" decoding="async"></div>
+          <span class="c-tag a">实拍</span>
+          <span class="c-tag b">模型</span>
+          <div class="c-bar"></div>
+          <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        </div>
+        <figcaption>同一帧的两半：实拍静帧 vs 模型渲染，用同一套相机与部件位姿。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">实拍-仿真 · 特征及轨迹</p>
+        <div class="frm"><video src="outputs/l5_batch/b010/diagnostics_v5/feature_comparison.mp4" poster="assets/batch/b010/feature.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>左实拍、右仿真逐帧并排：观测按类别着色（静态拟合／留出／人工锚点等），缺失不伪造、轨迹不横跨缺失段。</figcaption>
+      </figure>
+      <figure class="bfig">
+        <p class="mq-label">点云与相机轨迹</p>
+        <div class="frm"><video src="outputs/l5_batch/b010/diagnostics_v5/pointcloud_camera.mp4" poster="assets/batch/b010/pointcloud.jpg" controls muted loop playsinline preload="none"></video></div>
+        <figcaption>模型表面采样点云（按部件分色）＋ 相机位置与朝向轨迹。点云为模型采样，非传感器深度扫描。</figcaption>
+      </figure>
+    </div>
+  </div>
+    </div>
+    <div class="car-bar">
+      <div class="car-dots" data-dots></div>
+      <span class="car-count" data-pagecount></span>
+    </div>
+    <button class="car-btn car-prev" data-prev type="button" aria-label="上一个物体">&#8249;</button>
+    <button class="car-btn car-next" data-next type="button" aria-label="下一个物体">&#8250;</button>
   </div>
 </div>
 </section>
@@ -1631,11 +2294,9 @@ footer{padding-top:clamp(52px,7vw,88px)}
   });
 
   /* ── scroll spy ────────────────────────────────────────── */
-  /* 只把页内锚点（#…）纳入滚动高亮：导航里可能还有站外/站内非锚点链接，
-     直接拿 href 当选择器会抛 SyntaxError 并中断整段脚本 */
   var links = $$('#navlinks a').filter(function(a){
-    var h = a.getAttribute('href') || '';
-    return h.charAt(0) === '#' && h.length > 1;
+    var href = a.getAttribute('href') || '';
+    return href.charAt(0) === '#' && href.length > 1;   /* 跳过站外/外链，避免 querySelector 抛错 */
   });
   var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
   if (secs.length && 'IntersectionObserver' in window){
@@ -1825,6 +2486,56 @@ footer{padding-top:clamp(52px,7vw,88px)}
       }, {threshold:.25});
       vio.observe(box);
     }
+  });
+
+  /* ── 结果总览：一页一物体的横向滑动分页 ───────────────── */
+  $$('[data-carousel]').forEach(function(root){
+    var track = $('[data-track]', root), items = $$('.batch-item', track);
+    var dotsEl = $('[data-dots]', root), countEl = $('[data-pagecount]', root);
+    var prev = $('[data-prev]', root), next = $('[data-next]', root);
+    if (!track || !items.length || !dotsEl) return;
+    function per(){ var v = parseInt(getComputedStyle(track).getPropertyValue('--per'), 10); return (v > 0) ? v : 1; }
+    function step(){
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return items[0].getBoundingClientRect().width + gap;
+    }
+    function positions(){ return Math.max(1, items.length - per() + 1); }
+    function current(){ return Math.min(positions() - 1, Math.max(0, Math.round(track.scrollLeft / step()))); }
+    function go(k){
+      k = Math.max(0, Math.min(positions() - 1, k));
+      track.scrollTo({left: k * step(), behavior: reduce ? 'auto' : 'smooth'});
+    }
+    function render(){
+      var pos = positions(), cur = current(), k;
+      dotsEl.textContent = '';
+      for (k = 0; k < pos; k++){
+        (function(k){
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'car-dot' + (k === cur ? ' active' : '');
+          b.setAttribute('aria-label', '第 ' + (k + 1) + ' 个物体');
+          b.addEventListener('click', function(){ go(k); });
+          dotsEl.appendChild(b);
+        })(k);
+      }
+      if (countEl) countEl.textContent = (cur + 1) + ' / ' + pos;
+      var ov = track.scrollWidth > track.clientWidth + 4;
+      prev.style.display = ov ? '' : 'none';
+      next.style.display = ov ? '' : 'none';
+      dotsEl.style.display = ov ? '' : 'none';
+      if (countEl) countEl.style.display = ov ? '' : 'none';
+    }
+    prev.addEventListener('click', function(){ go(current() - 1); });
+    next.addEventListener('click', function(){ go(current() + 1); });
+    var st;
+    track.addEventListener('scroll', function(){ clearTimeout(st); st = setTimeout(render, 80); }, {passive:true});
+    window.addEventListener('resize', render);
+    root.tabIndex = 0;
+    root.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight'){ go(current() + 1); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft'){ go(current() - 1); e.preventDefault(); }
+    });
+    render();
   });
 
 })();
