@@ -265,6 +265,10 @@ button{font:inherit;color:inherit}
 .batch-item.cabinet-card .mq figure:nth-child(1) .compare>*, .batch-item.cabinet-card .mq figure:nth-child(2) .compare>*{object-position:50% 42%}
 .batch-item.chair-card .mq figure:nth-child(1) .compare>*, .batch-item.chair-card .mq figure:nth-child(2) .compare>*{object-position:50% 46%}
 .cover-grid .compare:focus-visible{outline-offset:3px}
+.cover-grid .cover-item.wide{grid-column:span 2}
+.cover-grid .frm{aspect-ratio:5/2;background:#15171a}
+.cover-grid .frm video{display:block;width:100%;height:100%;object-fit:contain;background:#15171a}
+@media (max-width:1080px){.cover-grid .cover-item.wide{grid-column:auto}}
 .cover-label{display:flex;flex-direction:column;gap:2px;margin:9px 0 0;max-width:none;line-height:1.35}
 .cover-label b{font-weight:600;color:var(--ink-2);letter-spacing:-.005em}
 .cover-label span{font-family:var(--mono);font-size:.68rem;color:var(--faint);letter-spacing:.02em}
@@ -537,14 +541,15 @@ hr{border:0;border-top:1px solid var(--line);margin:52px 0}
 .car-btn{
   position:absolute;top:calc(50% - 14px);transform:translateY(-50%);z-index:3;
   width:44px;height:44px;border-radius:50%;cursor:pointer;
-  border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);
+  border:1px solid transparent;background:color-mix(in srgb, var(--accent) 84%, #000);color:#fff;
   font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;
   box-shadow:var(--shadow-2);opacity:.86;
   transition:opacity .22s var(--ease),transform .22s var(--ease),color .22s var(--ease),
              border-color .22s var(--ease),background .22s var(--ease);
 }
 .ev-carousel:hover .car-btn{opacity:1}
-.car-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--bg-2);transform:translateY(-50%) scale(1.07)}
+[data-theme="dark"] .car-btn{background:color-mix(in srgb, var(--accent) 62%, #0a0b10);color:#fff}
+.car-btn:hover{color:#fff;border-color:transparent;background:var(--accent);transform:translateY(-50%) scale(1.07)}
 .car-btn:active{transform:translateY(-50%) scale(.95)}
 .car-prev{left:-14px}
 .car-next{right:-14px}
@@ -705,6 +710,7 @@ figure.tfig .tw{margin:0}
 .mq figure:nth-child(4) .frm{aspect-ratio:var(--mq-ar-2);background:#15171a}
 .mq .compare>video{height:100%;object-fit:cover}
 .mq .frm video{height:100%;object-fit:contain;background:#15171a}
+.mq .frm img{display:block;width:100%;height:100%;object-fit:contain;background:#15171a}
 
 /* ── diagrams (hand-built SVG figures) ─────────────────────── */
 .diagram{
@@ -988,7 +994,7 @@ footer{padding-top:clamp(52px,7vw,88px)}
     <div class="nav-links" id="navlinks">
       <a href="https://linbornrain.github.io/projects/">← 项目页</a>
       <a href="#s1">结果</a><a href="#s2">思路</a><a href="#s3">相机</a>
-      <a href="#s4">几何</a><a href="#s5">4D</a><a href="#s6">边界</a>
+      <a href="#s4">几何</a><a href="#s5">4D</a><a href="#s6">交互</a><a href="#s7">边界</a>
     </div>
     <button class="tbtn" id="theme" title="切换主题" aria-label="切换主题">
       <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
@@ -1076,6 +1082,14 @@ footer{padding-top:clamp(52px,7vw,88px)}
             <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
           </div>
             <p class="cover-label"><b>绞肉机</b><span>713 帧 · 30 fps · 23.77 s</span></p>
+          </div>
+          <div class="cover-item wide">
+            <div class="frm"><video src="outputs/hamer_interactions/cabinet/temporal/comparison.mp4" poster="assets/recent/cab-temporal.jpg" controls muted loop playsinline preload="none"></video></div>
+            <div class="cover-label"><b>储物柜：手部＋物体 4D 回放</b><span>原始逐帧 ｜ 优化投影 ｜ Newton 输出</span></div>
+          </div>
+          <div class="cover-item wide">
+            <div class="frm"><video src="outputs/cabinet_item001/piper_contact/piper_physical_final/materials_v3_matched_camera/piper_interaction.mp4" poster="assets/recent/piper-matched.jpg" controls muted loop playsinline preload="none"></video></div>
+            <div class="cover-label"><b>Piper 机械臂：闭环抓拉柜门</b><span>实拍参照 ｜ 完整机械臂 ｜ 抓持局部</span></div>
           </div>
         </div>
       </div>
@@ -2103,10 +2117,113 @@ footer{padding-top:clamp(52px,7vw,88px)}
 </section>
 
 <!-- ══════════════ 06 ══════════════ -->
-<section class="band tint" id="s6">
+<section class="band" id="s6">
 <div class="wrap">
   <div class="s-head" data-reveal>
     <span class="s-num">06</span>
+    <h2>从运动学回放到接触交互</h2>
+    <p class="s-sub">三段递进：<b>① 手部 4D 识别</b> · <b>② 可微分物理参数优化</b> · <b>③ 仿真机械臂交互（Piper）</b>。它们都建立在同一套相机与物体 4D 结果之上，逐段把"看起来一致"推向"受力一致"。</p>
+  </div>
+  <p data-reveal>前面几章解的是"物体怎么动"。这一章解三个后续问题：手在同一场景里怎么动（①）、物体会不会因为受力而以同样的方式动（②）、以及把代理手指换成一整套真实机构后还能不能动（③）。三段的证据形式一致：对照视频与曲线，加一段明确写出未通过项的边界说明。</p>
+
+  <h3 data-reveal>6.1 手部 4D 识别与时序优化</h3>
+  <p data-reveal>物体链路之外，手也需要在同一套场景相机下被重建。先逐帧推理手部参数（HaMeR 权重 + MANO 手模型），再把共享手形与腕部／关节轨迹放进同一条可微链做时序优化：相机沿用物体重建结果<strong>固定不重解</strong>，手部改用它投影，<strong>优化的是 MANO 姿态、共享形状与世界轨迹，而不是导出网格后的平滑</strong>。下面两段视频各以三栏对照——原始逐帧估计、优化后投影、Newton 实际输出。</p>
+  <div class="mq">
+    <figure>
+      <p class="mq-label">4D · 推文握杯 · 时序优化三栏（原始逐帧 ｜ 优化投影 ｜ Newton 回放）</p>
+      <div class="frm" style="aspect-ratio:5/2"><video src="outputs/hamer_interactions/tweet/temporal/comparison.mp4" poster="assets/recent/tweet-temporal.jpg" controls muted loop playsinline preload="none"></video></div>
+      <figcaption>左为逐帧 HaMeR 的原始估计，中为优化后投影，右为 Newton 的实际输出。优化把关节加速度 RMS 从 8.07 降到 1.13 m/s²，伪观测重投影残差中位数 2.14 px。</figcaption>
+    </figure>
+    <figure>
+      <p class="mq-label">4D · 储物柜交互 · 时序优化三栏（原始逐帧 ｜ 优化投影 ｜ Newton 回放）</p>
+      <div class="frm" style="aspect-ratio:5/2"><video src="outputs/hamer_interactions/cabinet/temporal/comparison.mp4" poster="assets/recent/cab-temporal.jpg" controls muted loop playsinline preload="none"></video></div>
+      <figcaption>储物柜同理：关节加速度 RMS 从 25.74 降到 1.96 m/s²，重投影残差中位数 1.72 px；第 32 帧起入画，有效输出 189 帧。</figcaption>
+    </figure>
+    <figure>
+      <p class="mq-label">4D · 手部物理接触抓拉（实拍 ｜ 4D 重建 ｜ 物理接触）</p>
+      <div class="frm" style="aspect-ratio:5/2"><video src="outputs/cabinet_item001/physical_match/hand_pinch_v2/comparison.mp4" poster="assets/recent/pinch-v2.jpg" controls muted loop playsinline preload="none"></video></div>
+      <figcaption>把重建的拇指／食指中点当作参考驱动两个动态指尖，指尖与把手之间的接触力和摩擦真正推动柜门——不设角度执行器、不回放角度。双指在运动期间保持接触，最大穿透 0.6 mm；门角 RMSE 2.84°、峰值 75.98°（参照 73.15°），阻尼沿用资产先验，尚未做参数辨识。</figcaption>
+    </figure>
+    <figure>
+      <p class="mq-label">3D · 门角曲线：4D 参照 ｜ 手轨迹＋实际接触反馈 ｜ 关闭接触</p>
+      <div class="frm" style="aspect-ratio:5/2;background:var(--bg-2)"><img src="outputs/cabinet_item001/physical_match/hand_pinch_v2/curve_fit_comparison.png" alt="储物柜门角曲线：4D 参照与手轨迹加实际接触反馈对比，关闭手—门接触时柜门保持零度" loading="lazy" decoding="async" style="background:transparent"></div>
+      <figcaption>三条曲线：<b>4D 重建的门角参照</b>（虚线）、<b>本版手轨迹驱动下的实际接触反馈</b>（实线，峰值 75.98°）、<b>关闭手—门接触后的结果</b>（点划线，全程 0°）；阴影为抓握与主要运动区间。</figcaption>
+    </figure>
+  </div>
+
+  <blockquote data-reveal>
+    <p><b>阶段性里程碑。</b>图 12 是分水岭：在此之前手与物体各自按重建轨迹回放、彼此没有力学联系；从这里开始柜门由接触力推动（这一步门角 RMSE 2.84°，6.2 才收紧到 0.335°）。但本节仍属<strong>手部 4D 识别与时序拟合</strong>，不是接触交互：HaMeR 关节是伪观测而非真值，遮挡处手指由模型推断，抓握起点是人工先验，手部参数未与物体损失联合求解，也没有手—物碰撞与遮挡处理；加速度下降只说明抖动减少，不等于姿态更准。</p>
+  </blockquote>
+
+  <h3 data-reveal>6.2 可微分物理参数优化</h3>
+  <p data-reveal>要让"仿真像实物"从外观一致走到<strong>受力一致</strong>：柜门不再回放重建角度，而是由接触力驱动；再用门的重建轨迹作为监督，把误差沿物理积分反传，只更新一个物理参数——铰链阻尼的对数。整条链可以压成一行：</p>
+
+    <div class="eq camera-chain-equation" data-reveal style="font-size:clamp(.7rem,1.06vw,.86rem)">重建手的位置／速度 → 有限力指尖控制 → 当前几何与相对速度产生接触反力 → 被动柜门动力学积分 → 4D 门角误差 → Warp 反向梯度 → 阻尼更新</div>
+  <p data-reveal>这一行只追踪<strong>一个</strong>物理量：铰链阻尼的对数 log(b)。门的质量与惯量、软限位、接触模型、指尖控制参数在链上都是常数——它们决定梯度指向"谁"的阻尼，因此下面单列。</p>
+<ol class="camera-chain" data-reveal>
+    <li><div><b>重建手的位置／速度</b><span>拇指／食指中点＋手掌朝向，固定世界偏移校准。</span></div></li>
+    <li><div><b>有限力指尖控制</b><span>动态指尖按 PD 跟踪参考，力与切向偏移均有限。</span></div></li>
+    <li><div><b>当前几何与相对速度产生接触反力</b><span>解析软接触每步重算，不是冻结的力记录。</span></div></li>
+    <li><div><b>被动柜门动力学积分</b><span>门只受接触力、−b·ω 与软限位，无角度执行器。</span></div></li>
+    <li><div><b>4D 门角误差</b><span>逐子步累计与重建门角的误差。</span></div></li>
+    <li><div><b>Warp 反向梯度</b><span>同一 Tape 前向，梯度穿过接触与反馈。</span></div></li>
+    <li><div><b>阻尼更新</b><span>更新铰链阻尼的对数 log(b)，其余全固定。</span></div></li>
+  </ol>
+  <p data-reveal>这条链是<strong>分段可微</strong>的：同一段连续积分内可以反传，跨过离散切换（抓持区间的起止、接触集的增删）则是分段常数。因此"通过校验"只说明这一段积分内的梯度可信。窗口越长越难：短窗更新足以过校验但对齐收益有限，最终交付取全量长窗上被接受的那一次更新。</p>
+  <p data-reveal>要冻结的部分同样要写清——它们共同决定了这个梯度指向的是"谁"的阻尼：</p>
+  <ul data-reveal>
+    <li><strong>门的动力学量与软限位：</strong>质量、质心、惯量、铰链轴位置与限位刚度／阻尼都取自资产，本轮不参与优化。<strong>注意区分：</strong>限位阻尼只在门触及角度边界时生效，与被优化的<strong>铰链阻尼</strong>不是同一个量——后者以 −b·ω 作用于全程，是唯一被更新的参数（见链路 07）。</li>
+    <li><strong>接触模型：</strong>法向刚度、法向阻尼、摩擦与滑速正则都是代理模型先验；改变它们会改变梯度本身，因此只固定、不辨识。</li>
+    <li><strong>指尖代理：</strong>质量、转动惯量、PD 增益、力限与切向偏移上限都是设定的控制参数，不作为物理未知量。</li>
+    <li><strong>手部世界校准偏移：</strong>一个不随帧变化的标定常数，用来把重建手对齐到把手，不是被优化的量。</li>
+    <li><strong>阶段先验：</strong>抓持区间与"开始抓握"的时刻由人工给定，不参与梯度。</li>
+    <li><strong>参考轨迹：</strong>4D 重建门角只做监督；独立验证中扰动参考门角，仿真刚体位姿完全不变，说明它没有驱动仿真。</li>
+    <li><strong>资产与 4D 结果：</strong>本轮未修改。</li>
+  </ul>
+  <p data-reveal>下面两个素材是这条链路的落地结果：前者是全量辨识采用被接受阻尼后的独立纯前向回放，后者是同一轮的辨识曲线与更新历史。作为参照，同一条链路在另一组控制参数下的原速对齐版把门角 RMSE 收紧到 <b>0.335°</b>，本节不展开那一支的素材。</p>
+  <div class="mq">
+    <figure>
+      <p class="mq-label">3D · 全量辨识的独立前向回放（实拍 ｜ 双指尖代理）</p>
+      <div class="frm" style="aspect-ratio:7/5"><video src="outputs/cabinet_item001/newton160_grasp_feedback/replay_1036/physical_proxy_comparison.mp4" poster="assets/recent/replay1036.jpg" controls muted loop playsinline preload="none"></video></div>
+      <figcaption>全量辨识采用被接受阻尼后，用一次独立纯前向回放重现的轨迹：整段从静止连续积分、无中途重置，左实拍、右接触力驱动的双指尖代理，同一相机，柜门无主动驱动。</figcaption>
+    </figure>
+    <figure>
+      <p class="mq-label">3D · 全量辨识四联图（门角 ｜ 门角误差 ｜ 接触指尖数 ｜ 阻尼更新）</p>
+      <div class="frm" style="aspect-ratio:7/5;background:var(--bg-2)"><img src="outputs/cabinet_item001/newton160_grasp_feedback/full_limited/identification_summary.png" alt="全量辨识四联图：门角对照、门角误差、接触指尖数与铰链阻尼更新轨迹" loading="lazy" decoding="async" style="background:transparent"></div>
+      <figcaption>自上而下四幅：<b>①</b> 柜门角度——4D 参照与采用被接受阻尼后的物理仿真；<b>②</b> 门角误差（更新前／后）；<b>③</b> 每帧接触的指尖数与评估抓持区间；<b>④</b> 铰链阻尼的更新轨迹（USD 先验 → 被接受值），图中标注了 Warp 反向梯度与中心差分的相对差及损失下降。</figcaption>
+    </figure>
+  </div>
+  <h3 data-reveal>6.3 仿真机械臂交互（Piper）</h3>
+  <p data-reveal>把"简化双指代理"换成真实机构：采用 Piper 六轴机械臂与原生双指夹爪的<strong>原始 URDF 与 STL 网格</strong>（保留原质量、惯量、关节范围与力限值），从手部 4D 结果读取拇指／食指中点，结合已知铰链轴与把手半径投回可行抓取圆弧；逆运动学只生成关节目标，仿真中按实际关节状态与质量矩阵计算稳定 PD 力矩并做力限幅。<strong>柜门只有铰链阻尼、摩擦与角度限位，没有角度跟踪执行器</strong>，位移完全来自夹爪与把手的接触力与摩擦。</p>
+  <div class="mq">
+    <figure>
+      <p class="mq-label">4D · 实拍与 Piper 仿真拖动对照</p>
+      <div class="compare c-video" data-compare data-compare-video tabindex="0" role="slider" aria-label="Piper 抓拉柜门：拖动对照" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" style="aspect-ratio:2/1">
+        <video class="c-base" src="assets/recent/piper-robot.mp4" poster="assets/recent/piper-robot.jpg" width="640" height="360" muted loop playsinline preload="none"></video>
+        <div class="c-top"><video src="assets/recent/piper-source.mp4" poster="assets/recent/piper-source.jpg" width="640" height="360" muted loop playsinline preload="none"></video></div>
+        <span class="c-tag a">实拍参照</span>
+        <span class="c-tag b">Piper 机械臂</span>
+        <div class="c-bar"></div>
+        <div class="c-knob" title="鼠标移入画面即可左右切换；触摸屏按住拖动"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+        <span class="c-live">playing</span>
+        <button class="c-play" aria-label="播放或暂停对照视频"><svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+      </div>
+      <figcaption>同一相机、同一帧：左为实拍，右为 Piper 机械臂与原生双指夹爪；夹爪与把手的接触力与摩擦是柜门唯一的驱动来源。</figcaption>
+    </figure>
+    <figure>
+      <p class="mq-label">4D · 最终三联（实拍参照 ｜ 完整机械臂 ｜ 抓持局部）</p>
+      <div class="frm" style="aspect-ratio:2/1"><video src="outputs/cabinet_item001/piper_contact/piper_physical_final/materials_v3_matched_camera/piper_interaction.mp4" poster="assets/recent/piper-matched.jpg" controls muted loop playsinline preload="none"></video></div>
+      <figcaption>完整三联：实拍参照、完整机械臂、抓持局部。按源帧对齐的门角 RMSE 1.35°，开门峰值 75.04°（参照 73.15°），末帧数值关闭；双指在运动期间全程接触把手，最大穿透 0.29 mm；关节速度与力矩均在 URDF 限值内，无门主动驱动／位姿覆写／抓取焊接，16 项校验全部通过。上面的拖动对照取自本视频左、中两栏，本视频额外给出右侧抓持局部。</figcaption>
+    </figure>
+
+  </div>
+</div>
+</section>
+
+<section class="band tint" id="s7">
+<div class="wrap">
+  <div class="s-head" data-reveal>
+    <span class="s-num">07</span>
     <h2>未来工作</h2>
     <p class="s-sub">在现有单目 4D 重建链路上，下一步聚焦于提升可观测性、物理真实性与自动化程度。</p>
   </div>
