@@ -504,6 +504,11 @@
     transition: transform .18s var(--ease), box-shadow .18s var(--ease);
   }
   .comp-grid .mv-item:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(60,45,20,.12); }
+  /* 只剩两份竖幅证书时：一行居中、单项限宽（否则 0.719 的竖图会把整行撑到近千像素高） */
+  @media (min-width: 761px) {
+    .comp-grid { justify-content: center; }
+    .comp-grid .mv-item { flex: 0 1 auto; max-width: 400px; }
+  }
   .comp-grid .mv-item img { display: block; width: 100%; height: auto; }
   /* 每项 flex-grow 写在各 <a> 行内（= 该图原始长宽比）→ 一行内自动等高、不裁不拉 */
   @media (max-width: 760px) {
@@ -1149,15 +1154,10 @@ joint('WheelPress', base, wc, [0, 0, -1], [0, .0006], stiff=950, damp=.6)       
     <p class="arch-note"><b>融合层</b>由 Agent AI（多模态）参与审计与匹配融合——物性先验按语义部件挂接到物理刚体，属性<b>只增不改</b>；
     <b>验收</b>以 USD / MJCF / blend 三格式收口，物理侧 Newton 与 MuJoCo 交叉断言、渲染侧三路互校，复审不通过则回流主链。</p>
 
-    <!-- 挑战赛佐证：参赛信息 + 两份 Clouder 证书（初赛 A 第 6 / B 第 1） -->
+    <!-- 挑战赛佐证：两份 Clouder 证书（初赛 A 第 6 / B 第 1） -->
     <div class="comp-fig" id="sec-competition">
       <div class="cat-block" data-cat="competition">
         <div class="comp-grid">
-          <a class="mv-item" style="flex-grow:2.41" href="挑战赛/参赛信息.png?v=1790342000" data-lightbox data-name="参赛信息 · 初赛 A 6 / 254 · 初赛 B 1 / 254"
-             aria-label="参赛信息：2026-08-30 以 lin 参加 2026-具身仿真合成挑战赛（举办方 中国中检），初赛 A 榜 6 / 254、初赛 B 榜 1 / 254">
-            <img decoding="async" src="挑战赛/参赛信息.png?v=1790342000"
-                 alt="2026-具身仿真合成挑战赛参赛信息：2026-08-30 以 lin 参加（举办方 中国中检），初赛 A 榜 6 / 254、初赛 B 榜 1 / 254" width="905" height="375">
-          </a>
           <a class="mv-item" style="flex-grow:0.72" href="挑战赛/证书.png?v=1790332000" data-lightbox data-name="Clouder 证书 · 2026-具身仿真合成挑战赛 · 初赛 A 排名第 6"
              aria-label="Clouder 证书：2026-具身仿真合成挑战赛，参赛队伍 lin、参赛成员 林嘉豪，全球 254 支队伍，初赛 A 排名第 6 名，天池大数据竞赛组委会 2026.09.21">
             <img decoding="async" src="挑战赛/证书.png?v=1790332000"
